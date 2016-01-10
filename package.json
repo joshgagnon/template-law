@@ -1,0 +1,12 @@
+{
+  "name": "template-law",
+  "version": "0.0.1",
+  "author": "Joshua Gagnon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshgagnon/template-law.git"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
