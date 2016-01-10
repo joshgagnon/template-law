@@ -7,6 +7,8 @@
     "url": "https://github.com/joshgagnon/template-law.git"
   },
   "dependencies": {
-    "express": "^4.13.3"
+    "chai": "^3.4.1",
+    "express": "^4.13.3",
+    "mocha": "^2.3.4"
   }
 }
