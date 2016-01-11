@@ -1,0 +1,76 @@
+{
+        "schema": {
+            "isCompany": {
+                "type": "Checkbox"
+            },
+            "companyName": {
+                "type": "Text",
+                "conditional": {
+                    "listen": "isCompany",
+                    "operator": "truthy"
+                }
+            },
+            "individuals": {
+                "type": "List",
+                "itemType": {
+                    "type": "Object",
+                    "subSchema": {
+                        "firstName": {
+                            "type": "Text",
+                            "validators": ["required"]
+                        },
+                        "lastName": {
+                            "type": "Text",
+                            "validators": ["required"]
+                        }
+                    }
+                },
+                "title": "Names",
+                "canAdd": true,
+                "canDelete": true,
+                "canReorder": true,
+                "canEdit": true,
+
+                "conditional": {
+                    "listen": "isCompany",
+                    "operator": "falsey"
+                }
+            },
+            "title": {
+                "type": "Select",
+                "options": ["Mr", "Mrs", "Ms"]
+            },
+            "email": {
+                "type": "Text",
+                "dataType": "email",
+                "validators": ["required", "email"]
+            },
+            "address": {
+                "type": "Object",
+                "title": false,
+                "fields": "street, city, state, zip",
+                "subSchema": {
+                    "street": {"type": "Text", "validators": ["required"]},
+                    "city": "Text",
+                    "state": {
+                        "options": ["CA", "NV", "DE"],
+                        "type": "Select"
+                    },
+                    "zip": {
+                        "type": "Text",
+                        "validators": ["required", {"type":"regexp", "regexp":"/^[0-9]{5}(-([0-9]{4}))?$/"}]
+                    }
+                }
+            }
+        },
+        "fieldsets": [{
+            "legend": "Letter of Engagement",
+            "fields": ["isCompany", "companyName", "individuals", "title", "name", "email", "showAddress", "address"],
+            "buttons": [
+                {
+                    "label": "Submit",
+                    "className": "btn btn-primary pull-right"
+                }
+            ]
+        }]
+    }

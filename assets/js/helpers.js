@@ -23,20 +23,26 @@ Handlebars.registerHelper('matterTypeString', (type) => {
     }[type];
 });
 
-Handlebars.registerHelper('capitalize', (string) => {
+Handlebars.registerHelper('capitalize', (string='') => {
     return string.replace(/[a-z]/, c => c.toUpperCase());
 });
 
-Handlebars.registerHelper('multiple', (items, options) => {
-    if(items.length !== 1) {
+Handlebars.registerHelper('multiple', (items=[], options) => {
+    if(!items.length){
+        return "UNKNOWN"
+    }
+    else if(items.length !== 1) {
         return options.fn(this);
     } else {
         return options.inverse(this);
     }
 });
 
-Handlebars.registerHelper('joinList', (items, options) => {
-    if(items.length === 1){
+Handlebars.registerHelper('joinList', (items=[], options) => {
+    if(!items.length){
+        return "UNKNOWN"
+    }
+    else if(items.length === 1){
         return items[0][options.hash.prop]
     }
     else{

@@ -3,10 +3,8 @@ import Handlebars from 'handlebars';
 import 'fs';
 import Promise from 'bluebird';
 import _fs from 'fs';
-import './helpers';
+import './assets/js/helpers';
 const fs = Promise.promisifyAll(_fs);
-
-
 const app = express();
 
 
@@ -14,7 +12,7 @@ const app = express();
 let base;
 
 
-app.get('/', function(req, res) {
+app.get('/render', function(req, res) {
     fs.readFileAsync('templates/Letter\ of\ Engagement.html', 'utf-8')
         .then(text => {
             const template = Handlebars.compile(text);
@@ -42,10 +40,14 @@ app.get('/', function(req, res) {
                 }
             };
             res.send(base({content: template(data)}))
-
         })
 });
-app.use(express.static('assets'));
+
+app.get('/', function(req, res) {
+    res.send(base({content: ''}));
+});
+
+app.use(express.static('public'));
 
 fs.readFileAsync('templates/base.html', 'utf-8')
     .then(text => { base = Handlebars.compile(text) })
