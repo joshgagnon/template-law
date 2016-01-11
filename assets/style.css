@@ -1,0 +1,45 @@
+html, body{
+    margin:0;
+    padding:0;
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-style:normal;
+    font-variant: normal;
+    font-size: 14px;
+    width:210mm;
+}
+.document{
+    margin:20mm;
+}
+
+.document span.line{
+    display:block
+}
+
+.document .summary{
+    font-weight: bold;
+}
+.header{
+    float:left;
+    width:100%;
+    margin-bottom:20mm;
+}
+.left{
+    float:left;
+}
+.right{
+    float:right;
+    text-align:right;
+}
+.body{
+    clear:both;
+}
+
+@page {
+  size: A4;
+   @bottom-right {
+    content: counter(page);
+  }
+}
+@media print {
+
+}

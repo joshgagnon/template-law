@@ -1,0 +1,126 @@
+<div class="document">
+
+<div class="header">
+
+    <div class="left">
+    <div class="date">
+        {{todaysDate}}
+    </div>
+     {{#if isCompany}}
+        <span class="line">{{companyName}}</span>
+    {{else}}
+        {{#each individuals}}
+            <span class="line">{{firstName}} {{lastName}}</span>
+        {{/each}}
+ {{/if}}
+     <span class="line">{{address.street}}</span>
+     <span class="line">{{address.suburb}}, {{address.postcode}}</span>
+     <span class="line">{{address.city}}</span>
+     {{#if isForeign}}<span class="line">{{address.country}}</span>{{/if}}
+     </div>
+
+     <div class="right">
+        <span class="line">{{email}}</span>
+        {{#if actionstepId}}
+            <span class="line">{{actionstepId}}</span>
+        {{/if}}
+     </div>
+</div>
+<div class="body">
+    <p>
+    {{#if isCompany}}
+        For: {{companyContact}}
+    {{else}}
+        Dear {{joinList individuals prop="firstName"}}
+    {{/if}}
+    </p>
+
+    <p class="summary">
+        Letter of Engagement –
+        {{capitalize (matterTypeString matterType)}} of
+        {{joinList properties prop="address"}}
+        {{#multiple properties}}
+            Properties
+        {{else}}
+            Property
+        {{/multiple}}
+
+    </p>
+
+    <p>
+    Thank you for asking Evolution Lawyers Limited <strong>(Evolution)</strong> to act for
+    {{#if isCompany}}<strong>{{companyNameShort}}</strong>{{else}}you{{/if}}.
+    We understand that you would like us to assist
+    {{secondPersonPronoun this}}
+    with the
+    {{matterTypeString matterType}}
+    of the
+    {{#multiple properties}}
+        properties
+    {{else}}
+        property
+    {{/multiple}}
+    </p>
+
+
+    <p>
+     We would be happy to act for
+     {{secondPersonPronoun this}}
+     in this matter.
+     Please find <strong>attached</strong> a copy of our standard terms of engagement.  Any service we provide to
+     {{secondPersonPronoun this}}
+     will be subject to those standard terms, as varied or added to by this letter of engagement (together, the <strong>Terms</strong>).
+    </p>
+
+    <p>
+    Please confirm {{#if isCompany}}on behalf of {{companyNameShort}} {{/if}}
+    that you agree with the Terms by return email.  Evolution can commence work on the matter as soon as we receive that confirmation.
+    </p>
+
+    <h4>Your Matter</h4>
+    <p>
+    I will have overall responsibility for your matter.  I will be assisted by other lawyers as and when required.
+    </p>
+
+    <p>
+    The fees for this matter will be charged and billed in accordance with the Terms.  Our standard fee estimate for a property
+    {{matterTypeString matterType}}
+
+    {{estimatePrice matterType}}
+
+
+     plus GST and disbursements.
+     This is, however, an indication only, and the fee may increase if additional attendances are required.
+    </p>
+
+
+    <p>
+    Disbursements for a matter of this kind typically include Land Information New Zealand registration charges, which are $80 per instrument (for example discharge of a mortgage or transfer of a title), title searches, which are $5 per search, and our general office disbursement fee of $25.
+    </p>
+    <p>
+    We will endeavor to inform you in advance if it appears as though our fee will exceed the estimate.
+    </p>
+
+    {{#if disclosure}}
+    <h4>Disclosure of Interests</h4>
+    <p>We do not believe there is any conflict of interest that would prohibit Evolution from acting for
+    {{secondPersonPronoun this}}
+    in this matter.  </p>
+    {{/if}}
+
+    <p>
+    We look forward to {{secondPersonAdjective this}} acceptance of our Terms.  If you have any queries about our engagement, please contact me.
+    </p>
+
+    <p>
+    Yours faithfully<br/>
+    <strong>Evolution Lawyers</strong>
+    </p>
+
+  <span class="line">{{contact.fullName}}</span>
+  <span class="line phone">{{contact.phone}}</span>
+  <span class="line email">{{contact.email}}</span>
+
+</div>
+
+</div>
