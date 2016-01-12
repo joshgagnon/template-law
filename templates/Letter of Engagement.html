@@ -6,20 +6,23 @@
     <div class="date">
         {{todaysDate}}
     </div>
-     {{#if isCompany}}
-        <span class="line">{{companyName}}</span>
+     {{#ifCompany}}
+        <span class="line">{{recipient.companyName}}</span>
     {{else}}
-        {{#each individuals}}
+        {{#each recipient.individuals}}
             <span class="line">{{firstName}} {{lastName}}</span>
         {{/each}}
- {{/if}}
+    {{/ifCompany}}
+     {{#if address}}
      <span class="line">{{address.street}}</span>
-     <span class="line">{{address.suburb}}, {{address.postcode}}</span>
+     <span class="line">{{#if address.suburb}} {{address.suburb}},{{/if}} {{address.postcode}}</span>
      <span class="line">{{address.city}}</span>
      {{#if isForeign}}<span class="line">{{address.country}}</span>{{/if}}
+     {{/if}}
      </div>
 
      <div class="right">
+        <img src="/images/evolution.png" class="logo"/>
         <span class="line">{{email}}</span>
         {{#if actionstepId}}
             <span class="line">{{actionstepId}}</span>
@@ -28,34 +31,33 @@
 </div>
 <div class="body">
     <p>
-    {{#if isCompany}}
+    {{#ifCompany}}
         For: {{companyContact}}
     {{else}}
-        Dear {{joinList individuals prop="firstName"}}
-    {{/if}}
+        Dear {{joinList recipient.individuals prop="firstName"}}
+    {{/ifCompany}}
     </p>
 
     <p class="summary">
         Letter of Engagement –
         {{capitalize (matterTypeString matterType)}} of
-        {{joinList properties prop="address"}}
-        {{#multiple properties}}
+        {{joinList assets }}
+        {{#multiple assets}}
             Properties
         {{else}}
             Property
         {{/multiple}}
-
     </p>
 
     <p>
     Thank you for asking Evolution Lawyers Limited <strong>(Evolution)</strong> to act for
-    {{#if isCompany}}<strong>{{companyNameShort}}</strong>{{else}}you{{/if}}.
+    {{#ifCompany}}<strong>{{recipient.companyNameShort}}</strong>{{else}}you{{/ifCompany}}.
     We understand that you would like us to assist
     {{secondPersonPronoun this}}
     with the
     {{matterTypeString matterType}}
     of the
-    {{#multiple properties}}
+    {{#multiple assets}}
         properties
     {{else}}
         property
@@ -73,7 +75,7 @@
     </p>
 
     <p>
-    Please confirm {{#if isCompany}}on behalf of {{companyNameShort}} {{/if}}
+    Please confirm {{#ifCompany}}on behalf of {{recipient.companyNameShort}} {{/ifCompany}}
     that you agree with the Terms by return email.  Evolution can commence work on the matter as soon as we receive that confirmation.
     </p>
 

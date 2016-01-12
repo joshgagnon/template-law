@@ -233,8 +233,8 @@ th {
 
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url(public/glyphicons-halflings-regular.eot);
-  src: url(public/glyphicons-halflings-regular.eot?#iefix) format("embedded-opentype"), url(public/glyphicons-halflings-regular.woff2) format("woff2"), url(public/glyphicons-halflings-regular.woff) format("woff"), url(public/glyphicons-halflings-regular.ttf) format("truetype"), url(public/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format("svg"); }
+  src: url(glyphicons-halflings-regular.eot);
+  src: url(glyphicons-halflings-regular.eot?#iefix) format("embedded-opentype"), url(glyphicons-halflings-regular.woff2) format("woff2"), url(glyphicons-halflings-regular.woff) format("woff"), url(glyphicons-halflings-regular.ttf) format("truetype"), url(glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format("svg"); }
 
 .glyphicon {
   position: relative;
@@ -5816,12 +5816,20 @@ html, body {
   margin: 0;
   padding: 0; }
 
+.preview {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAklJREFUeNqEVtlqVEEQ7a7bk0UFF4y+KBiXV8Fn/9rv8MEvSAgoKEIiuMTMnem2KpwKZyo1Y8PhzvRSe53uOsZ4VUoZwKRYK2rZHL4uYa4n+xutV59Y0+EVFgb+V9o8SJAL31fch3E2/iiuyKDrb8MGFsqCefi+FYx7rnhIClzGpeKz4qefqRqu17CsBDdHsF6g4EDxBt85KOBwnSrO7b9QTHsiVCiUHfteKhaKZYiA75thzAvFPZMvSVLZi0oKzZgjxV0IGQTP0SCD7cwztnaQpZxc9s72PYICDhF7w+GeYdChUD4kJJo9WyNEeyQkFkYJnvs45HgP+h2TWZOeqVv66ZbiBq09KeM4eqj/8R8FLmctlAvZocDL9yqEIttbEF437FKSUGwLj+EbNV/dETZBDi9cyUgoY5Bn3GR26DsKoAePprDXvP5i8y2pqonqXkJp2toZ5h5TWLjX9sBhJyjjyWjleAspZgRZyQDjrSdWorS+grdfucFbsGQbSfawNkHYD8ho2D9Tt0skMwn134NHzAqubEFzy5D0iWU16ug5dOwiNKiEyuuBlmpo5JtoNMTRFt+C0Owe+KT4TYoip3FIe1BUIw9a4p/q973iHdxuiPUHuqB6YAZJSFISg2463pj1GGU34/sAc3PCVyUpFgmKN66LlvAPu+yYyAsuCH949F3hEpTiCbjfGukO5s5wxdbkOpAgbApFsuF1w4vjo+IvEv8LiV8SfdTkxRIfGJJcXtdnveMH3XgdVSXJWyuWaEneYreu8H8CDACRPfht+odEKwAAAABJRU5ErkJggg==);
+  background-color: #efefef; }
+
 .document {
   font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
   font-style: normal;
   font-variant: normal;
   font-size: 14px;
-  margin: 20mm; }
+  padding: 20mm;
+  background-color: #ffffff;
+  margin: 20px auto;
+  width: 210mm;
+  box-shadow: 0px 0px 15px 2px; }
   .document span.line {
     display: block; }
   .document .summary {
@@ -5830,6 +5838,8 @@ html, body {
     float: left;
     width: 100%;
     margin-bottom: 20mm; }
+    .document .header img {
+      width: 50%; }
   .document .left {
     float: left; }
   .document .right {
@@ -5842,5 +5852,11 @@ html, body {
   size: A4;
   @bottom-right {
     content: counter(page); } }
+
+@media print {
+  .controls {
+    display: none; }
+  .preview {
+    width: 100%; } }
 
 /*# sourceMappingURL=styles.css.map*/

@@ -1,5 +1,5 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require("webpack");
 var path = require('path')
 module.exports = {
@@ -46,11 +46,14 @@ module.exports = {
                 test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
                 loader: 'url-loader'
             }*/, {
-                test: /\.(svg|woff|woff2|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,    loader: "file?name=public/[name].[ext]"
-            }
+                test: /\.(svg|woff|woff2|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,    loader: "file?name=[name].[ext]"
+            },
         ]
     },
     plugins: [
+        new CopyWebpackPlugin([
+         { from: 'assets/images', to: 'images' },
+         ]),
         new ExtractTextPlugin('styles.css'),
         new webpack.optimize.DedupePlugin()
     ],

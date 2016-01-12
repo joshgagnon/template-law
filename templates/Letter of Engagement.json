@@ -1,98 +1,128 @@
 {
-        "schema": {
-            "isCompany": {
-                "type": "Checkbox"
-            },
-            "companyName": {
-                "type": "Text",
-                "conditional": {
-                    "listen": "isCompany",
-                    "operator": "truthy"
-                }
-            },
-            "individuals": {
-                "type": "List",
-                "itemType": {
-                    "type": "Object",
-                    "subSchema": {
-                        "firstName": {
-                            "type": "Text",
-                            "validators": ["required"]
-                        },
-                        "lastName": {
-                            "type": "Text",
-                            "validators": ["required"]
-                        }
-                    }
+    "definitions": {
+
+
+    },
+    "description": "Letter of Engagement",
+
+
+    "properties": {
+
+        "address": {
+            "type": "object",
+            "properties": {
+                "street": {
+                    "title": "Street address",
+                    "type": "string"
                 },
-                "title": "Names",
-                "canAdd": true,
-                "canDelete": true,
-                "canReorder": true,
-                "canEdit": true,
-
-                "conditional": {
-                    "listen": "isCompany",
-                    "operator": "falsey"
-                }
-            },
-           "questionare": {
-                "type": "Mixed",
-                "keyType": "Text",
-                "title": "Questioniare",
-                "labelKey": "answer",
-                "canEdit": true,
-                "canDelete": true,
-                "canReorder": true,
-                "canAdd": true,
-                "valueType": {
-                    "type": "Object",
-                    "subSchema": {
-                        "answer": "Text",
-                        "feel": {
-                            "type": "Radio",
-                            "options": ["Good", "Bad", "Indifferent"]
-                        }
-                    }
-                }
-            },
-
-
-            "title": {
-                "type": "Select",
-                "options": ["Mr", "Mrs", "Ms"]
-            },
-            "email": {
-                "type": "Text",
-                "dataType": "email",
-                "validators": ["required", "email"]
-            },
-            "address": {
-                "type": "Object",
-                "title": false,
-                "fields": "street, city, state, zip",
-                "subSchema": {
-                    "street": {"type": "Text", "validators": ["required"]},
-                    "city": "Text",
-                    "state": {
-                        "options": ["CA", "NV", "DE"],
-                        "type": "Select"
-                    },
-                    "zip": {
-                        "type": "Text",
-                        "validators": ["required", {"type":"regexp", "regexp":"/^[0-9]{5}(-([0-9]{4}))?$/"}]
-                    }
+                "suburb": {
+                    "title": "Suburb",
+                    "type": "string"
+                },
+                "postcode": {
+                    "title": "Post or area code",
+                    "type": "string"
+                },
+                "city": {
+                    "title": "City",
+                    "type": "string"
+                },
+                "country": {
+                    "title": "Country",
+                    "type": "string"
                 }
             }
         },
-        "fieldsets": [{
-            "legend": "Letter of Engagement",
-            "fields": ["isCompany", "companyName", "individuals", "questionare", "title", "name", "email", "showAddress", "address"],
-            "buttons": [
-                {
-                    "label": "Submit",
-                    "className": "btn btn-primary pull-right"
+        "recipient": {
+            "title": "Contact details",
+            "description": "How would you like to be contacted?",
+            "type": "object",
+            "properties": {
+                "recipientType": {
+                    "title": "Recipient Type",
+                    "enumNames": [
+                        "Individual(s)",
+                        "Company"
+                    ]
                 }
-            ]
-        }]
-    }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "individuals"
+                            ]
+                        },
+                        "individuals": {
+                            "items": {
+                                "minLength": 2,
+                                "type": "object",
+
+                                "properties": {
+                                    "firstName": {
+                                        "title": "First Name",
+                                        "type": "string"
+                                    },
+                                    "lastName": {
+                                        "title": "Last Name",
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "minItems": 1,
+                            "title": "Individual(s)",
+                            "type": "array"
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "company"
+                            ]
+
+                        },
+                        "companyName": {
+                            "title": "Company Name",
+                            "type": "string"
+                        },
+                        "companyNameShort": {
+                            "title": "Company Name (Short)",
+                            "type": "string"
+                        }
+                    }
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "recipientType"
+                }
+            }
+        },
+
+
+        "assets": {
+            "items": {
+                "minLength": 2,
+                "type": "string"
+            },
+            "minItems": 1,
+            "title": "Properties",
+            "type": "array"
+        }
+    },
+    "required": [
+        "name",
+        "age"
+    ],
+    "title": "Letter of Engagment",
+    "type": "object",
+    "x-hints": {
+        "form": {
+            "classes": "my-nice-form"
+        }
+    },
+    "x-ordering": ["recipient", "address"]
+}
