@@ -43,10 +43,10 @@ Handlebars.registerHelper('joinList', (items=[], options) => {
         return "UNKNOWN"
     }
     else if(items.length === 1){
-        return items[0][options.hash.prop]
+        return (items[0] || {})[options.hash.prop]
     }
     else{
-        items = items.map(i => i[options.hash.prop]);
+        items = items.map(i => (i||{})[options.hash.prop]);
         return `${items.slice(0, items.length-1).join(', ')} and ${items[items.length-1]}`
     }
 });

@@ -36,6 +36,28 @@
                     "operator": "falsey"
                 }
             },
+           "questionare": {
+                "type": "Mixed",
+                "keyType": "Text",
+                "title": "Questioniare",
+                "labelKey": "answer",
+                "canEdit": true,
+                "canDelete": true,
+                "canReorder": true,
+                "canAdd": true,
+                "valueType": {
+                    "type": "Object",
+                    "subSchema": {
+                        "answer": "Text",
+                        "feel": {
+                            "type": "Radio",
+                            "options": ["Good", "Bad", "Indifferent"]
+                        }
+                    }
+                }
+            },
+
+
             "title": {
                 "type": "Select",
                 "options": ["Mr", "Mrs", "Ms"]
@@ -65,7 +87,7 @@
         },
         "fieldsets": [{
             "legend": "Letter of Engagement",
-            "fields": ["isCompany", "companyName", "individuals", "title", "name", "email", "showAddress", "address"],
+            "fields": ["isCompany", "companyName", "individuals", "questionare", "title", "name", "email", "showAddress", "address"],
             "buttons": [
                 {
                     "label": "Submit",
