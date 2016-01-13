@@ -162,12 +162,16 @@
         }
     },
     "required": [
-        "name",
-        "age"
+
     ],
     "title": "Letter of Engagement",
     "type": "object",
     "x-ordering": ["recipient"],
+    "x-hints" : {
+        "form": {
+          "disclosure": "textarea"
+        }
+    },
     "mappings": {
         "price": {
             "purchase": "$880",

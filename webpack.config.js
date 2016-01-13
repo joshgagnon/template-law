@@ -6,11 +6,14 @@ var DEV = process.env.NODE_ENV !=='production';
 
 
 module.exports = {
-    entry: "./assets/js/app.js",
+    entry: {
+        app: "./assets/js/app.js",
+        print: "./assets/js/print.js"
+    },
     cache: true,
     output: {
         path:  path.resolve(__dirname, 'public'),
-        filename: "bundle.js"
+        filename: "[name].js"
     },
     node: {
         __dirname: true,
@@ -27,14 +30,7 @@ module.exports = {
                 query: {
                     presets: ['react', 'es2015', "stage-0"]
                 }
-            },   /*         {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel', // 'babel-loader' is also a legal name to reference
-                query: {
-                    presets: ['react', 'es2015', "stage-0"]
-                }
-            },*/ {
+            }, {
             test: /\.(scss|css)$/,
             loader: ExtractTextPlugin.extract(
                 // activate source maps via loader query
@@ -58,6 +54,7 @@ module.exports = {
          { from: 'assets/images', to: 'images' },
          ]),
         new ExtractTextPlugin('styles.css'),
+        new ExtractTextPlugin('print-styles.css'),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-nz/),
         new webpack.optimize.DedupePlugin()
     ],

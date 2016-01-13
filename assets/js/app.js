@@ -68,6 +68,16 @@ const DEFAULT_DATA = {
 
 const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter of Engagement'}})
 
+class TextArea extends React.Component {
+    render() {
+        debugger
+    }
+}
+
+const handlers = {
+    'textarea': TextArea
+}
+
 class FieldWrapper extends React.Component {
   render() {
     return <div className='form-group' key={this.props.label} >
@@ -110,6 +120,7 @@ class App extends React.Component {
                     schema={FORMS[this.props.form].schema}
                     update={::this.update}
                     values={this.props.values}
+                    handlers={handlers}
                     onSubmit={::this.update} />
             </div>
             <div className="col-md-8 preview">

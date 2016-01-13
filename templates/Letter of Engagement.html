@@ -7,6 +7,7 @@
         {{todaysDate}}
     </div>
     <br/>
+    <br/>
      {{#ifCompany}}
         <span class="line">{{recipient.companyName}}</span>
     {{else}}
@@ -24,6 +25,7 @@
 
      <div class="right">
         <img src="/images/evolution.png" class="logo"/>
+            <br/>
         <span class="line">By email: {{recipient.email}}</span>
         {{#if matter.actionstepId}}
             <span class="line">ID: {{matter.actionstepId}}</span>

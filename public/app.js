@@ -150,8 +150,31 @@
 	
 	var store = (0, _configureStore2.default)({ active: { values: DEFAULT_DATA, form: 'Letter of Engagement' } });
 	
-	var FieldWrapper = function (_React$Component) {
-	    _inherits(FieldWrapper, _React$Component);
+	var TextArea = function (_React$Component) {
+	    _inherits(TextArea, _React$Component);
+	
+	    function TextArea() {
+	        _classCallCheck(this, TextArea);
+	
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TextArea).apply(this, arguments));
+	    }
+	
+	    _createClass(TextArea, [{
+	        key: 'render',
+	        value: function render() {
+	            debugger;
+	        }
+	    }]);
+	
+	    return TextArea;
+	}(_react2.default.Component);
+	
+	var handlers = {
+	    'textarea': TextArea
+	};
+	
+	var FieldWrapper = function (_React$Component2) {
+	    _inherits(FieldWrapper, _React$Component2);
 	
 	    function FieldWrapper() {
 	        _classCallCheck(this, FieldWrapper);
@@ -182,8 +205,8 @@
 	    return FieldWrapper;
 	}(_react2.default.Component);
 	
-	var App = function (_React$Component2) {
-	    _inherits(App, _React$Component2);
+	var App = function (_React$Component3) {
+	    _inherits(App, _React$Component3);
 	
 	    function App() {
 	        _classCallCheck(this, App);
@@ -239,6 +262,7 @@
 	                            schema: FORMS[this.props.form].schema,
 	                            update: this.update.bind(this),
 	                            values: this.props.values,
+	                            handlers: handlers,
 	                            onSubmit: this.update.bind(this) })
 	                    ),
 	                    _react2.default.createElement(
@@ -32724,12 +32748,12 @@
 	    var stack1, helper, options, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, alias5=helpers.blockHelperMissing, buffer = 
 	  "<div class=\"document\">\n\n<div class=\"header\">\n\n    <div class=\"left\">\n    <div class=\"date\">\n        "
 	    + alias4(((helper = (helper = helpers.todaysDate || (depth0 != null ? depth0.todaysDate : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"todaysDate","hash":{},"data":data}) : helper)))
-	    + "\n    </div>\n    <br/>\n";
+	    + "\n    </div>\n    <br/>\n    <br/>\n";
 	  stack1 = ((helper = (helper = helpers.ifCompany || (depth0 != null ? depth0.ifCompany : depth0)) != null ? helper : alias2),(options={"name":"ifCompany","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data}),(typeof helper === alias3 ? helper.call(alias1,options) : helper));
 	  if (!helpers.ifCompany) { stack1 = alias5.call(depth0,stack1,options)}
 	  if (stack1 != null) { buffer += stack1; }
 	  buffer += ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.recipient : depth0)) != null ? stack1.address : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-	    + "     </div>\n\n     <div class=\"right\">\n        <img src=\"/images/evolution.png\" class=\"logo\"/>\n        <span class=\"line\">By email: "
+	    + "     </div>\n\n     <div class=\"right\">\n        <img src=\"/images/evolution.png\" class=\"logo\"/>\n            <br/>\n        <span class=\"line\">By email: "
 	    + alias4(container.lambda(((stack1 = (depth0 != null ? depth0.recipient : depth0)) != null ? stack1.email : stack1), depth0))
 	    + "</span>\n"
 	    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.matter : depth0)) != null ? stack1.actionstepId : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -32946,15 +32970,17 @@
 				]
 			}
 		},
-		"required": [
-			"name",
-			"age"
-		],
+		"required": [],
 		"title": "Letter of Engagement",
 		"type": "object",
 		"x-ordering": [
 			"recipient"
 		],
+		"x-hints": {
+			"form": {
+				"disclosure": "textarea"
+			}
+		},
 		"mappings": {
 			"price": {
 				"purchase": "$880",
@@ -32978,4 +33004,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=bundle.js.map
+//# sourceMappingURL=app.js.map
