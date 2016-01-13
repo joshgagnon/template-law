@@ -32713,9 +32713,13 @@
 	    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.recipient : depth0)) != null ? stack1.companyNameShort : stack1), depth0))
 	    + " ";
 	},"31":function(container,depth0,helpers,partials,data) {
-	    return "    <h4>Disclosure of Interests</h4>\n    <p>We do not believe there is any conflict of interest that would prohibit Evolution from acting for\n    "
-	    + container.escapeExpression((helpers.secondPersonPronoun || (depth0 && depth0.secondPersonPronoun) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"secondPersonPronoun","hash":{},"data":data}))
-	    + "\n    in this matter.  </p>\n";
+	    var helper;
+	
+	  return "\n    "
+	    + container.escapeExpression(((helper = (helper = helpers.disclosure || (depth0 != null ? depth0.disclosure : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"disclosure","hash":{},"data":data}) : helper)))
+	    + " However, we\n";
+	},"33":function(container,depth0,helpers,partials,data) {
+	    return "    We\n";
 	},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
 	    var stack1, helper, options, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, alias5=helpers.blockHelperMissing, buffer = 
 	  "<div class=\"document\">\n\n<div class=\"header\">\n\n    <div class=\"left\">\n    <div class=\"date\">\n        "
@@ -32743,9 +32747,9 @@
 	  stack1 = ((helper = (helper = helpers.ifCompany || (depth0 != null ? depth0.ifCompany : depth0)) != null ? helper : alias2),(options={"name":"ifCompany","hash":{},"fn":container.program(21, data, 0),"inverse":container.program(23, data, 0),"data":data}),(typeof helper === alias3 ? helper.call(alias1,options) : helper));
 	  if (!helpers.ifCompany) { stack1 = alias5.call(depth0,stack1,options)}
 	  if (stack1 != null) { buffer += stack1; }
-	  buffer += ".\n    We understand that you would like us to assist\n    "
+	  buffer += ".\n    We understand that you would like us to assist\n        "
 	    + alias4((helpers.secondPersonPronoun || (depth0 && depth0.secondPersonPronoun) || alias2).call(alias1,depth0,{"name":"secondPersonPronoun","hash":{},"data":data}))
-	    + "\n    with the\n    "
+	    + "\n    with the\n        "
 	    + alias4((helpers.matterTypeString || (depth0 && depth0.matterTypeString) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.matter : depth0)) != null ? stack1.matterType : stack1),{"name":"matterTypeString","hash":{},"data":data}))
 	    + "\n    of the\n"
 	    + ((stack1 = (helpers.multiple || (depth0 && depth0.multiple) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.matter : depth0)) != null ? stack1.assets : stack1),{"name":"multiple","hash":{},"fn":container.program(25, data, 0),"inverse":container.program(27, data, 0),"data":data})) != null ? stack1 : "")
@@ -32761,9 +32765,11 @@
 	    + alias4((helpers.matterTypeString || (depth0 && depth0.matterTypeString) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.matter : depth0)) != null ? stack1.matterType : stack1),{"name":"matterTypeString","hash":{},"data":data}))
 	    + "\n    is\n    "
 	    + alias4((helpers.mapper || (depth0 && depth0.mapper) || alias2).call(alias1,"price",((stack1 = (depth0 != null ? depth0.matter : depth0)) != null ? stack1.matterType : stack1),{"name":"mapper","hash":{},"data":data}))
-	    + "\n     plus GST and disbursements.\n     This is, however, an indication only, and the fee may increase if additional attendances are required.\n    </p>\n\n\n    <p>\n    Disbursements for a matter of this kind typically include Land Information New Zealand registration charges, which are $80 per instrument (for example discharge of a mortgage or transfer of a title), title searches, which are $5 per search, and our general office disbursement fee of $25.\n    </p>\n    <p>\n    We will endeavor to inform you in advance if it appears as though our fee will exceed the estimate.\n    </p>\n\n"
-	    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.disclosure : depth0),{"name":"if","hash":{},"fn":container.program(31, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-	    + "\n    <p>\n    We look forward to "
+	    + "\n     plus GST and disbursements.\n     This is, however, an indication only, and the fee may increase if additional attendances are required.\n    </p>\n\n\n    <p>\n    Disbursements for a matter of this kind typically include Land Information New Zealand registration charges, which are $80 per instrument (for example discharge of a mortgage or transfer of a title), title searches, which are $5 per search, and our general office disbursement fee of $25.\n    </p>\n    <p>\n    We will endeavour to inform you in advance if it appears as though our fee will exceed the estimate.\n    </p>\n\n    <h4>Disclosure of Interests</h4>\n    <p>"
+	    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.disclosure : depth0),{"name":"if","hash":{},"fn":container.program(31, data, 0),"inverse":container.program(33, data, 0),"data":data})) != null ? stack1 : "")
+	    + "    do not believe there is any conflict of interest that would prohibit Evolution from acting for\n    "
+	    + alias4((helpers.secondPersonPronoun || (depth0 && depth0.secondPersonPronoun) || alias2).call(alias1,depth0,{"name":"secondPersonPronoun","hash":{},"data":data}))
+	    + "\n    in this matter.  </p>\n\n    <p>\n    We look forward to "
 	    + alias4((helpers.secondPersonAdjective || (depth0 && depth0.secondPersonAdjective) || alias2).call(alias1,depth0,{"name":"secondPersonAdjective","hash":{},"data":data}))
 	    + " acceptance of our Terms.  If you have any queries about our engagement, please contact me.\n    </p>\n\n    <p>\n    Yours faithfully<br/>\n    <strong>Evolution Lawyers</strong>\n    </p>\n\n  <span class=\"line\">"
 	    + alias4(((helper = (helper = helpers.sender || (depth0 != null ? depth0.sender : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"sender","hash":{},"data":data}) : helper)))
@@ -32928,7 +32934,7 @@
 				}
 			},
 			"disclosure": {
-				"type": "boolean",
+				"type": "string",
 				"title": "Disclosure of Interests"
 			},
 			"sender": {
@@ -32944,7 +32950,7 @@
 			"name",
 			"age"
 		],
-		"title": "Letter of Engagment",
+		"title": "Letter of Engagement",
 		"type": "object",
 		"x-ordering": [
 			"recipient"

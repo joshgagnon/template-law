@@ -149,7 +149,7 @@
             }
         },
         "disclosure": {
-            "type": "boolean",
+            "type": "string",
             "title": "Disclosure of Interests"
         },
         "sender": {
@@ -165,7 +165,7 @@
         "name",
         "age"
     ],
-    "title": "Letter of Engagment",
+    "title": "Letter of Engagement",
     "type": "object",
     "x-ordering": ["recipient"],
     "mappings": {

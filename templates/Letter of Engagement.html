@@ -54,9 +54,9 @@
     Thank you for asking Evolution Lawyers Limited (<strong>Evolution</strong>) to act for
     {{#ifCompany}}{{recipient.companyName}} (<strong>{{recipient.companyNameShort}}</strong>){{else}}you{{/ifCompany}}.
     We understand that you would like us to assist
-    {{secondPersonPronoun this}}
+        {{secondPersonPronoun this}}
     with the
-    {{matterTypeString matter.matterType}}
+        {{matterTypeString matter.matterType}}
     of the
     {{#multiple matter.assets}}
         Properties.
@@ -99,15 +99,18 @@
     Disbursements for a matter of this kind typically include Land Information New Zealand registration charges, which are $80 per instrument (for example discharge of a mortgage or transfer of a title), title searches, which are $5 per search, and our general office disbursement fee of $25.
     </p>
     <p>
-    We will endeavor to inform you in advance if it appears as though our fee will exceed the estimate.
+    We will endeavour to inform you in advance if it appears as though our fee will exceed the estimate.
     </p>
 
-    {{#if disclosure}}
     <h4>Disclosure of Interests</h4>
-    <p>We do not believe there is any conflict of interest that would prohibit Evolution from acting for
+    <p>{{#if disclosure}}
+    {{disclosure}} However, we
+    {{else}}
+    We
+    {{/if}}
+    do not believe there is any conflict of interest that would prohibit Evolution from acting for
     {{secondPersonPronoun this}}
     in this matter.  </p>
-    {{/if}}
 
     <p>
     We look forward to {{secondPersonAdjective this}} acceptance of our Terms.  If you have any queries about our engagement, please contact me.
