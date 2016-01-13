@@ -48,14 +48,6 @@ Handlebars.registerHelper('joinList', (items=[], options) => {
     }
 });
 
-Handlebars.registerHelper('secondPersonPronoun', (items, options) => {
-    if(options.data.root.recipient && options.data.root.recipient.recipientType === 'company'){
-        return options.data.root.companyNameShort;
-    }
-    else{
-        return 'you';
-    }
-});
 
 Handlebars.registerHelper('ifCompany', function(options){
     if(options.data.root.recipient && options.data.root.recipient.recipientType === 'company'){
@@ -65,9 +57,18 @@ Handlebars.registerHelper('ifCompany', function(options){
     }
 })
 
+Handlebars.registerHelper('secondPersonPronoun', (items, options) => {
+    if(options.data.root.recipient && options.data.root.recipient.recipientType === 'company'){
+        return options.data.root.recipient.companyNameShort;
+    }
+    else{
+        return 'you';
+    }
+});
+
 Handlebars.registerHelper('secondPersonAdjective', (items, options) => {
     if(options.data.root.recipient && options.data.root.recipient.recipientType === 'company'){
-        return `${options.data.root.companyNameShort}'s`;
+        return `${options.data.root.recipient.companyNameShort}'s`;
     }
     else{
         return 'your';

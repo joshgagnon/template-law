@@ -6,6 +6,7 @@
     <div class="date">
         {{todaysDate}}
     </div>
+    <br/>
      {{#ifCompany}}
         <span class="line">{{recipient.companyName}}</span>
     {{else}}
@@ -43,24 +44,24 @@
         {{capitalize (matterTypeString matter.matterType)}} of
         {{joinList matter.assets prop="address"}}
         {{#multiple matter.assets}}
-            Properties
+            Properties ("<strong>the Properties</strong>").
         {{else}}
-            Property
+            Property ("<strong>the Property</strong>").
         {{/multiple}}
     </p>
 
     <p>
-    Thank you for asking Evolution Lawyers Limited <strong>(Evolution)</strong> to act for
-    {{#ifCompany}}{{recipient.companyName}} <strong>({{recipient.companyNameShort}})</strong>{{else}}you{{/ifCompany}}.
+    Thank you for asking Evolution Lawyers Limited (<strong>Evolution</strong>) to act for
+    {{#ifCompany}}{{recipient.companyName}} (<strong>{{recipient.companyNameShort}}</strong>){{else}}you{{/ifCompany}}.
     We understand that you would like us to assist
     {{secondPersonPronoun this}}
     with the
     {{matterTypeString matter.matterType}}
     of the
     {{#multiple matter.assets}}
-        properties
+        Properties.
     {{else}}
-        property
+        Property.
     {{/multiple}}
     </p>
 
@@ -81,7 +82,7 @@
 
     <h4>Your Matter</h4>
     <p>
-    I will have overall responsibility for your matter.  I will be assisted by other lawyers as and when required.
+    I will have overall responsibility for the matter.  I will be assisted by other lawyers as and when required.
     </p>
 
     <p>
