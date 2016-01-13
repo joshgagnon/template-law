@@ -1,7 +1,10 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require("webpack");
-var path = require('path')
+var path = require('path');
+var DEV = process.env.NODE_ENV !=='production';
+
+
 module.exports = {
     entry: "./assets/js/app.js",
     cache: true,
@@ -13,7 +16,7 @@ module.exports = {
         __dirname: true,
         fs: 'empty'
     },
-    devtool: 'source-map',
+    devtool: DEV ? 'source-map' : false,
     module: {
         loaders: [
 
@@ -55,6 +58,7 @@ module.exports = {
          { from: 'assets/images', to: 'images' },
          ]),
         new ExtractTextPlugin('styles.css'),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-nz/),
         new webpack.optimize.DedupePlugin()
     ],
       resolve: {

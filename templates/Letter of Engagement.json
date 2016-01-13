@@ -1,13 +1,5 @@
 {
     "definitions": {
-
-
-    },
-    "description": "Letter of Engagement",
-
-
-    "properties": {
-
         "address": {
             "type": "object",
             "properties": {
@@ -32,10 +24,14 @@
                     "type": "string"
                 }
             }
-        },
+        }
+
+    },
+    "description": "Letter of Engagement",
+
+    "properties": {
         "recipient": {
-            "title": "Contact details",
-            "description": "How would you like to be contacted?",
+            "title": "Recipient Details",
             "type": "object",
             "properties": {
                 "recipientType": {
@@ -56,7 +52,6 @@
                         },
                         "individuals": {
                             "items": {
-                                "minLength": 2,
                                 "type": "object",
 
                                 "properties": {
@@ -73,6 +68,14 @@
                             "minItems": 1,
                             "title": "Individual(s)",
                             "type": "array"
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type" : "String"
+                        },
+                        "address": {
+                            "title": "Contact Addresss",
+                            "$ref": "#/definitions/address"
                         }
                     }
                 },
@@ -82,7 +85,6 @@
                             "enum": [
                                 "company"
                             ]
-
                         },
                         "companyName": {
                             "title": "Company Name",
@@ -91,6 +93,14 @@
                         "companyNameShort": {
                             "title": "Company Name (Short)",
                             "type": "string"
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type" : "string"
+                        },
+                        "address": {
+                            "title": "Addresss",
+                            "$ref": "#/definitions/address"
                         }
                     }
                 }
@@ -101,16 +111,54 @@
                 }
             }
         },
-
-
-        "assets": {
-            "items": {
-                "minLength": 2,
-                "type": "string"
-            },
-            "minItems": 1,
-            "title": "Properties",
-            "type": "array"
+        "matter": {
+            "type": "object",
+            "title": "Matter",
+            "properties": {
+                "matterType": {
+                    "title": "Matter Type",
+                    "enum": [
+                        "purchase",
+                        "sale",
+                        "refinance"
+                    ],
+                    "enumNames": [
+                        "Purchase",
+                        "Sale",
+                        "Refinance"
+                    ]
+                },
+                "actionstepId": {
+                    "title": "Actionstep ID",
+                    "type" : "string"
+                },
+                "assets": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "address": {
+                                "title": "Address",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "minItems": 1,
+                    "title": "Properties",
+                    "type": "array"
+                }
+            }
+        },
+        "disclosure": {
+            "type": "boolean",
+            "title": "Disclosure of Interests"
+        },
+        "sender": {
+            "title": "Sender",
+            "enum": [
+                "",
+                "Thomas Bloy",
+                "Tamina Cunningham-Adams"
+            ]
         }
     },
     "required": [
@@ -119,10 +167,25 @@
     ],
     "title": "Letter of Engagment",
     "type": "object",
-    "x-hints": {
-        "form": {
-            "classes": "my-nice-form"
+    "x-ordering": ["recipient"],
+    "mappings": {
+        "price": {
+            "purchase": "$880",
+            "sale": "$780",
+            "refinance": "$680"
+        },
+        "sender": {
+            "Thomas Bloy": {
+                "phone": "+64 274 538 552",
+                "title": "Director",
+                "email": "thomas@evolutionlawyers.nz"
+            },
+            "Tamina Cunningham-Adams": {
+                "phone": "+64 021 1515 137",
+                "title": "Director",
+                "email": "tamina@evolutionlawyers.nz"
+            }
         }
-    },
-    "x-ordering": ["recipient", "address"]
+    }
+
 }

@@ -30,35 +30,94 @@ const FORMS = {
     }
 }
 
+const DEFAULT_DATA = {
+    "recipient": {
+        "individuals": [
+            {
+                "firstName": "Mike",
+                "lastName": "Jones"
+            },
+            {
+                "firstName": "Denny",
+                "lastName": "Dennysingers"
+            }
+        ],
+        "recipientType": "individuals",
+        "email": "kapow@pewpew.com",
+        "address": {
+            "street": "90 Power Ave",
+            "suburb": "Kingbo",
+            "postcode": "9666",
+            "city": "Sincity",
+            "country": "Atroika"
+        },
+    },
+    "matter": {
+        "matterType": "purchase",
+        "assets": [
+            {
+                "address": "60 Binge St"
+            },
+            {
+                "address": "66 Catwalk Blv"
+            }]
+    },
+    "sender": "Thomas Bloy"
 
-const store = configureStore()
+};
 
+const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter of Engagement'}})
+
+class FieldWrapper extends React.Component {
+  render() {
+    return <div className='form-group' key={this.props.label} >
+      <label htmlFor={this.props.label} className="col-sm-4 control-label">{this.props.title}</label>
+        <div className="col-sm-6">
+            { this.props.children }
+        </div>
+      </div>
+  }
+}
 
 class App extends React.Component {
 
     componentWillMount() {
+        /*this.props.dispatch(updateValues({
 
-        this._update = debounce((value) => {
-            console.log(value)
-
-        });
+        }));*/
     }
 
     update(data) {
-        //this._update(value);
         this.props.dispatch(updateValues(data.values));
     }
 
     render() {
-        console.log('render', this.props.valu)
+        console.log(this.props)
         return <div className="container-fluid">
             <div className="row">
             <div className="col-md-4 controls">
-                <Form className="form-horizontal" schema={FORMS[this.props.form].schema} update={::this.update} values={this.props.values} onSubmit={::this.update} />
+                <form className="form-horizontal">
+                    <FieldWrapper label="select" title="Form">
+                      <select className="form-control">
+                            { Object.keys(FORMS).map((m, i)=>{
+                                return <option key={i}>{m}</option>
+                            })}
+                      </select>
+                    </FieldWrapper>
+                </form>
+                <Form className="form-horizontal"
+                    fieldWrapper={FieldWrapper}
+                    schema={FORMS[this.props.form].schema}
+                    update={::this.update}
+                    values={this.props.values}
+                    onSubmit={::this.update} />
             </div>
             <div className="col-md-8 preview">
                 <div className="">
-                    <div dangerouslySetInnerHTML={{__html: FORMS[this.props.form].template(this.props.values)}} />
+                    <div dangerouslySetInnerHTML={{
+                        __html: FORMS[this.props.form].template({...this.props.values,
+                        mappings: FORMS[this.props.form].schema.mappings})
+                    }} />
                 </div>
             </div>
         </div>
@@ -74,3 +133,7 @@ render( <Provider store = {store} >
     </Provider>,
     document.getElementById('root')
 )
+
+
+
+

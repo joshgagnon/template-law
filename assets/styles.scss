@@ -79,9 +79,14 @@ html, body{
     .header{
         float:left;
         width:100%;
-        margin-bottom:20mm;
+        margin-bottom:5mm;
         img{
-            width: 50%;
+            width: 70%;
+            margin-bottom:3em;
+        }
+        .date{
+            margin-top:2em;
+            margin-bottom:2em;
         }
     }
     .left{
@@ -93,8 +98,47 @@ html, body{
     }
     .body{
         clear:both;
+        p{
+            text-align: justify;
+            margin-bottom:5mm;
+        }
     }
 
+    h4{
+        font-style:italic;
+        font-size:14px;
+    }
+}
+.controls{
+    padding-top:2em;
+    input[type="text"], select{
+        @extend .form-control;
+    }
+    input[type="submit"]{
+        @extend .btn;
+        @extend .btn-default;
+    }
+    form {
+        & > fieldset {
+            text-align: center;
+            & > fieldset {
+                text-align: left;
+                legend {
+                    border:none;
+                    font-size: 18px;
+                }
+                & > fieldset {
+                    legend {
+                        text-align: center;
+                        font-size:14px;
+                        margin-left:40px;
+                        margin-bottom:6px;
+                        font-style:italic;
+                    }
+                }
+            }
+        }
+    }
 }
 
 

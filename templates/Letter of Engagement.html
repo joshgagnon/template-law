@@ -13,19 +13,19 @@
             <span class="line">{{firstName}} {{lastName}}</span>
         {{/each}}
     {{/ifCompany}}
-     {{#if address}}
-     <span class="line">{{address.street}}</span>
-     <span class="line">{{#if address.suburb}} {{address.suburb}},{{/if}} {{address.postcode}}</span>
-     <span class="line">{{address.city}}</span>
+     {{#if recipient.address}}
+     <span class="line">{{recipient.address.street}}</span>
+     <span class="line">{{#if recipient.address.suburb}} {{recipient.address.suburb}},{{/if}} {{recipient.address.postcode}}</span>
+     <span class="line">{{recipient.address.city}}</span>
      {{#if isForeign}}<span class="line">{{address.country}}</span>{{/if}}
      {{/if}}
      </div>
 
      <div class="right">
         <img src="/images/evolution.png" class="logo"/>
-        <span class="line">{{email}}</span>
-        {{#if actionstepId}}
-            <span class="line">{{actionstepId}}</span>
+        <span class="line">By email: {{recipient.email}}</span>
+        {{#if matter.actionstepId}}
+            <span class="line">ID: {{matter.actionstepId}}</span>
         {{/if}}
      </div>
 </div>
@@ -40,9 +40,9 @@
 
     <p class="summary">
         Letter of Engagement –
-        {{capitalize (matterTypeString matterType)}} of
-        {{joinList assets }}
-        {{#multiple assets}}
+        {{capitalize (matterTypeString matter.matterType)}} of
+        {{joinList matter.assets prop="address"}}
+        {{#multiple matter.assets}}
             Properties
         {{else}}
             Property
@@ -51,13 +51,13 @@
 
     <p>
     Thank you for asking Evolution Lawyers Limited <strong>(Evolution)</strong> to act for
-    {{#ifCompany}}<strong>{{recipient.companyNameShort}}</strong>{{else}}you{{/ifCompany}}.
+    {{#ifCompany}}{{recipient.companyName}} <strong>({{recipient.companyNameShort}})</strong>{{else}}you{{/ifCompany}}.
     We understand that you would like us to assist
     {{secondPersonPronoun this}}
     with the
-    {{matterTypeString matterType}}
+    {{matterTypeString matter.matterType}}
     of the
-    {{#multiple assets}}
+    {{#multiple matter.assets}}
         properties
     {{else}}
         property
@@ -86,11 +86,9 @@
 
     <p>
     The fees for this matter will be charged and billed in accordance with the Terms.  Our standard fee estimate for a property
-    {{matterTypeString matterType}}
-
-    {{estimatePrice matterType}}
-
-
+    {{matterTypeString matter.matterType}}
+    is
+    {{mapper "price" matter.matterType}}
      plus GST and disbursements.
      This is, however, an indication only, and the fee may increase if additional attendances are required.
     </p>
@@ -119,9 +117,10 @@
     <strong>Evolution Lawyers</strong>
     </p>
 
-  <span class="line">{{contact.fullName}}</span>
-  <span class="line phone">{{contact.phone}}</span>
-  <span class="line email">{{contact.email}}</span>
+  <span class="line">{{sender}}</span>
+  <span class="line">{{mapper "sender" sender "title"}}</span>
+  <span class="line phone">{{mapper "sender" sender "phone"}}</span>
+  <span class="line email">{{mapper "sender" sender "email"}}</span>
 
 </div>
 

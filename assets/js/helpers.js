@@ -6,21 +6,12 @@ Handlebars.registerHelper('todaysDate', () => {
 });
 
 
-Handlebars.registerHelper('estimatePrice', (type) => {
-    return {
-        'purchase': '$880',
-        'sale': '$780',
-        'refinance': '$680'
-    }[type]
-});
-
-
 Handlebars.registerHelper('matterTypeString', (type) => {
     return {
         'purchase': 'purchase',
         'sale': 'sale',
         'refinance': 'refinance'
-    }[type];
+    }[type] || 'UNKNOWN';
 });
 
 Handlebars.registerHelper('capitalize', (string='') => {
@@ -36,6 +27,12 @@ Handlebars.registerHelper('multiple', (items=[], options) => {
     } else {
         return options.inverse(this);
     }
+});
+
+Handlebars.registerHelper('mapper', function(...keys){
+    return keys.slice(0, keys.length-1).reduce((context, k) => {
+        return context ? context[k] : null;
+    }, this.mappings) || 'UNKNOWN';
 });
 
 Handlebars.registerHelper('joinList', (items=[], options) => {

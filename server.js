@@ -7,7 +7,7 @@ import './assets/js/helpers';
 const fs = Promise.promisifyAll(_fs);
 const app = express();
 
-
+const PORT = 5667;
 
 let base;
 
@@ -52,7 +52,7 @@ app.use(express.static('public'));
 fs.readFileAsync('templates/base.html', 'utf-8')
     .then(text => { base = Handlebars.compile(text) })
     .then(() => {
-        app.listen(3000, function() {
-          console.log('App listening on port 3000!');
+        app.listen(PORT, function() {
+          console.log('App listening on port '+PORT+'!');
         })
     });
