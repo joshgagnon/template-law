@@ -5,8 +5,8 @@
     font-size: 14px;
     padding:20mm;
     background-color:#ffffff;
-    width:210mm;
-    height: 297mm;
+    width:210mm - 20mm;
+    height: 297mm - 20mm;
     overflow:overlay;
     position: relative;
     span.line{
@@ -43,6 +43,7 @@
     h4{
         font-style:italic;
         font-size:14px;
+        font-weight:normal;
     }
 
     .page-number {
