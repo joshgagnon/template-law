@@ -9,7 +9,6 @@ page.paperSize = {
 };
 
 page.paperSize = { width: 595, height: 842, margin:0 };
-page.viewportSize = { width: 595, height: 842 };
 address = system.args[1];
 output = system.args[2];
 

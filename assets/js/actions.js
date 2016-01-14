@@ -1,7 +1,11 @@
+import fetch from 'isomorphic-fetch';
+
+
 export const UPDATE_VALUES = 'UPDATE_VALUES';
 export const RENDER_REQUEST = 'RENDER_REQUEST';
 export const RENDER_SUCCESS = 'RENDER_SUCCESS';
 export const RENDER_FAILURE = 'RENDER_FAILURE';
+
 
 const json_headers = {
     'Accept': 'application/json',

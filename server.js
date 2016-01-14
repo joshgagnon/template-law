@@ -14,6 +14,8 @@ const app = express();
 
 const PORT = 3000;
 
+const PHANTOMJS = 'phantomjs';
+
 temp.track();
 let base, print;
 
@@ -44,7 +46,7 @@ app.post('/render', function(req, res) {
         return fs.writeFileAsync(info.path,  html, 'utf-8')
     })
     .then(html => {
-        const args = ['phantomjs', 'pdf.js', tempPath, 'out.pdf'];
+        const args = [PHANTOMJS, 'pdf.js', tempPath, 'out.pdf'];
         console.log('Running', args.join(' '))
         return exec(args.join(' '))
     })

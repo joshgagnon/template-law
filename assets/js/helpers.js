@@ -2,7 +2,7 @@ import Handlebars from 'handlebars';
 import moment from 'moment';
 
 Handlebars.registerHelper('todaysDate', () => {
-    return moment().format("Do MMMM YYYY")
+    return moment().format("DD MMMM YYYY")
 });
 
 
