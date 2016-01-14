@@ -1,4 +1,4 @@
-.document{
+.page{
     font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
     font-style:normal;
     font-variant: normal;
@@ -6,6 +6,9 @@
     padding:20mm;
     background-color:#ffffff;
     width:210mm;
+    height: 297mm;
+    overflow:overlay;
+    position: relative;
     span.line{
         display:block
     }
@@ -18,7 +21,7 @@
         width:100%;
         img{
             width: 70%;
-                margin-right: -15px;
+                //margin-right: -15px;
         }
         .date{
             margin-top:2em;
@@ -31,16 +34,20 @@
         float:right;
         text-align:right;
     }
-    .body{
-        clear:both;
-        p{
-            text-align: justify;
-            margin-bottom:5mm;
-        }
+
+    p{
+        text-align: justify;
     }
+
 
     h4{
         font-style:italic;
         font-size:14px;
+    }
+
+    .page-number {
+        position: absolute;
+        bottom: 10mm;
+        right: 20mm;
     }
 }

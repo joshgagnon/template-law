@@ -1,6 +1,6 @@
 import 'babel-polyfill'
-import React from 'react'
-import { render } from 'react-dom'
+import React from 'react';
+import { render, findDOMNode } from 'react-dom'
 import { Provider, connect } from 'react-redux'
 import configureStore from './configureStore'
 import Form from 'react-json-editor/lib';
@@ -10,6 +10,7 @@ import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import engagement from '../../templates/Letter of Engagement.html';
 import engagementSchema from '../../templates/Letter of Engagement.json';
+import pagify from './pagify';
 
 export function debounce(func, delay = 100) {
     let timeout;
@@ -101,21 +102,38 @@ class App extends React.Component {
         this.props.dispatch(updateValues(data.values));
     }
 
-    submit(data) {
-        this.props.dispatch(renderDocument({formName: this.props.form, values: this.props.values}))
-            .then((response) => {
-                return response.response.blob()
-            })
-            .then(blob => {
-                saveAs(blob, "result.pdf");
-            });
+    pagify() {
+        const node = findDOMNode(this.refs.doc).querySelector('.document');
+        pagify(node);
+    }
+
+    componentDidMount() {
+        this.pagify();
+    }
+
+    componentDidUpdate() {
+        // split into pages
+        this.pagify();
+    }
+
+    submit(data, type) {
+        if(type === 'Reset'){
+            this.props.dispatch(updateValues({}));
+        }
+        else{
+            this.props.dispatch(renderDocument({formName: this.props.form, values: this.props.values}))
+                .then((response) => {
+                    return response.response.blob()
+                })
+                .then(blob => {
+                    saveAs(blob, "result.pdf");
+                });
+            }
     }
 
     render() {
-        console.log(this.props)
-        return <div className="container-fluid">
-            <div className="row">
-            <div className="col-md-4 controls">
+        return <div className="">
+            <div className="controls">
                 <form className="form-horizontal">
                     <FieldWrapper label="select" title="Form">
                       <select className="form-control">
@@ -126,6 +144,7 @@ class App extends React.Component {
                     </FieldWrapper>
                 </form>
                 <Form className="form-horizontal"
+                    buttons={['Reset', 'Generate PDF']}
                     fieldWrapper={FieldWrapper}
                     schema={FORMS[this.props.form].schema}
                     update={::this.update}
@@ -133,15 +152,14 @@ class App extends React.Component {
                     handlers={handlers}
                     onSubmit={::this.submit} />
             </div>
-            <div className="col-md-8 preview">
+            <div className="preview">
                 <div className="">
-                    <div dangerouslySetInnerHTML={{
+                    <div ref="doc" dangerouslySetInnerHTML={{
                         __html: FORMS[this.props.form].template({...this.props.values,
                         mappings: FORMS[this.props.form].schema.mappings})
                     }} />
                 </div>
             </div>
-        </div>
 
         </div >
     }

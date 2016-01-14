@@ -30,9 +30,9 @@ app.post('/render', function(req, res) {
         (html, json) => {
             const template = Handlebars.compile(html);
             console.log({...data.values, mappings: JSON.parse(json).mappings})
-            return print({path: __dirname + '/public/',
+            return print({path: __dirname + '/public',
                          content: template({...data.values,
-                            path: __dirname + '/public/',
+                            path: __dirname + '/public',
                             mappings: JSON.parse(json).mappings})})
         })
     .then(_html => {

@@ -1,5 +1,5 @@
 <div class="document">
-
+<div class="page">
 <div class="header">
 
     <div class="left">
@@ -21,6 +21,7 @@
      <span class="line">{{recipient.address.city}}</span>
      {{#if isForeign}}<span class="line">{{address.country}}</span>{{/if}}
      {{/if}}
+     <br/>
      </div>
 
      <div class="right">
@@ -29,14 +30,13 @@
         {{else}}
         <img src="/images/evolution.png" class="logo"/>
         {{/if}}
-            <br/>
-        <span class="line">By email: {{recipient.email}}</span>
+
+        <span class="line">   <br/>By email: {{recipient.email}}</span>
         {{#if matter.actionstepId}}
             <span class="line">ID: {{matter.actionstepId}}</span>
         {{/if}}
      </div>
 </div>
-<div class="body">
     <p>
     {{#ifCompany}}
         For: {{companyContact}}
@@ -44,7 +44,50 @@
         Dear {{joinList recipient.individuals prop="firstName"}}
     {{/ifCompany}}
     </p>
+    <p class="summary">
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    </p>
+    <p>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
+    PADDDING REMOVE REMOVE<br/>
 
+    </p>
     <p class="summary">
         Letter of Engagement -
         {{capitalize (matterTypeString matter.matterType)}} of
@@ -117,21 +160,24 @@
     do not believe there is any conflict of interest that would prohibit Evolution from acting for
     {{secondPersonPronoun this}}
     in this matter.  </p>
+    <div>
+        <p>
+        We look forward to {{secondPersonAdjective this}} acceptance of our Terms.  If you have any queries about our engagement, please contact me.
+        </p>
 
-    <p>
-    We look forward to {{secondPersonAdjective this}} acceptance of our Terms.  If you have any queries about our engagement, please contact me.
-    </p>
-
-    <p>
-    Yours faithfully<br/>
-    <strong>Evolution Lawyers</strong>
-    </p>
-
-  <span class="line">{{sender}}</span>
-  <span class="line">{{mapper "sender" sender "title"}}</span>
-  <span class="line phone">{{mapper "sender" sender "phone"}}</span>
-  <span class="line email">{{mapper "sender" sender "email"}}</span>
+        <p>
+        Yours faithfully<br/>
+        <strong>Evolution Lawyers</strong>
+        </p>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+      <span class="line">{{sender}}</span>
+      <span class="line">{{mapper "sender" sender "title"}}</span>
+      <span class="line phone">{{mapper "sender" sender "phone"}}</span>
+      <span class="line email">{{mapper "sender" sender "email"}}</span>
+  </div>
 
 </div>
-
 </div>

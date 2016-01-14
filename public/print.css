@@ -1,2 +1,38 @@
-.document{font-family:Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;font-style:normal;font-variant:normal;font-size:14px;padding:20mm;background-color:#fff;width:210mm}.document span.line{display:block}.document .summary{font-weight:700}.document .header{float:left;width:100%}.document .header img{width:70%;margin-right:-15px}.document .header .date{margin-top:2em}.document .left{float:left}.document .right{float:right;text-align:right}.document .body{clear:both}.document .body p{text-align:justify;margin-bottom:5mm}.document h4{font-style:italic;font-size:14px}.document{font-size:11pt;padding:10mm;width:100%}
+.page {
+  font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+  font-style: normal;
+  font-variant: normal;
+  font-size: 14px;
+  padding: 20mm;
+  background-color: #ffffff;
+  width: 210mm;
+  height: 297mm;
+  overflow: overlay;
+  position: relative; }
+  .page span.line {
+    display: block; }
+  .page .summary {
+    font-weight: bold; }
+  .page .header {
+    float: left;
+    width: 100%; }
+    .page .header img {
+      width: 70%; }
+    .page .header .date {
+      margin-top: 2em; }
+  .page .left {
+    float: left; }
+  .page .right {
+    float: right;
+    text-align: right; }
+  .page p {
+    text-align: justify; }
+  .page h4 {
+    font-style: italic;
+    font-size: 14px; }
+  .page .page-number {
+    position: absolute;
+    bottom: 10mm;
+    right: 20mm; }
+
 /*# sourceMappingURL=print.css.map*/

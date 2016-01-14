@@ -7,7 +7,9 @@ page.paperSize = {
     orientation: 'portrait',
     margin: '0'
 };
-page.zoomFactor = 1;
+
+//page.viewportSize = { width: 1238, height: 1763 };
+
 
 address = system.args[1];
 output = system.args[2];
