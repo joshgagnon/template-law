@@ -3,12 +3,13 @@ var page = require('webpage').create(),
     address, output;
 
 page.paperSize = {
-    format: 'pdf',
+    format: 'A4',
     orientation: 'portrait',
     margin: '0'
 };
 
-//page.viewportSize = { width: 1238, height: 1763 };
+page.paperSize = { width: 595, height: 842, margin:0 };
+page.viewportSize = { width: 595, height: 842 };
 address = system.args[1];
 output = system.args[2];
 

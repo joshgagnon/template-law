@@ -1,9 +1,15 @@
 @import "doc";
 
+html, body{
+    padding:0;
+    margin:0;
+}
+
+$padding: 50px;
 
 .page{
-    transform-origin: 0 0;
-    -webkit-transform-origin: 0 0;
-    transform: scale(0.75);
-   -webkit-transform: scale(0.75);
+    padding:$padding;
+    width: 595px - $padding - $padding;
+    height: 842px - $padding - $padding;
+    font-size: 11px;
 }
