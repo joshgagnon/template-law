@@ -24,7 +24,11 @@
      </div>
 
      <div class="right">
+      {{#if path}}
+        <img src="{{path}}/images/evolution.png" class="logo"/>
+        {{else}}
         <img src="/images/evolution.png" class="logo"/>
+        {{/if}}
             <br/>
         <span class="line">By email: {{recipient.email}}</span>
         {{#if matter.actionstepId}}
@@ -42,7 +46,7 @@
     </p>
 
     <p class="summary">
-        Letter of Engagement –
+        Letter of Engagement -
         {{capitalize (matterTypeString matter.matterType)}} of
         {{joinList matter.assets prop="address"}}
         {{#multiple matter.assets}}

@@ -53,8 +53,8 @@ module.exports = {
         new CopyWebpackPlugin([
          { from: 'assets/images', to: 'images' },
          ]),
-        new ExtractTextPlugin('styles.css'),
-        new ExtractTextPlugin('print-styles.css'),
+
+        new ExtractTextPlugin('[name].css'),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-nz/),
         new webpack.optimize.DedupePlugin()
     ],

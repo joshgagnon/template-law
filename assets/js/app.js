@@ -4,10 +4,10 @@ import { render } from 'react-dom'
 import { Provider, connect } from 'react-redux'
 import configureStore from './configureStore'
 import Form from 'react-json-editor/lib';
-import { updateValues } from './actions';
+import { updateValues, renderDocument } from './actions';
 import './helpers';
 import '../styles.scss';
-
+import { saveAs } from 'filesaver.js';
 import engagement from '../../templates/Letter of Engagement.html';
 import engagementSchema from '../../templates/Letter of Engagement.json';
 
@@ -101,6 +101,16 @@ class App extends React.Component {
         this.props.dispatch(updateValues(data.values));
     }
 
+    submit(data) {
+        this.props.dispatch(renderDocument({formName: this.props.form, values: this.props.values}))
+            .then((response) => {
+                return response.response.blob()
+            })
+            .then(blob => {
+                saveAs(blob, "result.pdf");
+            });
+    }
+
     render() {
         console.log(this.props)
         return <div className="container-fluid">
@@ -121,7 +131,7 @@ class App extends React.Component {
                     update={::this.update}
                     values={this.props.values}
                     handlers={handlers}
-                    onSubmit={::this.update} />
+                    onSubmit={::this.submit} />
             </div>
             <div className="col-md-8 preview">
                 <div className="">
