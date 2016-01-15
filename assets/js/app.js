@@ -126,7 +126,7 @@ class App extends React.Component {
                     return response.response.blob()
                 })
                 .then(blob => {
-                    saveAs(blob, "result.pdf");
+                    saveAs(blob, (this.props.values.filename || "result") + ".pdf");
                 });
             }
     }

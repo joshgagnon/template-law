@@ -50,15 +50,15 @@
         {{capitalize (matterTypeString matter.matterType)}} of
         {{joinList matter.assets prop="address"}}
         {{#multiple matter.assets}}
-            Properties ("<strong>the Properties</strong>").
+            Properties ("<strong>the Properties</strong>")
         {{else}}
-            Property ("<strong>the Property</strong>").
+            Property ("<strong>the Property</strong>")
         {{/multiple}}
     </p>
 
     <p>
     Thank you for asking Evolution Lawyers Limited (<strong>Evolution</strong>) to act for
-    {{#ifCompany}}{{recipient.companyName}} (<strong>{{recipient.companyNameShort}}</strong>){{else}}you{{/ifCompany}}
+    {{#ifCompany}}{{recipient.companyName}} (<strong>{{recipient.companyNameShort}}</strong>){{else}}you{{/ifCompany}}.
     We understand that you would like us to assist
         {{secondPersonPronoun this}}
     with the

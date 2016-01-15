@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/render', function(req, res) {
     const data = req.body;
-    let tempPath, html;
+    let htmlPath, outPath, html;
     Promise.join(
                  fs.readFileAsync('templates/'+data.formName+'.html', 'utf-8'),
                  fs.readFileAsync('templates/'+data.formName+'.json', 'utf-8'),
@@ -39,14 +39,15 @@ app.post('/render', function(req, res) {
         })
     .then(_html => {
         html = _html;
-        return temp.openAsync({suffix: '.html'})
+        return Promise.join(temp.openAsync({suffix: '.html'}), temp.openAsync({suffix: '.pdf'}))
     })
-    .then(info => {
-        tempPath = info.path;
-        return fs.writeFileAsync(info.path,  html, 'utf-8')
+    .spread((htmlInfo, outInfo) => {
+        htmlPath = htmlInfo.path;
+        outPath = outInfo.path;
+        return fs.writeFileAsync(htmlPath, html, 'utf-8')
     })
     .then(html => {
-        const args = [PHANTOMJS, 'pdf.js', tempPath, 'out.pdf'];
+        const args = [PHANTOMJS, 'pdf.js', htmlPath, outPath];
         console.log('Running', args.join(' '))
         return exec(args.join(' '))
     })
