@@ -1,0 +1,163 @@
+{
+    "definitions": {
+
+    },
+    "description": "Client Authority and Instruction",
+
+    "properties": {
+        "filename": {
+            "title": "File Name",
+            "type": "string"
+        },
+        "recipient": {
+            "title": "Recipient Details",
+            "type": "object",
+            "properties": {
+                "recipientType": {
+                    "title": "Recipient Type",
+                    "enumNames": [
+                        "Individual(s)",
+                        "Company"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "individuals"
+                            ]
+                        },
+                        "individuals": {
+                            "items": {
+                                "type": "object",
+
+                                "properties": {
+                                    "firstName": {
+                                        "title": "First Name",
+                                        "type": "string"
+                                    },
+                                    "lastName": {
+                                        "title": "Last Name",
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "minItems": 1,
+                            "title": "Individual(s)",
+                            "type": "array"
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type" : "String"
+                        },
+                        "address": {
+                            "title": "Contact Addresss",
+                            "$ref": "#/definitions/address"
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "company"
+                            ]
+                        },
+                        "companyName": {
+                            "title": "Company Name",
+                            "type": "string"
+                        },
+                        "companyNameShort": {
+                            "title": "Company Name (Short)",
+                            "type": "string"
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type" : "string"
+                        },
+                        "address": {
+                            "title": "Addresss",
+                            "$ref": "#/definitions/address"
+                        }
+                    }
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "recipientType"
+                }
+            }
+        },
+        "matter": {
+            "type": "object",
+            "title": "Matter",
+            "properties": {
+                "matterType": {
+                    "title": "Matter Type",
+                    "enum": [
+                        "purchase",
+                        "sale",
+                        "refinance"
+                    ],
+                    "enumNames": [
+                        "Purchase",
+                        "Sale",
+                        "Refinance"
+                    ]
+                },
+                "actionstepId": {
+                    "title": "Actionstep ID",
+                    "type" : "string"
+                },
+                "assets": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "address": {
+                                "title": "Address",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "minItems": 1,
+                    "title": "Properties",
+                    "type": "array"
+                }
+            }
+        },
+        "disclosure": {
+            "type": "string",
+            "title": "Disclosure of Interests"
+        },
+        "sender": {
+            "title": "Sender",
+            "enum": [
+                "",
+                "Thomas Bloy",
+                "Tamina Cunningham-Adams"
+            ]
+        }
+    },
+    "required": [
+
+    ],
+    "title": "Client Authority and Instruction",
+    "type": "object",
+    "mappings": {
+        "sender": {
+            "Thomas Bloy": {
+                "phone": "+64 274 538 552",
+                "title": "Director",
+                "email": "thomas@evolutionlawyers.nz"
+            },
+            "Tamina Cunningham-Adams": {
+                "phone": "+64 021 1515 137",
+                "title": "Director",
+                "email": "tamina@evolutionlawyers.nz"
+            }
+        }
+    }
+
+}

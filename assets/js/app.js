@@ -4,12 +4,15 @@ import { render, findDOMNode } from 'react-dom'
 import { Provider, connect } from 'react-redux'
 import configureStore from './configureStore'
 import Form from 'react-json-editor/lib';
-import { updateValues, renderDocument } from './actions';
+import { updateValues, renderDocument, setForm } from './actions';
 import './helpers';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import engagement from '../../templates/Letter of Engagement.html';
 import engagementSchema from '../../templates/Letter of Engagement.json';
+import clientAuthority from '../../templates/Client Authority.html';
+import clientAuthoritySchema from '../../templates/Client Authority.json';
+
 import pagify from './pagify';
 
 export function debounce(func, delay = 100) {
@@ -28,44 +31,14 @@ const FORMS = {
     'Letter of Engagement': {
         template: engagement,
         schema: engagementSchema
+    },
+    'Client Authority and Instruction': {
+        template: clientAuthority,
+        schema: clientAuthoritySchema
     }
 }
 
-const DEFAULT_DATA = {
-    "recipient": {
-        "individuals": [
-            {
-                "firstName": "Mike",
-                "lastName": "Jones"
-            },
-            {
-                "firstName": "Denny",
-                "lastName": "Dennysingers"
-            }
-        ],
-        "recipientType": "individuals",
-        "email": "kapow@pewpew.com",
-        "address": {
-            "street": "90 Power Ave",
-            "suburb": "Kingbo",
-            "postcode": "9666",
-            "city": "Sincity",
-            "country": "Atroika"
-        },
-    },
-    "matter": {
-        "matterType": "purchase",
-        "assets": [
-            {
-                "address": "60 Binge St"
-            },
-            {
-                "address": "66 Catwalk Blv"
-            }]
-    },
-    "sender": "Thomas Bloy"
-
-};
+const DEFAULT_DATA = {};
 
 const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter of Engagement'}})
 
@@ -116,6 +89,11 @@ class App extends React.Component {
         this.pagify();
     }
 
+    changeForm(e) {
+
+        this.props.dispatch(setForm({form:  findDOMNode(this.refs.formName).value }));
+    }
+
     submit(data, type) {
         if(type === 'Reset'){
             this.props.dispatch(updateValues({}));
@@ -136,7 +114,7 @@ class App extends React.Component {
             <div className="controls">
                 <form className="form-horizontal">
                     <FieldWrapper label="select" title="Form">
-                      <select className="form-control">
+                      <select ref="formName" className="form-control" onChange={::this.changeForm}>
                             { Object.keys(FORMS).map((m, i)=>{
                                 return <option key={i}>{m}</option>
                             })}

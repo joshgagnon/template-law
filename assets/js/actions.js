@@ -5,6 +5,7 @@ export const UPDATE_VALUES = 'UPDATE_VALUES';
 export const RENDER_REQUEST = 'RENDER_REQUEST';
 export const RENDER_SUCCESS = 'RENDER_SUCCESS';
 export const RENDER_FAILURE = 'RENDER_FAILURE';
+export const SET_FORM = 'SET_FORM';
 
 
 const json_headers = {
@@ -15,6 +16,12 @@ const json_headers = {
 export function updateValues(data){
     return {
         type: UPDATE_VALUES, data
+    }
+}
+
+export function setForm(data){
+    return {
+        type: SET_FORM, data
     }
 }
 
