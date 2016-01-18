@@ -5,14 +5,15 @@ import Promise from 'bluebird';
 import _fs from 'fs';
 import './assets/js/helpers';
 import bodyParser from 'body-parser';
-import process from 'child_process';
+import childProcess from 'child_process';
 import _temp from 'temp';
-const exec = Promise.promisify(process.exec);
+const exec = Promise.promisify(childProcess.exec);
 const fs = Promise.promisifyAll(_fs);
 const temp = Promise.promisifyAll(_temp);
 const app = express();
 
-const PORT = 3000;
+const DEV = process.env.NODE_ENV !== 'production';
+const PORT = DEV ? 3000 : 5667;
 
 const PHANTOMJS = 'phantomjs';
 
@@ -53,8 +54,7 @@ app.post('/render', function(req, res) {
     })
     .then(() => {
         console.log('sending')
-        res.attachment('out.pdf');
-        res.sendFile('out.pdf' , { root : __dirname});
+        res.sendFile(outPath);
     })
     .catch((err) => {
         console.log('failed', err);
