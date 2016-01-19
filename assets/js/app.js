@@ -4,11 +4,13 @@ import { render, findDOMNode } from 'react-dom'
 import { Provider, connect } from 'react-redux'
 import configureStore from './configureStore'
 import Form from 'react-json-editor/lib';
-import { updateValues, renderDocument, setForm } from './actions';
+import { updateValues, renderDocument, setForm, hideError } from './actions';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import engagementSchema from '../../templates/Letter of Engagement.json';
 import clientAuthoritySchema from '../../templates/Client Authority.json';
+import moment from 'moment';
+
 
 export function debounce(func, delay = 100) {
     let timeout;
@@ -31,7 +33,11 @@ const FORMS = {
     }
 }
 
-const DEFAULT_DATA = {};
+const DEFAULT_DATA = {
+    dateString: moment().format("DD MMMM YYYY"),
+    recipient: {},
+    matter: {}
+};
 
 const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter of Engagement'}})
 
@@ -68,12 +74,12 @@ class App extends React.Component {
 
     submit(data, type) {
         if(type === 'Reset'){
-            this.props.dispatch(updateValues({}));
+            this.props.dispatch(updateValues(DEFAULT_DATA));
         }
         else{
             let filename;
-            this.props.dispatch(renderDocument({formName: this.props.form,
-                    values: {...this.props.values, mappings: FORMS[this.props.form].schema.mappings }}))
+            this.props.dispatch(renderDocument({formName: this.props.active.form,
+                    values: {...this.props.active.values, mappings: FORMS[this.props.active.form].schema.mappings }}))
                 .then((response) => {
                     if(response.error){
                         throw response.error;
@@ -86,13 +92,49 @@ class App extends React.Component {
                     saveAs(blob, filename);
                 })
                 .catch(() => {
-                    // some kind of error handling
                 });
             }
     }
 
+    fetching() {
+        return <div className="modal" tabIndex="-1" role="dialog" style={{display: 'block'}}>
+            <div className="modal-dialog">
+            <div className="modal-content">
+            <div className="modal-header">
+            <h3>Processing...</h3>
+            </div>
+            <div className="modal-body">
+            <div className="progress">
+                 <div className="progress-bar progress-bar-striped active" style={{width: "100%"}}>
+
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    }
+
+    error() {
+        return <div className="modal" tabIndex="-1" role="dialog" style={{display: 'block'}}>
+            <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h3>Could not generate file</h3>
+                </div>
+                <div className="modal-body">
+                    Probably due to missing values.
+                </div>
+                <div className="modal-footer">
+                    <button className="btn btn-primary" onClick={() => this.props.dispatch(hideError())}>Ok</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    }
+
     render() {
-        return <div className="">
+        return <div className="container">
             <div className="controls">
                 <form className="form-horizontal">
                     <FieldWrapper label="select" title="Form">
@@ -106,18 +148,19 @@ class App extends React.Component {
                 <Form className="form-horizontal"
                     buttons={['Reset', 'Generate File']}
                     fieldWrapper={FieldWrapper}
-                    schema={FORMS[this.props.form].schema}
+                    schema={FORMS[this.props.active.form].schema}
                     update={::this.update}
-                    values={this.props.values}
+                    values={this.props.active.values}
                     handlers={handlers}
                     onSubmit={::this.submit} />
             </div>
-
+            {this.props.status.fetching && this.fetching() }
+            {this.props.status.error && this.error() }
         </div >
     }
 }
 
-const ConnectedApp = connect(state => state.active)(App)
+const ConnectedApp = connect(state => state)(App)
 
 render( <Provider store = {store} >
     <ConnectedApp />

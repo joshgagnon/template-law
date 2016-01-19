@@ -47,6 +47,10 @@
                 "Word Document (.docx)"
             ]
         },
+        "dateString": {
+            "title": "Date",
+            "type": "string"
+        },
         "recipient": {
             "title": "Recipient Details",
             "type": "object",
@@ -88,7 +92,7 @@
                         },
                         "email": {
                             "title": "Email",
-                            "type" : "String"
+                            "type" : "string"
                         },
                         "address": {
                             "title": "Contact Addresss",
@@ -187,7 +191,7 @@
     ],
     "title": "Letter of Engagement",
     "type": "object",
-    "x-ordering": ["filename", "fileType", "recipient"],
+    "x-ordering": ["filename", "fileType", "dateString", "recipient"],
     "x-hints" : {
         "form": {
           "disclosure": "textarea"

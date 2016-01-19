@@ -5,6 +5,7 @@ export const UPDATE_VALUES = 'UPDATE_VALUES';
 export const RENDER_REQUEST = 'RENDER_REQUEST';
 export const RENDER_SUCCESS = 'RENDER_SUCCESS';
 export const RENDER_FAILURE = 'RENDER_FAILURE';
+export const HIDE_ERROR = 'HIDE_ERROR';
 export const SET_FORM = 'SET_FORM';
 
 
@@ -22,6 +23,12 @@ export function updateValues(data){
 export function setForm(data){
     return {
         type: SET_FORM, data
+    }
+}
+
+export function hideError(data){
+    return {
+        type: HIDE_ERROR
     }
 }
 
