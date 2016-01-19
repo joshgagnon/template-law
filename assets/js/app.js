@@ -5,15 +5,10 @@ import { Provider, connect } from 'react-redux'
 import configureStore from './configureStore'
 import Form from 'react-json-editor/lib';
 import { updateValues, renderDocument, setForm } from './actions';
-import './helpers';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
-import engagement from '../../templates/Letter of Engagement.html';
 import engagementSchema from '../../templates/Letter of Engagement.json';
-import clientAuthority from '../../templates/Client Authority.html';
 import clientAuthoritySchema from '../../templates/Client Authority.json';
-
-import pagify from './pagify';
 
 export function debounce(func, delay = 100) {
     let timeout;
@@ -29,11 +24,9 @@ export function debounce(func, delay = 100) {
 
 const FORMS = {
     'Letter of Engagement': {
-        template: engagement,
         schema: engagementSchema
     },
     'Client Authority and Instruction': {
-        template: clientAuthority,
         schema: clientAuthoritySchema
     }
 }
@@ -65,33 +58,12 @@ class FieldWrapper extends React.Component {
 
 class App extends React.Component {
 
-    componentWillMount() {
-        /*this.props.dispatch(updateValues({
-
-        }));*/
-    }
-
     update(data) {
         this.props.dispatch(updateValues(data.values));
     }
 
-    pagify() {
-        const node = findDOMNode(this.refs.doc).querySelector('.document');
-        pagify(node);
-    }
-
-    componentDidMount() {
-        this.pagify();
-    }
-
-    componentDidUpdate() {
-        // split into pages
-        this.pagify();
-    }
-
     changeForm(e) {
-
-        this.props.dispatch(setForm({form:  findDOMNode(this.refs.formName).value }));
+        this.props.dispatch(setForm({form: findDOMNode(this.refs.formName).value }));
     }
 
     submit(data, type) {
@@ -99,12 +71,22 @@ class App extends React.Component {
             this.props.dispatch(updateValues({}));
         }
         else{
-            this.props.dispatch(renderDocument({formName: this.props.form, values: this.props.values}))
+            let filename;
+            this.props.dispatch(renderDocument({formName: this.props.form,
+                    values: {...this.props.values, mappings: FORMS[this.props.form].schema.mappings }}))
                 .then((response) => {
+                    if(response.error){
+                        throw response.error;
+                    }
+                    const disposition = response.response.headers.get('Content-Disposition')
+                    filename = /filename[^;=\n]*="((['"]).*?\2|[^;\n]*)"/.exec(disposition)[1];
                     return response.response.blob()
                 })
                 .then(blob => {
-                    saveAs(blob, (this.props.values.filename || "result") + ".pdf");
+                    saveAs(blob, filename);
+                })
+                .catch(() => {
+                    // some kind of error handling
                 });
             }
     }
@@ -122,21 +104,13 @@ class App extends React.Component {
                     </FieldWrapper>
                 </form>
                 <Form className="form-horizontal"
-                    buttons={['Reset', 'Generate PDF']}
+                    buttons={['Reset', 'Generate File']}
                     fieldWrapper={FieldWrapper}
                     schema={FORMS[this.props.form].schema}
                     update={::this.update}
                     values={this.props.values}
                     handlers={handlers}
                     onSubmit={::this.submit} />
-            </div>
-            <div className="preview">
-                <div className="">
-                    <div ref="doc" dangerouslySetInnerHTML={{
-                        __html: FORMS[this.props.form].template({...this.props.values,
-                        mappings: FORMS[this.props.form].schema.mappings})
-                    }} />
-                </div>
             </div>
 
         </div >

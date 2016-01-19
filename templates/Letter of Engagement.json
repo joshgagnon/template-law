@@ -34,6 +34,19 @@
             "title": "File Name",
             "type": "string"
         },
+        "fileType": {
+            "title": "File Type",
+            "enum": [
+                "odt",
+                "pdf",
+                "docx"
+            ],
+            "enumNames": [
+                "OpenDocument Text (.odt)",
+                "Portable Document Format (.pdf)",
+                "Word Document (.docx)"
+            ]
+        },
         "recipient": {
             "title": "Recipient Details",
             "type": "object",
@@ -96,6 +109,10 @@
                         },
                         "companyNameShort": {
                             "title": "Company Name (Short)",
+                            "type": "string"
+                        },
+                        "contact": {
+                            "title": "Contact",
                             "type": "string"
                         },
                         "email": {
@@ -170,7 +187,7 @@
     ],
     "title": "Letter of Engagement",
     "type": "object",
-    "x-ordering": ["filename", "recipient"],
+    "x-ordering": ["filename", "fileType", "recipient"],
     "x-hints" : {
         "form": {
           "disclosure": "textarea"

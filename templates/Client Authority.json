@@ -9,6 +9,20 @@
             "title": "File Name",
             "type": "string"
         },
+        "fileType": {
+            "title": "File Type",
+            "enum": [
+                "odt",
+                "pdf",
+                "docx"
+            ],
+            "enumNames": [
+                "OpenDocument Text (.odt)",
+                "Portable Document Format (.pdf)",
+                "Word Document (.docx)"
+            ]
+        },
+
         "recipient": {
             "title": "Recipient Details",
             "type": "object",

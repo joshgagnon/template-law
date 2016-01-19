@@ -34,7 +34,6 @@ export function renderDocument(data) {
             headers: json_headers,
             body: JSON.stringify(data),
             credentials: 'same-origin'
-
-        }),
+        })
     };
 }
