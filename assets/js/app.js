@@ -9,6 +9,7 @@ import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import engagementSchema from '../../templates/Letter of Engagement.json';
 import clientAuthoritySchema from '../../templates/Client Authority.json';
+import letterTemplateSchema from '../../templates/Letter Template.json';
 import moment from 'moment';
 
 
@@ -25,6 +26,9 @@ export function debounce(func, delay = 100) {
 }
 
 const FORMS = {
+    'Letter Template': {
+        schema: letterTemplateSchema
+    },
     'Letter of Engagement': {
         schema: engagementSchema
     },
@@ -39,7 +43,7 @@ const DEFAULT_DATA = {
     matter: {}
 };
 
-const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter of Engagement'}})
+const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter Template'}})
 
 class TextArea extends React.Component {
     render() {
@@ -156,7 +160,7 @@ class App extends React.Component {
             </div>
             {this.props.status.fetching && this.fetching() }
             {this.props.status.error && this.error() }
-        </div >
+        </div>
     }
 }
 
