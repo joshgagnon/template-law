@@ -1,16 +1,19 @@
-import 'babel-polyfill'
+import 'babel-polyfill';
 import React from 'react';
-import { render, findDOMNode } from 'react-dom'
-import { Provider, connect } from 'react-redux'
-import configureStore from './configureStore'
+import Handlebars from 'handlebars';
+import { render, findDOMNode } from 'react-dom';
+import { Provider, connect } from 'react-redux';
+import configureStore from './configureStore';
 import Form from 'react-json-editor/lib';
 import { updateValues, renderDocument, setForm, hideError } from './actions';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import engagementSchema from '../../templates/Letter of Engagement.json';
+import engagementEmail from '../../templates/emails/Letter of Engagement.html';
 import clientAuthoritySchema from '../../templates/Client Authority.json';
 import letterTemplateSchema from '../../templates/Letter Template.json';
 import landTransferTaxStatementSchema from '../../templates/Land Transfer Tax Statement.json';
+import './helpers';
 import moment from 'moment';
 
 
@@ -34,7 +37,8 @@ const FORMS = {
         schema: letterTemplateSchema
     },
     'Letter of Engagement': {
-        schema: engagementSchema
+        schema: engagementSchema,
+        emails: [engagementEmail]
     },
     'Client Authority and Instruction': {
         schema: clientAuthoritySchema
@@ -47,7 +51,7 @@ const DEFAULT_DATA = {
     matter: {}
 };
 
-const store = configureStore({active: {values: DEFAULT_DATA, form: 'Land Transfer Tax Statement'}})
+const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter of Engagement'}})
 
 class TextArea extends React.Component {
     render() {
@@ -69,6 +73,22 @@ class FieldWrapper extends React.Component {
       </div>
   }
 }
+
+class EmailView extends React.Component {
+    render() {
+
+        return <div>
+            <h3>Emails</h3>
+                { this.props.emails.map(e => {
+                    const template = e(this.props.values);
+                    return <div dangerouslySetInnerHTML={{__html: template}} />
+                })
+            }
+
+        </div>
+    }
+};
+
 
 class App extends React.Component {
 
@@ -147,9 +167,9 @@ class App extends React.Component {
             <div className="controls">
                 <form className="form-horizontal">
                     <FieldWrapper label="select" title="Form">
-                      <select ref="formName" className="form-control" onChange={::this.changeForm}>
+                      <select ref="formName" className="form-control" onChange={::this.changeForm} value={this.props.active.form}>
                             { Object.keys(FORMS).map((m, i)=>{
-                                return <option key={i}>{m}</option>
+                                return <option key={i} value={m}>{m}</option>
                             })}
                       </select>
                     </FieldWrapper>
@@ -163,8 +183,9 @@ class App extends React.Component {
                     handlers={handlers}
                     onSubmit={::this.submit} />
             </div>
-            {this.props.status.fetching && this.fetching() }
-            {this.props.status.error && this.error() }
+            { this.props.status.fetching && this.fetching() }
+            { this.props.status.error && this.error() }
+            { FORMS[this.props.active.form].emails && <EmailView values={this.props.active.values} emails={FORMS[this.props.active.form].emails} /> }
         </div>
     }
 }

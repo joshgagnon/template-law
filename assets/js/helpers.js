@@ -5,6 +5,20 @@ Handlebars.registerHelper('todaysDate', () => {
     return moment().format("DD MMMM YYYY")
 });
 
+Handlebars.registerHelper('timeOfDay', () => {
+    const split_afternoon = 12;
+    const split_evening = 17;
+    const currentHour = parseInt(moment().format("HH"));
+    if(currentHour >= split_afternoon && currentHour <= split_evening) {
+        return "afternoon";
+    } else if(currentHour >= split_evening) {
+        return "evening";
+    } else {
+        return "morning";
+    }
+});
+
+
 
 Handlebars.registerHelper('matterTypeString', (type) => {
     return {
@@ -35,7 +49,7 @@ Handlebars.registerHelper('mapper', function(...keys){
     }, this.mappings) || 'UNKNOWN';
 });
 
-Handlebars.registerHelper('joinList', (items=[], options) => {
+Handlebars.registerHelper('joinAnd', (items=[], options) => {
     if(!items.length){
         return "UNKNOWN"
     }
@@ -56,21 +70,3 @@ Handlebars.registerHelper('ifCompany', function(options){
         return options.inverse(this);
     }
 })
-
-Handlebars.registerHelper('secondPersonPronoun', (items, options) => {
-    if(options.data.root.recipient && options.data.root.recipient.recipientType === 'company'){
-        return options.data.root.recipient.companyNameShort;
-    }
-    else{
-        return 'you';
-    }
-});
-
-Handlebars.registerHelper('secondPersonAdjective', (items, options) => {
-    if(options.data.root.recipient && options.data.root.recipient.recipientType === 'company'){
-        return `${options.data.root.recipient.companyNameShort}'s`;
-    }
-    else{
-        return 'your';
-    }
-});
