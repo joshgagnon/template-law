@@ -1,0 +1,164 @@
+{
+    "description": "Land Transfer Tax Statement",
+
+    "properties": {
+        "filename": {
+            "title": "File Name",
+            "type": "string"
+        },
+        "fileType": {
+            "title": "File Type",
+            "enum": [
+                "odt",
+                "pdf",
+                "docx"
+            ],
+            "enumNames": [
+                "OpenDocument Text (.odt)",
+                "Portable Document Format (.pdf)",
+                "Word Document (.docx)"
+            ]
+        },
+        "dateString": {
+            "title": "Date",
+            "type": "string"
+        },
+        "fullName": {
+            "title": "Full Name",
+            "type": "string"
+        },
+        "certificateTitleReference": {
+            "title": "Certificate of title reference",
+            "type": "string"
+        },
+        "instrumentNumber": {
+            "title": "Instrument Number",
+            "type": "string"
+        },
+        "landWithHome": {
+            "title": "Land with home",
+            "type": "boolean"
+        },
+        "transferRole": {
+            "title": "Transfer Role",
+            "enum": [
+                "transferor",
+                "transferee"
+            ],
+            "enumNames": [
+                "Transferor (seller)",
+                "transferee (buyer)"
+            ]
+        },
+        "nzCitizen": {
+            "title": "NZ citizen/resident/visa",
+            "type": "boolean"
+        },
+        "living": {
+            "title": "Will inhabit on property",
+            "type": "boolean"
+        },
+        "exemptionCode": {
+            "title": "Exemption Code",
+            "type": "string"
+        },
+        "taxDetails": {
+            "title": "Tax Details",
+            "type": "object",
+            "properties": {
+                "taxResidency": {
+                    "title": "Tax Residency",
+                    "enumNames": [
+                        "No Foreign Tax Residency",
+                        "Has Foreign Tax Residency"
+
+                    ]
+                }
+            },
+            "oneOf": [{
+                "properties": {
+                    "taxResidency": {
+                        "enum": ["noForeign"]
+                    }
+                }
+            }, {
+                "properties": {
+                    "taxResidency": {
+                        "enum": ["hasForeign"]
+                    },
+                    "jurisdiction": {
+                        "title": "Country/jurisdiction",
+                        "type": "string"
+                    },
+                    "countryCode": {
+                        "title": "Country code",
+                        "type": "string"
+                    },
+                    "taxPayerId": {
+                        "title": "Taxpayer id number (country)",
+                        "type": "string"
+                    }
+                }
+            }],
+
+            "x-hints": {
+                "form": {
+                    "selector": "taxResidency"
+                }
+            }
+        },
+        "onBehalfOf": {
+            "title": "Authorized Signatory",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "title": "",
+                    "enumNames": [
+                        "None",
+                        "On behalf of"
+
+                    ]
+                }
+            },
+            "oneOf": [{
+                "properties": {
+                    "type": {
+                        "enum": ["none"]
+                    }
+                }
+            }, {
+                "properties": {
+                    "type": {
+                        "enum": ["authorizedPerson"]
+                    },
+                    "fullName": {
+                        "title": "Full Name",
+                        "type": "string"
+                    },
+                    "position": {
+                        "title": "Position or office held",
+                        "type": "string"
+                    }
+                }
+            }],
+
+            "x-hints": {
+                "form": {
+                    "selector": "type"
+                }
+            }
+        }
+
+
+
+
+    },
+    "required": [
+
+    ],
+    "x-ordering": [],
+    "title": "Land Transfer Tax Statement",
+    "type": "object",
+    "mappings": {}
+
+}
