@@ -10,6 +10,7 @@ import { saveAs } from 'filesaver.js';
 import engagementSchema from '../../templates/Letter of Engagement.json';
 import clientAuthoritySchema from '../../templates/Client Authority.json';
 import letterTemplateSchema from '../../templates/Letter Template.json';
+import landTransferTaxStatementSchema from '../../templates/Land Transfer Tax Statement.json';
 import moment from 'moment';
 
 
@@ -26,6 +27,9 @@ export function debounce(func, delay = 100) {
 }
 
 const FORMS = {
+    'Land Transfer Tax Statement': {
+        schema: landTransferTaxStatementSchema
+    },
     'Letter Template': {
         schema: letterTemplateSchema
     },
@@ -43,7 +47,7 @@ const DEFAULT_DATA = {
     matter: {}
 };
 
-const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter Template'}})
+const store = configureStore({active: {values: DEFAULT_DATA, form: 'Land Transfer Tax Statement'}})
 
 class TextArea extends React.Component {
     render() {
@@ -138,6 +142,7 @@ class App extends React.Component {
     }
 
     render() {
+        console.log(this.props)
         return <div className="container">
             <div className="controls">
                 <form className="form-horizontal">
