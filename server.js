@@ -8,7 +8,7 @@ const app = express();
 
 const DEV = process.env.NODE_ENV !== 'production';
 const PORT = DEV ? 3000 : 5667;
-const CONVERT = DEV ? 'localhost:5668' : 'convert.catalex.nz'
+const CONVERT = DEV ? 'localhost:5668' : 'https://convert.catalex.nz'
 
 let base;
 
