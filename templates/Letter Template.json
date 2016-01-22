@@ -145,6 +145,7 @@
         "status": {
             "title": "Status",
             "enum": [
+                "",
                 "Without Prejudice (save as to costs)",
                 "Private & Confidential",
                 "Legally Privileged"

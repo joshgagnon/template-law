@@ -8,14 +8,14 @@ const app = express();
 
 const DEV = process.env.NODE_ENV !== 'production';
 const PORT = DEV ? 3000 : 5667;
-
+const CONVERT = DEV ? 'localhost:5668' : 'convert.catalex.nz'
 
 let base;
 
 app.use(express.static('public'));
 
 
-app.post('/render', proxy('localhost:5668', {
+app.post('/render', proxy(CONVERT, {
     forwardPath: function(req, res) {
         return '/render';
   }

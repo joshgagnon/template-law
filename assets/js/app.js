@@ -38,7 +38,9 @@ const FORMS = {
     },
     'Letter of Engagement': {
         schema: engagementSchema,
-        emails: [engagementEmail]
+        emails: [
+            engagementEmail
+        ]
     },
     'Client Authority and Instruction': {
         schema: clientAuthoritySchema
@@ -79,12 +81,11 @@ class EmailView extends React.Component {
 
         return <div>
             <h3>Emails</h3>
-                { this.props.emails.map(e => {
+                { this.props.emails.map((e, i) => {
                     const template = e(this.props.values);
-                    return <div dangerouslySetInnerHTML={{__html: template}} />
+                    return <div key={i} dangerouslySetInnerHTML={{__html: template}} />
                 })
             }
-
         </div>
     }
 };
