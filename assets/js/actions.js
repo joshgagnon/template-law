@@ -7,6 +7,7 @@ export const RENDER_SUCCESS = 'RENDER_SUCCESS';
 export const RENDER_FAILURE = 'RENDER_FAILURE';
 export const HIDE_ERROR = 'HIDE_ERROR';
 export const SET_FORM = 'SET_FORM';
+export const SAVE_STATE = 'SAVE_STATE';
 
 
 const json_headers = {
@@ -26,9 +27,15 @@ export function setForm(data){
     }
 }
 
-export function hideError(data){
+export function hideError(){
     return {
         type: HIDE_ERROR
+    }
+}
+
+export function saveState(){
+    return {
+        type: SAVE_STATE
     }
 }
 

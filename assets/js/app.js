@@ -55,9 +55,9 @@ const DEFAULT_DATA = {
 
 const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter of Engagement'}})
 
+
 class TextArea extends React.Component {
     render() {
-        debugger
     }
 }
 
@@ -75,6 +75,9 @@ class FieldWrapper extends React.Component {
       </div>
   }
 }
+
+
+
 
 class EmailView extends React.Component {
     render() {
@@ -114,8 +117,7 @@ class App extends React.Component {
                         throw response.error;
                     }
                     const disposition = response.response.headers.get('Content-Disposition')
-                    filename = /filename[^;=\n]*="?((['"]).*?\2|[^;\n]*)"?/.exec(disposition)[1];
-                    debugger
+                    filename = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition)[1].replace(/"/g, '');
                     return response.response.blob()
                 })
                 .then(blob => {
@@ -195,7 +197,7 @@ class App extends React.Component {
 const ConnectedApp = connect(state => state)(App)
 
 render( <Provider store = {store} >
-    <ConnectedApp />
+        <ConnectedApp />
     </Provider>,
     document.getElementById('root')
 )
