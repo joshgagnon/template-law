@@ -3,6 +3,7 @@ import React from 'react';
 import Handlebars from 'handlebars';
 import { render, findDOMNode } from 'react-dom';
 import { Provider, connect } from 'react-redux';
+import StateSaver from './stateSaver';
 import configureStore from './configureStore';
 import Form from 'react-json-editor/lib';
 import { updateValues, renderDocument, setForm, hideError } from './actions';
@@ -17,17 +18,7 @@ import './helpers';
 import moment from 'moment';
 
 
-export function debounce(func, delay = 100) {
-    let timeout;
-    return function(){
-        const args = arguments;
-        if (timeout)
-            clearTimeout(timeout)
-        timeout = setTimeout(() => {
-            func(...args);
-        }, delay);
-    };
-}
+
 
 const FORMS = {
     'Land Transfer Tax Statement': {
@@ -48,18 +39,30 @@ const FORMS = {
 }
 
 const DEFAULT_DATA = {
-    dateString: moment().format("DD MMMM YYYY"),
-    recipient: {},
-    matter: {}
+    active: {
+        values: {
+            dateString: moment().format("DD MMMM YYYY")
+        },
+        form: 'Letter of Engagement'
+    }
 };
+let data;
 
-const store = configureStore({active: {values: DEFAULT_DATA, form: 'Letter of Engagement'}})
+try{
+    data = JSON.parse(localStorage['currentView']);
+}
+catch(e){
+    data = DEFAULT_DATA;
+}
+
+const store = configureStore(data);
 
 
 class TextArea extends React.Component {
     render() {
     }
 }
+
 
 const handlers = {
     'textarea': TextArea
@@ -190,6 +193,7 @@ class App extends React.Component {
             { this.props.status.fetching && this.fetching() }
             { this.props.status.error && this.error() }
             { FORMS[this.props.active.form].emails && <EmailView values={this.props.active.values} emails={FORMS[this.props.active.form].emails} /> }
+            <StateSaver />
         </div>
     }
 }
