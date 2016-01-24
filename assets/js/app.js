@@ -114,7 +114,8 @@ class App extends React.Component {
                         throw response.error;
                     }
                     const disposition = response.response.headers.get('Content-Disposition')
-                    filename = /filename[^;=\n]*="((['"]).*?\2|[^;\n]*)"/.exec(disposition)[1];
+                    filename = /filename[^;=\n]*="?((['"]).*?\2|[^;\n]*)"?/.exec(disposition)[1];
+                    debugger
                     return response.response.blob()
                 })
                 .then(blob => {
