@@ -24,8 +24,68 @@
                     "type": "string"
                 }
             }
+        },
+        "contactMethod": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "title": "Mode",
+                    "enumNames": [
+                        "By email",
+                        "By courier",
+                        "By hand",
+                        "By post"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "email"
+                            ]
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type": "string"
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "courier"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "hand"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "post"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "method"
+                }
+            }
         }
-
     },
     "description": "Letter Template",
 
@@ -95,7 +155,7 @@
                             "type" : "string"
                         },
                         "address": {
-                            "title": "Contact Addresss",
+                            "title": "Contact Address",
                             "$ref": "#/definitions/address"
                         }
                     }
@@ -120,7 +180,7 @@
                             "type" : "string"
                         },
                         "address": {
-                            "title": "Addresss",
+                            "title": "Address",
                             "$ref": "#/definitions/address"
                         }
                     }
@@ -131,6 +191,10 @@
                     "selector": "recipientType"
                 }
             }
+        },
+        "contactMethod": {
+            "title": "Contact Method",
+            "$ref": "#/definitions/contactMethod"
         },
         "matter": {
             "type": "object",
@@ -143,13 +207,76 @@
             }
         },
         "status": {
+            "type": "object",
             "title": "Status",
-            "enum": [
-                "",
-                "Without Prejudice (save as to costs)",
-                "Private & Confidential",
-                "Legally Privileged"
-            ]
+            "properties": {
+                "mode": {
+                    "enumNames": [
+                        "",
+                        "Without Prejudice (save as to costs)",
+                        "Private & Confidential",
+                        "Legally Privileged",
+                        "Custom"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "mode": {
+                            "enum": [
+                                ""
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "mode": {
+                            "enum": [
+                                "Without Prejudice (save as to costs)"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "mode": {
+                            "enum": [
+                                "Private & Confidential"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "mode": {
+                            "enum": [
+                                "Legally Privileged"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "mode": {
+                            "enum": [
+                                "custom"
+                            ]
+                        },
+                        "message": {
+                            "title": "Custom Status",
+                            "type": "string"
+                        }
+                    }
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "mode"
+                }
+            }
+
         },
 
         "subject": {

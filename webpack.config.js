@@ -54,7 +54,7 @@ module.exports = {
          { from: 'assets/images', to: 'images' },
          ]),
 
-        new ExtractTextPlugin('[name].[hash].css'),
+        new ExtractTextPlugin(DEV ? '[name].css' : '[name].[hash].css'),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-nz/),
         new webpack.optimize.DedupePlugin(),
         function() {
