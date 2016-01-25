@@ -2,18 +2,18 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require("webpack");
 var path = require('path');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var DEV = process.env.NODE_ENV !=='production';
 
 
 module.exports = {
     entry: {
         app: "./assets/js/app.js",
-        print: "./assets/js/print.js"
     },
     cache: true,
     output: {
         path:  path.resolve(__dirname, 'public'),
-        filename: "[name].js"
+        filename: DEV ? "[name].js" : "[name].[hash].js"
     },
     node: {
         __dirname: true,
@@ -54,9 +54,22 @@ module.exports = {
          { from: 'assets/images', to: 'images' },
          ]),
 
-        new ExtractTextPlugin('[name].css'),
+        new ExtractTextPlugin('[name].[hash].css'),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-nz/),
-        new webpack.optimize.DedupePlugin()
+        new webpack.optimize.DedupePlugin(),
+        function() {
+            if(!DEV){
+                this.plugin("done", function(stats) {
+                  require("fs").writeFileSync(
+                    path.join(__dirname, "stats.json"),
+                    JSON.stringify(stats.toJson().assetsByChunkName));
+                });
+            }
+        },
+        !DEV ? new CleanWebpackPlugin(['public'], {
+          verbose: true,
+          dry: false
+        }) : function() {}
     ],
       resolve: {
         modulesDirectories: ['node_modules', 'src'],
