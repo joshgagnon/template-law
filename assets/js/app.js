@@ -4,9 +4,10 @@ import Handlebars from 'handlebars';
 import { render, findDOMNode } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import StateSaver from './stateSaver';
+import SaveLoadDialogs from './SaveLoadDialogs';
 import configureStore from './configureStore';
 import Form from 'react-json-editor/lib';
-import { updateValues, renderDocument, setForm, hideError } from './actions';
+import { updateValues, renderDocument, setForm, hideError, openModal } from './actions';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import engagementSchema from '../../templates/Letter of Engagement.json';
@@ -108,26 +109,33 @@ class App extends React.Component {
     }
 
     submit(data, type) {
-        if(type === 'Reset'){
-            this.props.dispatch(updateValues(DEFAULT_DATA));
-        }
-        else{
-            let filename;
-            this.props.dispatch(renderDocument({formName: this.props.active.form,
-                    values: {...this.props.active.values, mappings: FORMS[this.props.active.form].schema.mappings }}))
-                .then((response) => {
-                    if(response.error){
-                        throw response.error;
-                    }
-                    const disposition = response.response.headers.get('Content-Disposition')
-                    filename = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition)[1].replace(/"/g, '');
-                    return response.response.blob()
-                })
-                .then(blob => {
-                    saveAs(blob, filename);
-                })
-                .catch(() => {
-                });
+        switch(type){
+            case 'Reset':
+                this.props.dispatch(updateValues(DEFAULT_DATA));
+                break;
+            case 'Save':
+                this.props.dispatch(openModal('save'))
+                break;
+            case 'Load':
+                this.props.dispatch(openModal('load'));
+                break;
+            default:
+                let filename;
+                this.props.dispatch(renderDocument({formName: this.props.active.form,
+                        values: {...this.props.active.values, mappings: FORMS[this.props.active.form].schema.mappings }}))
+                    .then((response) => {
+                        if(response.error){
+                            throw response.error;
+                        }
+                        const disposition = response.response.headers.get('Content-Disposition')
+                        filename = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition)[1].replace(/"/g, '');
+                        return response.response.blob()
+                    })
+                    .then(blob => {
+                        saveAs(blob, filename);
+                    })
+                    .catch(() => {
+                    });
             }
     }
 
@@ -182,7 +190,7 @@ class App extends React.Component {
                     </FieldWrapper>
                 </form>
                 <Form className="form-horizontal"
-                    buttons={['Reset', 'Generate File']}
+                    buttons={['Load', 'Save', 'Reset', 'Generate File']}
                     fieldWrapper={FieldWrapper}
                     schema={FORMS[this.props.active.form].schema}
                     update={::this.update}
@@ -194,6 +202,7 @@ class App extends React.Component {
             { this.props.status.error && this.error() }
             { FORMS[this.props.active.form].emails && <EmailView values={this.props.active.values} emails={FORMS[this.props.active.form].emails} /> }
             <StateSaver />
+            <SaveLoadDialogs />
         </div>
     }
 }

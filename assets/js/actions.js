@@ -7,7 +7,9 @@ export const RENDER_SUCCESS = 'RENDER_SUCCESS';
 export const RENDER_FAILURE = 'RENDER_FAILURE';
 export const HIDE_ERROR = 'HIDE_ERROR';
 export const SET_FORM = 'SET_FORM';
-export const SAVE_STATE = 'SAVE_STATE';
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
+export const SET_ACTIVE_STATE= 'SET_ACTIVE_STATE';
 
 
 const json_headers = {
@@ -33,11 +35,24 @@ export function hideError(){
     }
 }
 
-export function saveState(){
+export function openModal(modal){
     return {
-        type: SAVE_STATE
+        type: OPEN_MODAL, modal
     }
 }
+
+export function closeModal(modal){
+    return {
+        type: CLOSE_MODAL, modal
+    }
+}
+
+export function setActiveState(data){
+    return {
+        type: SET_ACTIVE_STATE, data
+    }
+}
+
 
 
 export function renderDocument(data) {
