@@ -1,0 +1,193 @@
+$rw-font-path: "~react-widgets/lib/fonts"; // for referencing Bootstrap CDN font files directly
+$rw-css-prefix: 'rw-i';
+$rw-version:          "4.1.0";
+
+
+@font-face {
+  font-family: 'RwWidgets';
+  src: url('#{$rw-font-path}/rw-widgets.eot?v=#{$rw-version}');
+  src: url('#{$rw-font-path}/rw-widgets.eot?#iefix&v=#{$rw-version}') format('embedded-opentype'),
+    url('#{$rw-font-path}/rw-widgets.woff?v=#{$rw-version}') format('woff'),
+    url('#{$rw-font-path}/rw-widgets.ttf?v=#{$rw-version}') format('truetype'),
+    url('#{$rw-font-path}/rw-widgets.svg?v=#{$rw-version}#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+};
+
+//url(if($bootstrap-sass-asset-helper, twbs-font-path('#{$icon-font-path}#{$icon-font-name}.eot'), '#{$icon-font-path}#{$icon-font-name}.eot'));
+
+.#{$rw-css-prefix} {
+  display: inline-block;
+  font-family: RwWidgets;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1em;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+    top: 1px;
+    font-weight: 400;
+}
+
+.#{$rw-css-prefix}-caret-down:before { content: '\e803'; }
+.#{$rw-css-prefix}-caret-up:before { content: '\e800'; }
+.#{$rw-css-prefix}-caret-left:before { content: '\e801';  }
+.#{$rw-css-prefix}-caret-right:before { content: '\e802'; }
+
+.#{$rw-css-prefix}-clock-o:before { content:'\e805'; }
+.#{$rw-css-prefix}-calendar:before { content: '\e804'; }
+.#{$rw-css-prefix}-search:before { content: '\e806'; }
+
+
+.rw-datetimepicker{
+    @extend .input-group;
+    .rw-input{
+        @extend .form-control;
+    }
+    .rw-select{
+        @extend .input-group-btn;
+        @extend .input-group-btn:last-child;
+        button{
+            @extend .btn;
+            @extend .btn-default;
+            // TODO remove this hack
+            height: 34px;
+        }
+    }
+}
+
+
+
+.rw-popup {
+  position: absolute;
+  @include box-shadow(0 5px 6px rgba(0,0,0,0.2));
+  @include border-top-radius(0);
+  @include border-bottom-radius($border-radius-small);
+  border:           $popover-border-color 1px solid;
+  background:       $popover-bg;
+  padding:          2px;
+  overflow:         auto;
+
+  // the offsets allows for drop shadow to not be clipped by the container
+  margin-bottom:    10px;
+  left:             10px;
+  right:            10px;
+
+  .rw-dropup > & {
+    margin-bottom: 0;
+    margin-top:    10px;
+    @include border-top-radius($border-radius-small);
+    @include border-bottom-radius(0);
+    @include box-shadow(0 0 6px rgba(0,0,0,0.2));
+  }
+}
+
+.rw-popup-container {
+  position: absolute;
+  top: 100%;
+  margin-top: 1px;
+  z-index: $zindex-popover;
+  // offset for drop shadow on rw-popup
+  left:  -10px - $input-border-width;
+  right: -10px - $input-border-width;
+
+  &.rw-dropup {
+    top:    auto;
+    bottom: 100%;
+  }
+
+  &.rw-calendar-popup {
+    right: auto;
+    width: 18em; //15em; ?
+  }
+}
+
+
+.rw-calendar {
+  background-color: #fff;
+
+  thead > tr {
+    border-bottom: 2px solid $input-border;
+  }
+
+  .rw-btn {
+    background-color: white;
+    border: none;
+    padding:0.2em;
+    border-radius:0;
+    cursor: pointer;
+  }
+  .rw-btn:hover {
+    background-color:$gray;
+    color:#fff;
+  }
+  .rw-header {
+    padding-bottom: 5px;
+
+    .rw-btn-left,
+    .rw-btn-right {
+      width: 12.5%;
+    }
+
+    .rw-btn-view {
+      width: 75%;
+    }
+  }
+
+  .rw-footer {
+    border-top: 1px solid $input-border;
+
+    .rw-btn {
+      width: 100%;
+      white-space: normal;
+        border: none;
+
+    }
+  }
+}
+
+
+.rw-calendar-grid {
+  height: 200 / 14em;
+  table-layout: fixed;
+  width: 100%;
+
+  th {
+    padding:    0 .4em 0 .1em;
+    text-align:center;
+  }
+
+  .rw-btn {
+    width: 100%;
+    text-align: right;
+    padding: 0.3em 0.3em;
+    outline: 0;
+    display: inline-block;
+    text-align: center;
+  }
+
+  td {
+    text-align:center;
+    .rw-btn {
+      outline: 0;
+
+      &.rw-off-range {
+        color: $gray-light;
+      }
+    }
+  }
+
+  &.rw-nav-view {
+
+    .rw-btn {
+      display: block;
+      overflow: hidden;
+      white-space: normal;
+    }
+  }
+}
+
+.form-group.has-feedback .rw-datetimepicker + .form-control-feedback{
+    right:60px;
+}

@@ -6,6 +6,11 @@
     "type": "git",
     "url": "https://github.com/joshgagnon/template-law.git"
   },
+  "main": "index.js",
+  "scripts": {
+    "run-dev": "node index.js",
+    "run": "NODE_ENV=production node index.js"
+  },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "bluebird": "^3.1.1",
@@ -27,6 +32,7 @@
     "react-dom": "^0.14.6",
     "react-json-editor": "joshgagnon/react-json-editor",
     "react-redux": "^4.0.6",
+    "react-widgets": "^3.1.7",
     "redux": "^3.0.5",
     "redux-thunk": "^1.0.3",
     "url-loader": "^0.5.7",

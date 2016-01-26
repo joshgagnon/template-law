@@ -109,7 +109,12 @@
         },
         "dateString": {
             "title": "Date",
-            "type": "string"
+            "type": "string",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "date"
+                }
+            }
         },
         "recipient": {
             "title": "Recipient Details",

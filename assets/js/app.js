@@ -4,6 +4,7 @@ import Handlebars from 'handlebars';
 import { render, findDOMNode } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import StateSaver from './stateSaver';
+import DateInput from './datePicker';
 import SaveLoadDialogs from './SaveLoadDialogs';
 import configureStore from './configureStore';
 import Form from 'react-json-editor/lib';
@@ -61,12 +62,14 @@ const store = configureStore(data);
 
 class TextArea extends React.Component {
     render() {
+        return <input/>
     }
 }
 
 
 const handlers = {
-    'textarea': TextArea
+    'textarea': TextArea,
+    'date': DateInput
 }
 
 class FieldWrapper extends React.Component {
@@ -97,9 +100,49 @@ class EmailView extends React.Component {
     }
 };
 
+class Fetching extends React.Component {
+    render() {
+        return <div className="modal" tabIndex="-1" role="dialog" style={{display: 'block'}}>
+            <div className="modal-dialog">
+            <div className="modal-content">
+            <div className="modal-header">
+            <h3>Processing...</h3>
+            </div>
+            <div className="modal-body">
+            <div className="progress">
+                 <div className="progress-bar progress-bar-striped active" style={{width: "100%"}}>
+
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    }
+}
+
+
+class ErrorDialog extends React.Component {
+    render() {
+        return <div className="modal" tabIndex="-1" role="dialog" style={{display: 'block'}}>
+            <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h3>Could not generate file</h3>
+                </div>
+                <div className="modal-body">
+                    Probably due to missing values.
+                </div>
+                <div className="modal-footer">
+                    <button className="btn btn-primary" onClick={this.props.close}>Ok</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    }
+}
 
 class App extends React.Component {
-
     update(data) {
         this.props.dispatch(updateValues(data.values));
     }
@@ -139,43 +182,6 @@ class App extends React.Component {
             }
     }
 
-    fetching() {
-        return <div className="modal" tabIndex="-1" role="dialog" style={{display: 'block'}}>
-            <div className="modal-dialog">
-            <div className="modal-content">
-            <div className="modal-header">
-            <h3>Processing...</h3>
-            </div>
-            <div className="modal-body">
-            <div className="progress">
-                 <div className="progress-bar progress-bar-striped active" style={{width: "100%"}}>
-
-                </div>
-                </div>
-            </div>
-            </div>
-            </div>
-        </div>
-    }
-
-    error() {
-        return <div className="modal" tabIndex="-1" role="dialog" style={{display: 'block'}}>
-            <div className="modal-dialog">
-            <div className="modal-content">
-                <div className="modal-header">
-                    <h3>Could not generate file</h3>
-                </div>
-                <div className="modal-body">
-                    Probably due to missing values.
-                </div>
-                <div className="modal-footer">
-                    <button className="btn btn-primary" onClick={() => this.props.dispatch(hideError())}>Ok</button>
-                </div>
-            </div>
-            </div>
-        </div>
-    }
-
     render() {
         console.log(this.props)
         return <div className="container">
@@ -198,8 +204,8 @@ class App extends React.Component {
                     handlers={handlers}
                     onSubmit={::this.submit} />
             </div>
-            { this.props.status.fetching && this.fetching() }
-            { this.props.status.error && this.error() }
+            { this.props.status.fetching && <Fetching /> }
+            { this.props.status.error && <ErrorDialog close={() => this.props.dispatch(hideError())}  /> }
             { FORMS[this.props.active.form].emails && <EmailView values={this.props.active.values} emails={FORMS[this.props.active.form].emails} /> }
             <StateSaver />
             <SaveLoadDialogs />
