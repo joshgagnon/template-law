@@ -3,7 +3,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require("webpack");
 var path = require('path');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
-var DEV = process.env.NODE_ENV !=='production';
+var DEV = process.env.NODE_ENV !== 'production';
 
 
 module.exports = {
@@ -50,10 +50,14 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(DEV ? 'development' : 'production')
+            }
+        }),
         new CopyWebpackPlugin([
          { from: 'assets/images', to: 'images' },
          ]),
-
         new ExtractTextPlugin(DEV ? '[name].css' : '[name].[hash].css'),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-nz/),
         new webpack.optimize.DedupePlugin(),
