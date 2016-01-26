@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import { UPDATE_VALUES, SET_FORM, RENDER_REQUEST , RENDER_SUCCESS, RENDER_FAILURE, HIDE_ERROR, OPEN_MODAL, CLOSE_MODAL, SET_ACTIVE_STATE } from './actions';
 
-function active(state = {form: 'Letter of Engagement', values: {}}, action) {
+function active(state = {form: 'Letter of Engagement', values: {}, errors: {}}, action) {
     switch(action.type){
         case SET_ACTIVE_STATE:
             return action.data;
         case UPDATE_VALUES:
-            return {...state, values: {...action.data}};
+            return {...state, values: {...action.data}, errors: {...action.errors}};
         case SET_FORM:
             return {...state, form: action.data.form}
     }

@@ -25,6 +25,32 @@
                 }
             }
         },
+        "addressRequired": {
+            "type": "object",
+            "properties": {
+                "street": {
+                    "title": "Street address",
+                    "type": "string"
+                },
+                "suburb": {
+                    "title": "Suburb",
+                    "type": "string"
+                },
+                "postcode": {
+                    "title": "Post or area code",
+                    "type": "string"
+                },
+                "city": {
+                    "title": "City",
+                    "type": "string"
+                },
+                "country": {
+                    "title": "Country",
+                    "type": "string"
+                }
+            },
+            "required": ["street", "city"]
+        },
         "individual": {
             "type": "object",
             "properties": {
@@ -70,75 +96,6 @@
                 }
             }
         },
-        "recipient": {
-            "title": "Recipient Details",
-            "type": "object",
-            "properties": {
-                "recipientType": {
-                    "title": "Recipient Type",
-                    "enumNames": [
-                        "Individual(s)",
-                        "Company"
-                    ],"enum": [
-                        "individuals",
-                        "company"
-                    ]
-                }
-            },
-            "oneOf": [
-                {
-                    "type": "object",
-                    "properties": {
-                        "recipientType": {
-                            "enum": [
-                                "individuals"
-                            ]
-                        },
-                        "individuals": {
-                            "minItems": 1,
-                            "title": "Individual(s)",
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/individual"
-                            }
-                        },
-                        "address": {
-                            "title": "Contact Address",
-                            "$ref": "#/definitions/address"
-                        }
-                    },
-                    "required": ["individuals"]
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "recipientType": {
-                            "enum": [
-                                "company"
-                            ]
-                        },
-                        "companyName": {
-                            "title": "Company Name",
-                            "type": "string"
-                        },
-                        "contact": {
-                            "title": "Contact",
-                            "type": "string"
-                        },
-                        "address": {
-                            "title": "Address",
-                            "$ref": "#/definitions/address"
-                        }
-                    },
-                    "required": ["companyName", "contact"]
-                }
-            ],
-            "x-hints": {
-                "form": {
-                    "selector": "recipientType"
-                }
-            }
-        },
         "contactMethod": {
             "title": "Contact Method",
             "type": "object",
@@ -164,6 +121,10 @@
                         "email": {
                             "title": "Email",
                             "type": "string"
+                        },
+                        "address": {
+                            "title": "Contact Address",
+                            "$ref": "#/definitions/address"
                         }
                     },
                     "required": ["email"]
@@ -174,8 +135,17 @@
                             "enum": [
                                 "courier"
                             ]
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type": "string"
+                        },
+                        "address": {
+                            "title": "Contact Address",
+                            "$ref": "#/definitions/addressRequired"
                         }
-                    }
+                    },
+                    "required": ["address"]
                 },
                 {
                     "properties": {
@@ -183,7 +153,16 @@
                             "enum": [
                                 "hand"
                             ]
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type": "string"
+                        },
+                        "address": {
+                            "title": "Contact Address",
+                            "$ref": "#/definitions/address"
                         }
+
                     }
                 },
                 {
@@ -192,13 +171,80 @@
                             "enum": [
                                 "post"
                             ]
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type": "string"
+                        },
+                        "address": {
+                            "title": "Contact Address",
+                            "$ref": "#/definitions/addressRequired"
                         }
-                    }
+                    },
+                    "required": ["address"]
                 }
             ],
             "x-hints": {
                 "form": {
                     "selector": "method"
+                }
+            }
+        },
+        "recipient": {
+            "title": "Recipient Details",
+            "type": "object",
+            "properties": {
+                "recipientType": {
+                    "title": "Recipient Type",
+                    "enumNames": [
+                        "Individual(s)",
+                        "Company"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "individuals"
+                            ]
+                        },
+                        "individuals": {
+                            "minItems": 1,
+                            "title": "Individual(s)",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/individual"
+                            }
+                        }
+                    },
+                    "required": ["individuals"]
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "company"
+                            ]
+                        },
+                        "companyName": {
+                            "title": "Company Name",
+                            "type": "string"
+                        },
+                        "contact": {
+                            "title": "Contact",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["companyName", "contact"]
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "recipientType"
                 }
             }
         },
@@ -309,7 +355,10 @@
     },
     "required": [
         "dateString",
-        "subject"
+        "subject",
+        "recipient",
+        "contactMethod",
+        "matter"
     ],
     "title": "Letter Template",
     "type": "object",

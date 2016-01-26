@@ -18,13 +18,6 @@ import letterTemplateSchema from '../../templates/Letter Template.json';
 import landTransferTaxStatementSchema from '../../templates/Land Transfer Tax Statement.json';
 import './helpers';
 import moment from 'moment';
-//import validator from 'is-my-json-valid';
-//import jjv from 'jjv';
-//import jsonGate from 'json-gate';
-import ajv from 'ajv';
-
-//const env = jjv()
-
 
 const FORMS = {
     /*'Land Transfer Tax Statement': {
@@ -49,7 +42,8 @@ const DEFAULT_DATA = {
         values: {
             dateString: moment().format("DD MMMM YYYY")
         },
-        form: 'Letter of Engagement'
+        errors: {__: 'invalid'},
+        form: 'Letter Template'
     }
 };
 let data;
@@ -96,21 +90,17 @@ class FieldWrapper extends React.Component {
 class SectionWrapper extends React.Component {
     errors() {
         return <div className="form-group has-error has-feedback">
-        <label htmlFor={this.props.label} className="col-sm-4 control-label">Errors</label>
-        <div className="col-sm-6">
             { this.props.errors.map((e, i) => {
                 return <label key={i} className="control-label">{ e }</label>
             }) }
-        </div>
         </div>
     }
 
 
     render() {
         return <fieldset className="form-section form-subsection">
-        { this.props.title && <legend>{ this.props.title }</legend>}
+        { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
             { this.props.children }
-            { this.props.errors && this.errors() }
             </fieldset>
     }
 }
@@ -174,104 +164,54 @@ class ErrorDialog extends React.Component {
 
 class App extends React.Component {
 
-    /*componentWillMount() {
-        this.validators = Object.keys(FORMS).reduce((acc, key) => {
-            acc[key] = validator(FORMS[key].schema, {
-              verbose: true,
-              greedy: true});
-            return acc;
-        }, {});
-    }*/
-
-    /*componentWillMount() {
-        this.validators = Object.keys(FORMS).reduce((acc, key) => {
-            acc[key] = jsonGate.createSchema(FORMS[key].schema);
-            return acc;
-        }, {});
-    }*/
-
     update(data) {
-        this.props.dispatch(updateValues(data.values));
+        this.props.dispatch(updateValues(data.values, data.errors));
     }
 
     changeForm(e) {
         this.props.dispatch(setForm({form: findDOMNode(this.refs.formName).value }));
     }
 
-    submit(data, type) {
-        switch(type){
-            case 'Reset':
-                this.props.dispatch(updateValues(DEFAULT_DATA));
-                break;
-            case 'Save':
-                this.props.dispatch(openModal('save'))
-                break;
-            case 'Load':
-                this.props.dispatch(openModal('load'));
-                break;
-            default:
-                let filename;
-                this.props.dispatch(renderDocument({formName: this.props.active.form,
-                        values: {...this.props.active.values, mappings: FORMS[this.props.active.form].schema.mappings }}))
-                    .then((response) => {
-                        if(response.error){
-                            throw response.error;
-                        }
-                        const disposition = response.response.headers.get('Content-Disposition')
-                        filename = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition)[1].replace(/"/g, '');
-                        return response.response.blob()
-                    })
-                    .then(blob => {
-                        saveAs(blob, filename);
-                    })
-                    .catch(() => {
-                    });
-            }
+    reset() {
+        this.props.dispatch(updateValues(DEFAULT_DATA.active.values, DEFAULT_DATA.active.errors));
     }
-    validate(schema, data, context) {
-        const a = ajv({allErrors: true, errorDataPath: 'property'});
-        const validator = a.compile(schema);
-        validator(data);
-        console.log(validator.errors)
-        if(!validator.errors){
-            return [];
-        }
-        const errors = validator.errors.map(e => {
-            if(e.dataPath){
-                const path = e.dataPath.replace(/^./, '').split('.');
-                if(e.params.missingProperty){
-                    path.push(e.params.missingProperty)
+
+    save() {
+        this.props.dispatch(openModal('save'))
+    }
+
+    load() {
+        this.props.dispatch(openModal('load'));
+    }
+
+    generate() {
+        let filename;
+        this.props.dispatch(renderDocument({formName: this.props.active.form,
+                values: {...this.props.active.values, mappings: FORMS[this.props.active.form].schema.mappings }}))
+            .then((response) => {
+                if(response.error){
+                    throw response.error;
                 }
-                return {path: path, errors: [e.message]}
-            }
-            else if(e.params.missingProperty){
-                return {path: [e.params.missingProperty], errors: [e.message]}
-            }
-            else
-                return null;
-        }).filter(x => x)
-        return errors
-
+                const disposition = response.response.headers.get('Content-Disposition')
+                filename = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition)[1].replace(/"/g, '');
+                return response.response.blob()
+            })
+            .then(blob => {
+                saveAs(blob, filename);
+            })
+            .catch(() => {
+            });
     }
 
-    /*validate(schema, output, context) {
-        const valid = this.validators[this.props.active.form](output);
-        console.log(this.validators[this.props.active.form].errors)
-        const errors = this.validators[this.props.active.form].errors.map(e => {
-            return {path: e.field.replace(/^data./, '').split('_'), errors: [e.message]}
-        })
-        console.log(errors);
-        return errors;
-
+    buttons() {
+        const valid = !Object.keys(this.props.active.errors).length;
+        return <p>
+            <button className="btn btn-info" onClick={::this.load}>Load</button>
+            <button className="btn btn-info" onClick={::this.save}>Save</button>
+            <button className="btn btn-warning" onClick={::this.reset}>Reset</button>
+            <button className="btn btn-primary" onClick={::this.generate} disabled={!valid}>Generate File</button>
+            </p>
     }
-
-    validate(schema, output, context) {
-        const valid = env.validate(schema, output);
-        console.log(valid)
-        return [];
-        return errors;
-
-    }*/
 
     render() {
         console.log(this.props)
@@ -286,16 +226,14 @@ class App extends React.Component {
                       </select>
                     </FieldWrapper>
                 </form>
-                <Form className="form-horizontal"
-                    buttons={['Load', 'Save', 'Reset', 'Generate File']}
+                <Form ref="form" className="form-horizontal"
+                    buttons={::this.buttons}
                     fieldWrapper={FieldWrapper}
                     sectionWrapper={SectionWrapper}
                     schema={FORMS[this.props.active.form].schema}
                     update={::this.update}
-                    validate={::this.validate}
                     values={this.props.active.values}
-                    handlers={handlers}
-                    onSubmit={::this.submit} />
+                    handlers={handlers} />
             </div>
             { this.props.status.fetching && <Fetching /> }
             { this.props.status.error && <ErrorDialog close={() => this.props.dispatch(hideError())}  /> }

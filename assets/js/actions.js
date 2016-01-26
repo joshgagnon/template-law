@@ -17,9 +17,9 @@ const json_headers = {
     'Content-Type': 'application/json'
 };
 
-export function updateValues(data){
+export function updateValues(data, errors){
     return {
-        type: UPDATE_VALUES, data
+        type: UPDATE_VALUES, data, errors
     }
 }
 

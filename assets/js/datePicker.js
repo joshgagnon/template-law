@@ -9,19 +9,15 @@ export default class DateInput extends React.Component {
 
     render() {
         const format="DD MMMM YYYY";
-         return <DateTimePicker {...this.props}
+         return <DateTimePicker
+            {...this.props}
             time={false}
             value={this.props.value ? new Date(this.props.value): null }
             onChange={(date, string) => this.props.onChange(string)}
-            /*onToggle={(open) => {
-                if(!open){
-                   // this.props.onBlur(this.props.value)
-                }
-            }}
-            onBlur={() => {
-                this.props.onBlur(this.props.value)
-            }}*/
-
+            parse={(string) => {
+                const valid = moment(string, format).isValid()
+                return valid ? moment(string, format) : null}
+            }
             format={format} />
     }
 }
