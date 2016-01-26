@@ -18,18 +18,22 @@ import letterTemplateSchema from '../../templates/Letter Template.json';
 import landTransferTaxStatementSchema from '../../templates/Land Transfer Tax Statement.json';
 import './helpers';
 import moment from 'moment';
+//import validator from 'is-my-json-valid';
+//import jjv from 'jjv';
+//import jsonGate from 'json-gate';
+import ajv from 'ajv';
 
-
+//const env = jjv()
 
 
 const FORMS = {
-    'Land Transfer Tax Statement': {
+    /*'Land Transfer Tax Statement': {
         schema: landTransferTaxStatementSchema
-    },
+    },*/
     'Letter Template': {
         schema: letterTemplateSchema
     },
-    'Letter of Engagement': {
+   /* 'Letter of Engagement': {
         schema: engagementSchema,
         emails: [
             engagementEmail
@@ -37,7 +41,7 @@ const FORMS = {
     },
     'Client Authority and Instruction': {
         schema: clientAuthoritySchema
-    }
+    }*/
 }
 
 const DEFAULT_DATA = {
@@ -72,23 +76,49 @@ const handlers = {
     'date': DateInput
 }
 
+
 class FieldWrapper extends React.Component {
   render() {
-    return <div className='form-group' key={this.props.label} >
-      <label htmlFor={this.props.label} className="col-sm-4 control-label">{this.props.title}</label>
+    let classes = 'form-group ';
+    if(this.props.errors){
+        classes += 'has-error has-feedback ';
+    }
+    return <div className={classes} key={this.props.label} >
+        <label htmlFor={this.props.label} className="col-sm-4 control-label">{this.props.title}</label>
         <div className="col-sm-6">
+            { this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
             { this.props.children }
         </div>
       </div>
   }
 }
 
+class SectionWrapper extends React.Component {
+    errors() {
+        return <div className="form-group has-error has-feedback">
+        <label htmlFor={this.props.label} className="col-sm-4 control-label">Errors</label>
+        <div className="col-sm-6">
+            { this.props.errors.map((e, i) => {
+                return <label key={i} className="control-label">{ e }</label>
+            }) }
+        </div>
+        </div>
+    }
+
+
+    render() {
+        return <fieldset className="form-section form-subsection">
+        { this.props.title && <legend>{ this.props.title }</legend>}
+            { this.props.children }
+            { this.props.errors && this.errors() }
+            </fieldset>
+    }
+}
 
 
 
 class EmailView extends React.Component {
     render() {
-
         return <div>
             <h3>Emails</h3>
                 { this.props.emails.map((e, i) => {
@@ -143,6 +173,23 @@ class ErrorDialog extends React.Component {
 }
 
 class App extends React.Component {
+
+    /*componentWillMount() {
+        this.validators = Object.keys(FORMS).reduce((acc, key) => {
+            acc[key] = validator(FORMS[key].schema, {
+              verbose: true,
+              greedy: true});
+            return acc;
+        }, {});
+    }*/
+
+    /*componentWillMount() {
+        this.validators = Object.keys(FORMS).reduce((acc, key) => {
+            acc[key] = jsonGate.createSchema(FORMS[key].schema);
+            return acc;
+        }, {});
+    }*/
+
     update(data) {
         this.props.dispatch(updateValues(data.values));
     }
@@ -181,6 +228,50 @@ class App extends React.Component {
                     });
             }
     }
+    validate(schema, data, context) {
+        const a = ajv({allErrors: true, errorDataPath: 'property'});
+        const validator = a.compile(schema);
+        validator(data);
+        console.log(validator.errors)
+        if(!validator.errors){
+            return [];
+        }
+        const errors = validator.errors.map(e => {
+            if(e.dataPath){
+                const path = e.dataPath.replace(/^./, '').split('.');
+                if(e.params.missingProperty){
+                    path.push(e.params.missingProperty)
+                }
+                return {path: path, errors: [e.message]}
+            }
+            else if(e.params.missingProperty){
+                return {path: [e.params.missingProperty], errors: [e.message]}
+            }
+            else
+                return null;
+        }).filter(x => x)
+        return errors
+
+    }
+
+    /*validate(schema, output, context) {
+        const valid = this.validators[this.props.active.form](output);
+        console.log(this.validators[this.props.active.form].errors)
+        const errors = this.validators[this.props.active.form].errors.map(e => {
+            return {path: e.field.replace(/^data./, '').split('_'), errors: [e.message]}
+        })
+        console.log(errors);
+        return errors;
+
+    }
+
+    validate(schema, output, context) {
+        const valid = env.validate(schema, output);
+        console.log(valid)
+        return [];
+        return errors;
+
+    }*/
 
     render() {
         console.log(this.props)
@@ -198,8 +289,10 @@ class App extends React.Component {
                 <Form className="form-horizontal"
                     buttons={['Load', 'Save', 'Reset', 'Generate File']}
                     fieldWrapper={FieldWrapper}
+                    sectionWrapper={SectionWrapper}
                     schema={FORMS[this.props.active.form].schema}
                     update={::this.update}
+                    validate={::this.validate}
                     values={this.props.active.values}
                     handlers={handlers}
                     onSubmit={::this.submit} />

@@ -25,67 +25,21 @@
                 }
             }
         },
-        "contactMethod": {
+        "individual": {
             "type": "object",
             "properties": {
-                "method": {
-                    "title": "Mode",
-                    "enumNames": [
-                        "By email",
-                        "By courier",
-                        "By hand",
-                        "By post"
-                    ]
+                "firstName": {
+                    "title": "First Name",
+                    "type": "string"
+                },
+                "lastName": {
+                    "title": "Last Name",
+                    "type": "string"
                 }
             },
-            "oneOf": [
-                {
-                    "properties": {
-                        "method": {
-                            "enum": [
-                                "email"
-                            ]
-                        },
-                        "email": {
-                            "title": "Email",
-                            "type": "string"
-                        }
-                    }
-                },
-                {
-                    "properties": {
-                        "method": {
-                            "enum": [
-                                "courier"
-                            ]
-                        }
-                    }
-                },
-                {
-                    "properties": {
-                        "method": {
-                            "enum": [
-                                "hand"
-                            ]
-                        }
-                    }
-                },
-                {
-                    "properties": {
-                        "method": {
-                            "enum": [
-                                "post"
-                            ]
-                        }
-                    }
-                }
-            ],
-            "x-hints": {
-                "form": {
-                    "selector": "method"
-                }
-            }
+            "required": ["firstName", "lastName"]
         }
+
     },
     "description": "Letter Template",
 
@@ -125,11 +79,15 @@
                     "enumNames": [
                         "Individual(s)",
                         "Company"
+                    ],"enum": [
+                        "individuals",
+                        "company"
                     ]
                 }
             },
             "oneOf": [
                 {
+                    "type": "object",
                     "properties": {
                         "recipientType": {
                             "enum": [
@@ -137,35 +95,22 @@
                             ]
                         },
                         "individuals": {
-                            "items": {
-                                "type": "object",
-
-                                "properties": {
-                                    "firstName": {
-                                        "title": "First Name",
-                                        "type": "string"
-                                    },
-                                    "lastName": {
-                                        "title": "Last Name",
-                                        "type": "string"
-                                    }
-                                }
-                            },
                             "minItems": 1,
                             "title": "Individual(s)",
-                            "type": "array"
-                        },
-                        "email": {
-                            "title": "Email",
-                            "type" : "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/individual"
+                            }
                         },
                         "address": {
                             "title": "Contact Address",
                             "$ref": "#/definitions/address"
                         }
-                    }
+                    },
+                    "required": ["individuals"]
                 },
                 {
+                    "type": "object",
                     "properties": {
                         "recipientType": {
                             "enum": [
@@ -180,15 +125,12 @@
                             "title": "Contact",
                             "type": "string"
                         },
-                        "email": {
-                            "title": "Email",
-                            "type" : "string"
-                        },
                         "address": {
                             "title": "Address",
                             "$ref": "#/definitions/address"
                         }
-                    }
+                    },
+                    "required": ["companyName", "contact"]
                 }
             ],
             "x-hints": {
@@ -199,23 +141,84 @@
         },
         "contactMethod": {
             "title": "Contact Method",
-            "$ref": "#/definitions/contactMethod"
+            "type": "object",
+            "properties": {
+                "method": {
+                    "title": "Mode",
+                    "enumNames": [
+                        "By email",
+                        "By courier",
+                        "By hand",
+                        "By post"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "email"
+                            ]
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["email"]
+                },
+                {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "courier"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "hand"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "post"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "method"
+                }
+            }
         },
         "matter": {
             "type": "object",
             "title": "Matter",
             "properties": {
-                "actionstepId": {
-                    "title": "Actionstep ID",
+                "matterId": {
+                    "title": "Matter ID",
                     "type" : "string"
                 }
-            }
+            },
+            "required": ["matterId"]
         },
         "status": {
             "type": "object",
             "title": "Status",
             "properties": {
                 "mode": {
+                    "title": "Status",
                     "enumNames": [
                         "",
                         "Without Prejudice (save as to costs)",
@@ -305,11 +308,12 @@
         }
     },
     "required": [
-
+        "dateString",
+        "subject"
     ],
     "title": "Letter Template",
     "type": "object",
-    "x-ordering": ["filename", "fileType", "dateString", "recipient"],
+    "x-ordering": ["filename", "fileType", "dateString", "recipient", "contactMethod"],
     "mappings": {
         "sender": {
             "Thomas Bloy": {
