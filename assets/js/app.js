@@ -204,7 +204,7 @@ class App extends React.Component {
     }
 
     buttons() {
-        const valid = !Object.keys(this.props.active.errors).length;
+        const valid = !Object.keys(this.props.active.errors || DEFAULT_DATA.active.errors).length;
         return <p>
             <button className="btn btn-info" onClick={::this.load}>Load</button>
             <button className="btn btn-info" onClick={::this.save}>Save</button>
