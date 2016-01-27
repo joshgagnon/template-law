@@ -19,9 +19,6 @@ import moment from 'moment';
 import merge from 'deepmerge'
 
 const FORMS = {
-    /*'Land Transfer Tax Statement': {
-        schema: landTransferTaxStatementSchema
-    },*/
     'G01: Letter': {
         schema: letterTemplateSchema
     },
@@ -31,10 +28,25 @@ const FORMS = {
     'G03: File Closing Letter': {
         schema: merge(letterTemplateSchema, fileClosingSchema)
     }
-}
+};
+
+// REMOVE ignored fields, for validation
+(function removeIgnored(obj){
+    Object.keys(obj).map(k => {
+        if(typeof obj[k] === 'object'){
+            if(obj[k].ignore){
+                delete obj[k];
+            }
+            else{
+                removeIgnored(obj[k]);
+            }
+        }
+    });
+})(FORMS);
 
 
-console.log(merge(letterTemplateSchema, letterOfEngagementSchema));
+console.log(FORMS);
+
 const DEFAULT_DATA = {
     active: {
         values: {
@@ -74,22 +86,22 @@ const handlers = {
 
 
 class FieldWrapper extends React.Component {
-  render() {
-    let classes = 'form-group ';
-    if(this.props.errors){
-        classes += 'has-error has-feedback ';
+    render() {
+        let classes = 'form-group ';
+        if(this.props.errors){
+            classes += 'has-error has-feedback ';
+        }
+        if(this.props.schema && this.props.schema.ignore){
+            return false;
+        }
+        return <div className={classes} key={this.props.label} >
+            <label htmlFor={this.props.label} className="col-sm-4 control-label">{this.props.title}</label>
+            <div className="col-sm-6">
+                { this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
+                { this.props.children }
+            </div>
+          </div>
     }
-    if(this.props.schema && this.props.schema.ignore){
-        return false;
-    }
-    return <div className={classes} key={this.props.label} >
-        <label htmlFor={this.props.label} className="col-sm-4 control-label">{this.props.title}</label>
-        <div className="col-sm-6">
-            { this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
-            { this.props.children }
-        </div>
-      </div>
-  }
 }
 
 class SectionWrapper extends React.Component {
@@ -103,6 +115,9 @@ class SectionWrapper extends React.Component {
 
 
     render() {
+        if(this.props.schema && this.props.schema.ignore){
+            return false;
+        }
         return <fieldset className="form-section form-subsection">
         { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
             { this.props.children }
@@ -124,6 +139,7 @@ class EmailView extends React.Component {
         </div>
     }
 };
+
 
 class Fetching extends React.Component {
     render() {
