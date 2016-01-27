@@ -11,38 +11,10 @@ import Form from 'react-json-editor/lib';
 import { updateValues, renderDocument, setForm, hideError, openModal } from './actions';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
-import letterTemplateSchema from '../../templates/Letter Template.json';
-import letterOfEngagementSchema from '../../templates/Letter of Engagement (General).json'
-import fileClosingSchema from '../../templates/File Closing Letter.json'
 import './helpers';
 import moment from 'moment';
-import merge from 'deepmerge'
+import FORMS from './schemas';
 
-const FORMS = {
-    'G01: Letter': {
-        schema: letterTemplateSchema
-    },
-    'G02: Letter of Engagement': {
-        schema: merge(letterTemplateSchema, letterOfEngagementSchema)
-    },
-    'G03: File Closing Letter': {
-        schema: merge(letterTemplateSchema, fileClosingSchema)
-    }
-};
-
-// REMOVE ignored fields, for validation
-(function removeIgnored(obj){
-    Object.keys(obj).map(k => {
-        if(typeof obj[k] === 'object'){
-            if(obj[k].ignore){
-                delete obj[k];
-            }
-            else{
-                removeIgnored(obj[k]);
-            }
-        }
-    });
-})(FORMS);
 
 
 console.log(FORMS);
@@ -52,7 +24,6 @@ const DEFAULT_DATA = {
         values: {
             dateString: moment().format("DD MMMM YYYY")
         },
-        errors: {__: 'invalid'},
         form: 'G01: Letter'
     }
 };
@@ -186,7 +157,7 @@ class ErrorDialog extends React.Component {
 class App extends React.Component {
 
     update(data) {
-        this.props.dispatch(updateValues(data.values, data.errors));
+        this.props.dispatch(updateValues(data.values));
     }
 
     changeForm(e) {
@@ -194,7 +165,7 @@ class App extends React.Component {
     }
 
     reset() {
-        this.props.dispatch(updateValues(DEFAULT_DATA.active.values, DEFAULT_DATA.active.errors));
+        this.props.dispatch(updateValues(DEFAULT_DATA.active.values));
     }
 
     save() {
@@ -225,12 +196,12 @@ class App extends React.Component {
     }
 
     buttons() {
-        const valid = true //!Object.keys(this.props.active.errors || DEFAULT_DATA.active.errors).length;
+        const valid = !Object.keys(this.props.active.errors).length
         return <p>
             <button className="btn btn-info" onClick={::this.load}>Load</button>
             <button className="btn btn-info" onClick={::this.save}>Save</button>
             <button className="btn btn-warning" onClick={::this.reset}>Reset</button>
-            <button className="btn btn-primary" onClick={::this.generate} disabled={!valid}>Generate File</button>
+            <button className="btn btn-primary" onClick={::this.generate} ref='submit' disabled={!valid}>Generate File</button>
             </p>
     }
 
@@ -254,6 +225,7 @@ class App extends React.Component {
                     schema={FORMS[this.props.active.form].schema}
                     update={::this.update}
                     values={this.props.active.values}
+                    errors={this.props.active.errors}
                     handlers={handlers} />
             </div>
             { this.props.status.fetching && <Fetching /> }
