@@ -1,0 +1,33 @@
+{
+    "extends": "Letter Template.json",
+    "description": "File Closing Letter",
+    "title": "File Closing Letter",
+    "properties": {
+        "matter": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "title": "Name"
+                },
+                 "description": {
+                    "type": "string",
+                    "title": "Description"
+                }
+            },
+            "required": ["name", "description"]
+        },
+        "subject": {
+            "ignore": true
+        },
+        "documents": {
+            "type": "array",
+            "title": "Documents",
+            "items": {
+                "title": "Document name and date",
+                "type": "string"
+            }
+        }
+    },
+    "required": ["matter"]
+}

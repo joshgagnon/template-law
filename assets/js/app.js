@@ -13,6 +13,7 @@ import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import letterTemplateSchema from '../../templates/Letter Template.json';
 import letterOfEngagementSchema from '../../templates/Letter of Engagement (General).json'
+import fileClosingSchema from '../../templates/File Closing Letter.json'
 import './helpers';
 import moment from 'moment';
 import merge from 'deepmerge'
@@ -26,6 +27,9 @@ const FORMS = {
     },
     'G02: Letter of Engagement': {
         schema: merge(letterTemplateSchema, letterOfEngagementSchema)
+    },
+    'G03: File Closing Letter': {
+        schema: merge(letterTemplateSchema, fileClosingSchema)
     }
 }
 
