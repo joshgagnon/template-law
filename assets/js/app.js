@@ -11,39 +11,33 @@ import Form from 'react-json-editor/lib';
 import { updateValues, renderDocument, setForm, hideError, openModal } from './actions';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
-import engagementSchema from '../../templates/Letter of Engagement.json';
-import engagementEmail from '../../templates/emails/Letter of Engagement.html';
-import clientAuthoritySchema from '../../templates/Client Authority.json';
 import letterTemplateSchema from '../../templates/Letter Template.json';
-import landTransferTaxStatementSchema from '../../templates/Land Transfer Tax Statement.json';
+import letterOfEngagementSchema from '../../templates/Letter of Engagement (General).json'
 import './helpers';
 import moment from 'moment';
+import merge from 'deepmerge'
 
 const FORMS = {
     /*'Land Transfer Tax Statement': {
         schema: landTransferTaxStatementSchema
     },*/
-    'Letter Template': {
+    'G01: Letter': {
         schema: letterTemplateSchema
     },
-   /* 'Letter of Engagement': {
-        schema: engagementSchema,
-        emails: [
-            engagementEmail
-        ]
-    },
-    'Client Authority and Instruction': {
-        schema: clientAuthoritySchema
-    }*/
+    'G02: Letter of Engagement': {
+        schema: merge(letterTemplateSchema, letterOfEngagementSchema)
+    }
 }
 
+
+console.log(merge(letterTemplateSchema, letterOfEngagementSchema));
 const DEFAULT_DATA = {
     active: {
         values: {
             dateString: moment().format("DD MMMM YYYY")
         },
         errors: {__: 'invalid'},
-        form: 'Letter Template'
+        form: 'G01: Letter'
     }
 };
 let data;
@@ -53,6 +47,10 @@ try{
 }
 catch(e){
     data = DEFAULT_DATA;
+}
+
+if(!FORMS[data.active.form]){
+    data.active.form = DEFAULT_DATA.active.form;
 }
 
 const store = configureStore(data);
@@ -76,6 +74,9 @@ class FieldWrapper extends React.Component {
     let classes = 'form-group ';
     if(this.props.errors){
         classes += 'has-error has-feedback ';
+    }
+    if(this.props.schema && this.props.schema.ignore){
+        return false;
     }
     return <div className={classes} key={this.props.label} >
         <label htmlFor={this.props.label} className="col-sm-4 control-label">{this.props.title}</label>

@@ -1,0 +1,91 @@
+{
+    "description": "Letter of Engagment",
+    "title": "Letter of Engagment",
+    "properties": {
+        "matter": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "title": "Name"
+                },
+                 "description": {
+                    "type": "string",
+                    "title": "Description"
+                },
+                "services": {
+                    "type": "string",
+                    "title": "Services"
+                }
+            },
+            "required": ["name"]
+        },
+        "disclosure": {
+            "type": "string",
+            "title": "Disclosure of Interests"
+        },
+        "subject": {
+            "ignore": true
+        },
+        "fee": {
+            "title": "Fees",
+            "type": "object",
+            "properties": {
+                "feeType": {
+                    "title": "Fee",
+                    "enumNames": [
+                        "Unspecified",
+                        "Estimated",
+                        "Pre-agreed"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "feeType": {
+                            "enum": [
+                                "none"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "feeType": {
+                            "enum": [
+                                "preagreed"
+                            ]
+                        },
+                        "description": {
+                            "title": "Fee Description",
+                            "type": "string"
+
+                        }
+                    },
+                    "required": ["description"]
+                },
+                {
+                    "properties": {
+                        "feeType": {
+                            "enum": [
+                                "estimated"
+                            ]
+                        },
+                        "description": {
+                            "title": "Fee Description",
+                            "type": "string"
+
+                        }
+                    },
+                    "required": ["description"]
+                }],
+            "x-hints": {
+                "form": {
+                    "selector": "feeType"
+                }
+            }
+        }
+    },
+    "required": ["fee"]
+}

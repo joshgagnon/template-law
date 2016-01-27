@@ -68,7 +68,7 @@
 
     },
     "description": "Letter Template",
-
+    "title": "Letter Template",
     "properties": {
         "filename": {
             "title": "File Name",
@@ -360,7 +360,6 @@
         "contactMethod",
         "matter"
     ],
-    "title": "Letter Template",
     "type": "object",
     "x-ordering": ["filename", "fileType", "dateString", "recipient", "contactMethod"],
     "mappings": {
@@ -377,5 +376,4 @@
             }
         }
     }
-
 }
