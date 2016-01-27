@@ -1,4 +1,5 @@
 {
+    "extends": "Letter Template.json",
     "description": "Letter of Engagment",
     "title": "Letter of Engagment",
     "properties": {
@@ -35,8 +36,8 @@
                     "title": "Fee",
                     "enumNames": [
                         "Unspecified",
-                        "Estimated",
-                        "Pre-agreed"
+                        "Pre-agreed",
+                        "Estimated"
                     ]
                 }
             },
