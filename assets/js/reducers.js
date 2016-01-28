@@ -18,7 +18,7 @@ function makeKey(path) {
 }
 
 function validate(schema, values, ctx){
-    return hashedErrors(validator(schema, values, ctx))
+    return hashedErrors(validator(schema, values, ctx)) || {};
 }
 
 function active(state = {form: 'Letter of Engagement', values: {}, errors: {}}, action) {

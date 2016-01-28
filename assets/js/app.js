@@ -24,6 +24,7 @@ const DEFAULT_DATA = {
         values: {
             dateString: moment().format("DD MMMM YYYY")
         },
+        errors: {},
         form: 'G01: Letter'
     }
 };
@@ -115,7 +116,6 @@ class SectionWrapper extends React.Component {
     }
 
     renderControlledSection(){
-        console.log(this.props)
         return <fieldset className="form-section form-subsection">
             <label htmlFor={this.props.label} className="col-sm-2 col-xs-12 control-label">{this.props.title}</label>
             <div className="col-sm-7 col-xs-7">
