@@ -1,0 +1,74 @@
+{
+    "extends": "Letter Template.json",
+    "description": "Settlement Undertakings Letter - Acting for Purchaser",
+    "title": "Settlement Undertakings Letter - Acting for Purchaser",
+    "properties": {
+        "matter": {
+            "type": "object",
+            "properties": {
+                "assets": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "address": {
+                                "title": "Address",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "minItems": 1,
+                    "title": "Properties",
+                    "type": "array"
+                }
+            }
+        },
+        "vendorNames": {
+            "items": {
+                "type": "string",
+                "title": "Vendor Name"
+            },
+            "minItems": 1,
+            "title": "Vendor Name",
+            "type": "array"
+        },
+        "purchaserNames": {
+            "items": {
+                "type": "string",
+                "title": "Purchaser Name"
+            },
+            "minItems": 1,
+            "title": "Purchaser Names",
+            "type": "array"
+        },
+        "time": {
+            "title": "Time",
+            "type": "string"
+        },
+        "ampm": {
+            "title": "Time of Day",
+            "enum": [
+                "am",
+                "pm"
+            ]
+        },
+        "settlementAmount": {
+            "title": "Settlement Amount",
+            "type": "string"
+        },
+        "accountNumber": {
+            "title": "Vendor’s solicitor trust account number",
+            "type": "string"
+        },
+        "paymentType": {
+            "title": "Payment Type",
+            "enum": [
+                "same day cleared payment",
+                "direct credit"
+            ]
+        },
+        "subject": {
+            "ignore": true
+        }
+    },
+    "required": ["vendorNames", "purchaserNames"]
+}
