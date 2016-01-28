@@ -1,0 +1,56 @@
+{
+    "extends": "Letter Template.json",
+    "description": "Letter of Engagment - Conveyancing",
+    "title": "Letter of Engagment - Conveyancing",
+    "properties": {
+        "matter": {
+            "type": "object",
+            "properties": {
+               "matterType": {
+                    "title": "Matter Type",
+                    "enum": [
+                        "purchase",
+                        "sale",
+                        "refinance"
+                    ],
+                    "enumNames": [
+                        "Purchase",
+                        "Sale",
+                        "Refinance"
+                    ]
+                },
+                "assets": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "address": {
+                                "title": "Address",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "minItems": 1,
+                    "title": "Properties",
+                    "type": "array"
+                }
+            },
+            "required": ["matterType"]
+        },
+        "disclosure": {
+            "type": "string",
+            "title": "Disclosure of Interests",
+            "description": "e.g. We act for Company ABC Ltd"
+        },
+        "subject": {
+            "ignore": true
+        }
+    },
+    "required": [],
+    "mappings": {
+        "price": {
+            "purchase": "$880",
+            "sale": "$780",
+            "refinance": "$680"
+        }
+    }
+}

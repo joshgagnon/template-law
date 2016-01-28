@@ -9,7 +9,7 @@
                 "name": {
                     "type": "string",
                     "title": "Matter Name",
-                    "description": "e.g. Liquidation Advise"
+                    "description": "e.g. Liquidation Advice"
                 },
                  "description": {
                     "type": "string",
