@@ -56,7 +56,33 @@ const handlers = {
 }
 
 
+
+
 class FieldWrapper extends React.Component {
+
+    renderControlledField(classes){
+        return <div className={classes} key={this.props.label} >
+            <label htmlFor={this.props.label} className="col-sm-3 col-xs-12 control-label">{this.props.title}</label>
+            <div className="col-sm-7 col-xs-7">
+                {  this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
+                {  this.props.children }
+            </div>
+            <div className="col-sm-2 col-xs-5">
+                <div className="btn-group" role="group">
+                    <button className="btn btn-default" onClick={this.props.children.props.moveUp}>
+                        <span className="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span>
+                    </button>
+                    <button className="btn btn-default" onClick={this.props.children.props.moveDown}>
+                        <span className="glyphicon glyphicon-arrow-down" aria-hidden="true" ></span>
+                    </button>
+                    <button className="btn btn-default" onClick={this.props.children.props.removeItem}>
+                        <span className="glyphicon glyphicon-remove" aria-hidden="true" ></span>
+                    </button>
+                    </div>
+            </div>
+        </div>
+    }
+
     render() {
         let classes = 'form-group ';
         if(this.props.errors){
@@ -65,15 +91,19 @@ class FieldWrapper extends React.Component {
         if(this.props.schema && this.props.schema.ignore){
             return false;
         }
+        if(this.props.children.props.isArrayItem && !this.props.children.props.isLastItem){
+            return this.renderControlledField(classes, this.props)
+        }
         return <div className={classes} key={this.props.label} >
-            <label htmlFor={this.props.label} className="col-sm-4 control-label">{this.props.title}</label>
-            <div className="col-sm-6">
-                { this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
-                { this.props.children }
+            <label htmlFor={this.props.label} className="col-sm-3 control-label">{this.props.title}</label>
+                <div className="col-sm-9">
+                    { this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
+                    { this.props.children }
+                </div>
             </div>
-          </div>
     }
 }
+
 
 class SectionWrapper extends React.Component {
     errors() {
@@ -84,13 +114,38 @@ class SectionWrapper extends React.Component {
         </div>
     }
 
+    renderControlledSection(){
+        console.log(this.props)
+        return <fieldset className="form-section form-subsection">
+            <label htmlFor={this.props.label} className="col-sm-2 col-xs-12 control-label">{this.props.title}</label>
+            <div className="col-sm-7 col-xs-7">
+                { this.props.children }
+            </div>
+            {!this.props.isLastItem  && <div className="col-sm-2 col-xs-5">
+                <div className="btn-group" role="group">
+                    <button className="btn btn-default" onClick={this.props.moveUp}>
+                        <span className="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span>
+                    </button>
+                    <button className="btn btn-default" onClick={this.props.moveDown}>
+                        <span className="glyphicon glyphicon-arrow-down" aria-hidden="true" ></span>
+                    </button>
+                    <button className="btn btn-default" onClick={this.props.removeItem}>
+                        <span className="glyphicon glyphicon-remove" aria-hidden="true" ></span>
+                    </button>
+                    </div>
+            </div> }
+        </fieldset>
+    }
 
     render() {
         if(this.props.schema && this.props.schema.ignore){
             return false;
         }
+        if(this.props.canRemoveItem){
+            return this.renderControlledSection()
+        }
         return <fieldset className="form-section form-subsection">
-        { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
+            { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
             { this.props.children }
             </fieldset>
     }
@@ -191,8 +246,7 @@ class App extends React.Component {
             .then(blob => {
                 saveAs(blob, filename);
             })
-            .catch(() => {
-            });
+            .catch(() => {});
     }
 
     buttons() {

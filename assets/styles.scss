@@ -65,9 +65,8 @@ html, body{
     input[type="text"], select{
         @extend .form-control;
     }
-    input[type="submit"]{
-        @extend .btn;
-        @extend .btn-default;
+    button .glyphicon{
+        top: 3px;
     }
     form {
         p {
