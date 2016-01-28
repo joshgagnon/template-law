@@ -8,22 +8,22 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "title": "Name"
+                    "title": "Matter Name",
+                    "description": "e.g. Liquidation Advise"
                 },
                  "description": {
                     "type": "string",
-                    "title": "Description"
-                },
-                "services": {
-                    "type": "string",
-                    "title": "Services"
+                    "title": "Description",
+                    "description": "e.g. advice regarding the Liquidation of the company"
                 }
             },
             "required": ["name"]
         },
         "disclosure": {
             "type": "string",
-            "title": "Disclosure of Interests"
+            "title": "Disclosure of Interests",
+            "description": "e.g. We act for Company ABC Ltd"
+
         },
         "subject": {
             "ignore": true
@@ -62,6 +62,10 @@
                             "title": "Fee Description",
                             "type": "string"
 
+                        },
+                        "services": {
+                            "type": "string",
+                            "title": "Quoted Services"
                         }
                     },
                     "required": ["description"]
@@ -77,6 +81,10 @@
                             "title": "Fee Description",
                             "type": "string"
 
+                        },
+                        "services": {
+                            "type": "string",
+                            "title": "Quoted Services"
                         }
                     },
                     "required": ["description"]

@@ -8,14 +8,15 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "title": "Name"
+                    "title": "Matter Name"
                 },
-                 "description": {
+                 "reason": {
                     "type": "string",
-                    "title": "Description"
+                    "title": "Reason matter has ended",
+                    "description": "e.g. the transaction has been completed"
                 }
             },
-            "required": ["name", "description"]
+            "required": ["name", "reason"]
         },
         "subject": {
             "ignore": true
