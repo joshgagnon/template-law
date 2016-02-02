@@ -3,6 +3,7 @@ import letterOfEngagementSchema from '../../templates/G02: Letter of Engagement 
 import fileClosingSchema from '../../templates/G03: File Closing Letter.json';
 import letterOfEngagementConveyancingSchema from '../../templates/CV01: Letter of Engagement - Conveyancing.json';
 import settleUnderTakingsSchema from '../../templates/CV03: Settlement Undertakings Letter - Acting for Purchaser.json';
+import settleUnderTakingsVendorSchema from '../../templates/CV04: Settlement Undertakings Letter - Acting for Vendor.json';
 import merge from 'deepmerge'
 
 
@@ -21,6 +22,9 @@ const FORMS = {
     },
     'CV03: Settlement Undertakings Letter - Acting for Purchaser':{
         schema: merge(letterTemplateSchema, settleUnderTakingsSchema)
+    },
+    'CV04: Settlement Undertakings Letter - Acting for Vendor':{
+        schema: merge(letterTemplateSchema, settleUnderTakingsVendorSchema)
     }
 };
 

@@ -8,7 +8,7 @@ momentLocalizer(moment);
 export default class DateInput extends React.Component {
 
     render() {
-        const format="DD MMMM YYYY";
+        const format="D MMMM YYYY";
          return <DateTimePicker
             {...this.props}
             time={false}

@@ -14,7 +14,8 @@
                                 "title": "Address",
                                 "type": "string"
                             }
-                        }
+                        },
+                        "required": ["address"]
                     },
                     "minItems": 1,
                     "title": "Properties",
