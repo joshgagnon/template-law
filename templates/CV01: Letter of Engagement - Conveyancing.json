@@ -26,7 +26,8 @@
                             "address": {
                                 "title": "Address",
                                 "type": "string"
-                            }
+                            },
+                            "required": ["address"]
                         }
                     },
                     "minItems": 1,
@@ -45,7 +46,6 @@
             "ignore": true
         }
     },
-    "required": [],
     "mappings": {
         "price": {
             "purchase": "$880",

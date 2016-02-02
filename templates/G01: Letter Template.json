@@ -358,7 +358,10 @@
         "subject",
         "recipient",
         "contactMethod",
-        "matter"
+        "matter",
+        "disclosure",
+        "sender",
+        "valediction"
     ],
     "type": "object",
     "x-ordering": ["filename", "fileType", "dateString", "recipient", "contactMethod"],

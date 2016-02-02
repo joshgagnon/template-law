@@ -28,7 +28,7 @@
                 "title": "Vendor Name"
             },
             "minItems": 1,
-            "title": "Vendor Name",
+            "title": "Vendor Names",
             "type": "array"
         },
         "purchaserNames": {
