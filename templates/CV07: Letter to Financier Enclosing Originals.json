@@ -1,0 +1,62 @@
+{
+    "extends": "Letter Template.json",
+    "description": "Letter to Fincancier Enclosing Originals",
+    "title": "Letter to Fincancier Enclosing Originals",
+    "properties": {
+
+        "purchaserNames": {
+            "items": {
+                "type": "string",
+                "title": "Purchaser Name"
+            },
+            "minItems": 1,
+            "title": "Purchaser Names",
+            "type": "array"
+        },
+        "facilityAgreementDate": {
+            "title": "Date of Facility Agreement",
+            "type": "string",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "date"
+                }
+            }
+        },
+        "solicitorCertDate": {
+            "title": "Date of Solicitor’s Certificate",
+            "type": "string",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "date"
+                }
+            }
+        },
+        "documents": {
+            "items": {
+                "type": "object",
+                "properties": {
+                    "documentName": {
+                        "title": "Document Name",
+                        "type": "string"
+                    },
+                    "documentDate": {
+                        "title": "Document Date",
+                        "type": "string",
+                        "x-hints" : {
+                            "form": {
+                              "inputComponent": "date"
+                            }
+                        }
+                    }
+                },
+                "required": ["documentName", "documentDate"]
+            },
+            "title": "Other Documents",
+            "type": "array"
+        },
+        "subject": {
+            "ignore": true
+        }
+    },
+    "required": ["purchaserNames", "facilityAgreementDate", "solicitorCertDate"]
+}

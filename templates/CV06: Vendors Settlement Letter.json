@@ -1,0 +1,39 @@
+{
+    "extends": "Letter Template.json",
+    "description": "Vendors Settlement Letter",
+    "title": "Vendors Settlement Letter",
+    "properties": {
+
+        "vendorNames": {
+            "items": {
+                "type": "string",
+                "title": "Vendor Name"
+            },
+            "minItems": 1,
+            "title": "Vendor Names",
+            "type": "array"
+        },
+        "purchaserNames": {
+            "items": {
+                "type": "string",
+                "title": "Purchaser Name"
+            },
+            "minItems": 1,
+            "title": "Purchaser Names",
+            "type": "array"
+        },
+        "settlementDate": {
+            "title": "Settlement Date",
+            "type": "string",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "date"
+                }
+            }
+        },
+        "subject": {
+            "ignore": true
+        }
+    },
+    "required": ["vendorNames", "purchaserNames", "settlementDate"]
+}

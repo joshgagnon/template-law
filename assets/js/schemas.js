@@ -4,6 +4,9 @@ import fileClosingSchema from '../../templates/G03: File Closing Letter.json';
 import letterOfEngagementConveyancingSchema from '../../templates/CV01: Letter of Engagement - Conveyancing.json';
 import settleUnderTakingsSchema from '../../templates/CV03: Settlement Undertakings Letter - Acting for Purchaser.json';
 import settleUnderTakingsVendorSchema from '../../templates/CV04: Settlement Undertakings Letter - Acting for Vendor.json';
+import mortgageDischargeSchema from '../../templates/CV05: Mortgage Discharge Request.json';
+import vendorsSettlementSchema from '../../templates/CV06: Vendors Settlement Letter.json';
+import letterToFinancierSchema from '../../templates/CV07: Letter to Financier Enclosing Originals.json';
 import merge from 'deepmerge'
 
 
@@ -25,7 +28,16 @@ const FORMS = {
     },
     'CV04: Settlement Undertakings Letter - Acting for Vendor':{
         schema: merge(letterTemplateSchema, settleUnderTakingsVendorSchema)
-    }
+    },
+    'CV05: Mortgage Discharge Request':{
+        schema: merge(letterTemplateSchema, mortgageDischargeSchema)
+    },
+    'CV06: Vendors Settlement Letter':{
+        schema: merge(letterTemplateSchema, vendorsSettlementSchema)
+    },
+    'CV07: Letter to Financier Enclosing Originals':{
+        schema: merge(letterTemplateSchema, letterToFinancierSchema)
+    },
 };
 
 // REMOVE ignored fields, for validation
