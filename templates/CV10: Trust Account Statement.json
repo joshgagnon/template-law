@@ -1,0 +1,97 @@
+{
+    "extends": "Letter Template.json",
+    "description": "CV10: Trust Account Statement",
+    "title": "CV10: Trust Account Statement",
+    "properties": {
+        "matter": {
+            "type": "object",
+            "title": "Matter",
+            "properties": {
+                "matterType": {
+                    "title": "Matter Type",
+                    "enum": [
+                        "purchase",
+                        "sale",
+                        "refinance"
+                    ],
+                    "enumNames": [
+                        "Purchase",
+                        "Sale",
+                        "Refinance"
+                    ]
+                }
+            },
+            "oneOf": [{
+                "properties": {
+                    "matterType": {
+                        "enum": ["purchase"]
+                    },
+                     "assets": {
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "address": {
+                                    "title": "Address",
+                                    "type": "string"
+                                }
+                            },
+                            "required": ["address"]
+                        },
+                        "minItems": 1,
+                        "maxItems": 1,
+                        "title": "Properties",
+                        "type": "array"
+                    },
+                     "clients": {
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "clientName": {
+                                    "title": "Client Name",
+                                    "type": "string"
+                                },
+                                "kiwiSaverWithdrawal": {
+                                    "title": "KiwiSaver Withdrawal Credit",
+                                    "type": "number"
+                                },
+                                "kiwiSaverHomeStart": {
+                                    "title": "KiwiSaver Home Start Credit",
+                                    "type": "number"
+                                }
+                            },
+                            "required": ["clientName"]
+                        },
+                        "minItems": 1,
+                        "title": "Clients",
+                        "type": "array"
+                    }
+                }
+            }, {
+                "properties": {
+                    "matterType": {
+                        "enum": ["sale"]
+                    }
+                }
+            }, {
+                "properties": {
+                    "matterType": {
+                        "enum": ["refinance"]
+                    }
+                }
+            }],
+            "x-hints": {
+                "form": {
+                    "selector": "matterType"
+                }
+            }
+        },
+        "subject": {
+            "ignore": true
+        }
+    },
+    "required": ["matter"]
+}
+
+
+
+

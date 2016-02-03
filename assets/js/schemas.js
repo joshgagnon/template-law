@@ -7,6 +7,7 @@ import settleUnderTakingsVendorSchema from '../../templates/CV04: Settlement Und
 import mortgageDischargeSchema from '../../templates/CV05: Mortgage Discharge Request.json';
 import vendorsSettlementSchema from '../../templates/CV06: Vendors Settlement Letter.json';
 import letterToFinancierSchema from '../../templates/CV07: Letter to Financier Enclosing Originals.json';
+import trustAccountStatementSchema from '../../templates/CV10: Trust Account Statement.json';
 import merge from 'deepmerge'
 
 
@@ -38,6 +39,9 @@ const FORMS = {
     'CV07: Letter to Financier Enclosing Originals':{
         schema: merge(letterTemplateSchema, letterToFinancierSchema)
     },
+    'CV10: Trust Account Statement':{
+        schema: merge(letterTemplateSchema, trustAccountStatementSchema)
+    }
 };
 
 // REMOVE ignored fields, for validation

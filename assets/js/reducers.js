@@ -33,7 +33,7 @@ function active(state = {form: 'Letter of Engagement', values: {}, errors: {}}, 
             return {...state, values: action.data, errors: validate(schema, action.data, schema)};
         case SET_FORM:
             schema = FORMS[action.data.form].schema;
-            return {...state, form: action.data.form, errors: validate(schema, action.data, schema)};
+            return {...state, form: action.data.form, errors: validate(schema, state.values, schema)};
     }
     return state;
 }

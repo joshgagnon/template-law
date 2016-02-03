@@ -219,7 +219,7 @@ class ErrorDialog extends React.Component {
 class App extends React.Component {
 
     update(data) {
-        this.props.dispatch(updateValues(data.values));
+        this.props.dispatch(updateValues(data.output));
     }
 
     changeForm(e) {
