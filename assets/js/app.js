@@ -90,6 +90,18 @@ class FieldWrapper extends React.Component {
     }
 
     render() {
+        const width = this.props.schema && this.props.schema['x-hints'] &&
+            this.props.schema['x-hints'].form && this.props.schema['x-hints'].form.width;
+        if(width){
+            const classes = 'col-sm-' + (12/width);
+            return <div className={classes}>
+                { this.renderField() }
+                </div>
+        }
+        return this.renderField();
+    }
+
+    renderField() {
         let classes = 'form-group ';
         if(this.props.errors){
             classes += 'has-error has-feedback ';
@@ -123,7 +135,8 @@ class SectionWrapper extends React.Component {
     }
 
     renderControlledSection(){
-        return <fieldset className="form-section form-subsection">
+        let classes = "form-section form-subsection with-controls"
+        return <fieldset className={ classes }>
             <label htmlFor={this.props.label} className="col-sm-2 col-xs-12 control-label">{this.props.title}</label>
             <div className="col-sm-7 col-xs-7">
                 { this.props.children }
@@ -141,6 +154,7 @@ class SectionWrapper extends React.Component {
                     </button>
                     </div>
             </div> }
+            <hr/>
         </fieldset>
     }
 
@@ -267,7 +281,6 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return <div className="container">
             <div className="controls">
                 <form className="form-horizontal">

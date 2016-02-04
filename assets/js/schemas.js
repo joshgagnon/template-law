@@ -39,9 +39,9 @@ const FORMS = {
     'CV07: Letter to Financier Enclosing Originals':{
         schema: merge(letterTemplateSchema, letterToFinancierSchema)
     },
-    'CV10: Trust Account Statement':{
+   /* 'CV10: Trust Account Statement':{
         schema: merge(letterTemplateSchema, trustAccountStatementSchema)
-    }
+    }*/
 };
 
 // REMOVE ignored fields, for validation

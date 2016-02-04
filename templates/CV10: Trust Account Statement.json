@@ -1,14 +1,70 @@
 {
-    "extends": "Letter Template.json",
     "description": "CV10: Trust Account Statement",
-    "title": "CV10: Trust Account Statement",
+    "extends": "Letter Template.json",
+    "definitions": {
+        "debitableItem": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "title": "Description",
+                    "type": "string"
+                },
+                "debit": {
+                    "title": "Debit",
+                    "type": "number",
+                    "x-hints": {
+                        "form": {
+                            "width": 2
+                        }
+                    }
+                },
+                "date": {
+                    "title": "Date",
+                    "type": "string",
+                    "x-hints": {
+                        "form": {
+                            "inputComponent": "date",
+                            "width": 2
+                        }
+                    }
+                }
+            }
+        },
+        "creditableItem": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "title": "Description",
+                    "type": "string"
+                },
+                "credit": {
+                    "title": "Credit",
+                    "type": "number",
+                    "x-hints": {
+                        "form": {
+                            "width": 2
+                        }
+                    }
+                },
+                "date": {
+                    "title": "Date",
+                    "type": "string",
+                    "x-hints": {
+                        "form": {
+                            "inputComponent": "date",
+                            "width": 2
+                        }
+                    }
+                }
+            }
+        }
+    },
     "properties": {
         "matter": {
-            "type": "object",
             "title": "Matter",
+            "type": "object",
             "properties": {
                 "matterType": {
-                    "title": "Matter Type",
                     "enum": [
                         "purchase",
                         "sale",
@@ -18,67 +74,164 @@
                         "Purchase",
                         "Sale",
                         "Refinance"
-                    ]
+                    ],
+                    "title": "Matter Type"
                 }
             },
-            "oneOf": [{
-                "properties": {
-                    "matterType": {
-                        "enum": ["purchase"]
-                    },
-                     "assets": {
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "address": {
-                                    "title": "Address",
-                                    "type": "string"
-                                }
-                            },
-                            "required": ["address"]
-                        },
-                        "minItems": 1,
-                        "maxItems": 1,
-                        "title": "Properties",
-                        "type": "array"
-                    },
-                     "clients": {
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "clientName": {
-                                    "title": "Client Name",
-                                    "type": "string"
+            "oneOf": [
+                {
+                    "properties": {
+                        "assets": {
+                            "items": {
+                                "properties": {
+                                    "address": {
+                                        "title": "Address",
+                                        "type": "string"
+                                    }
                                 },
-                                "kiwiSaverWithdrawal": {
-                                    "title": "KiwiSaver Withdrawal Credit",
-                                    "type": "number"
-                                },
-                                "kiwiSaverHomeStart": {
-                                    "title": "KiwiSaver Home Start Credit",
-                                    "type": "number"
-                                }
+                                "required": [
+                                    "address"
+                                ],
+                                "type": "object"
                             },
-                            "required": ["clientName"]
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "title": "Properties",
+                            "type": "array"
                         },
-                        "minItems": 1,
-                        "title": "Clients",
-                        "type": "array"
+                        "clients": {
+                            "items": {
+                                "properties": {
+                                    "clientName": {
+                                        "title": "Client Name",
+                                        "type": "string"
+                                    },
+                                    "kiwiSaverWithdrawal": {
+                                        "type": "object",
+                                        "title": "Kiwi Saver First Home Buyer Widthdrawal",
+                                        "properties": {
+                                            "credit": {
+                                                "title": "Credit",
+                                                "type": "number",
+                                                "x-hints": {
+                                                    "form": {
+                                                        "width": 2
+                                                    }
+                                                }
+                                            },
+                                            "date": {
+                                                "title": "Date",
+                                                "type": "string",
+                                                "x-hints": {
+                                                    "form": {
+                                                        "inputComponent": "date",
+                                                        "width": 2
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "kiwiSaverHomeStart": {
+                                        "type": "object",
+                                        "title": "Kiwi Saver Home Start",
+                                        "properties": {
+                                            "credit": {
+                                                "title": "Credit",
+                                                "type": "number",
+                                                "x-hints": {
+                                                    "form": {
+                                                        "width": 2
+                                                    }
+                                                }
+                                            },
+                                            "date": {
+                                                "title": "Date",
+                                                "type": "string",
+                                                "x-hints": {
+                                                    "form": {
+                                                        "inputComponent": "date",
+                                                        "width": 2
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "balancePurchasePrice": {
+                                        "type": "object",
+                                        "title": "Balance of Purchase Price",
+                                        "properties": {
+                                            "debit": {
+                                                "title": "Debit",
+                                                "type": "number",
+                                                "x-hints": {
+                                                    "form": {
+                                                        "width": 2
+                                                    }
+                                                }
+                                            },
+                                            "date": {
+                                                "title": "Date",
+                                                "type": "string",
+                                                "x-hints": {
+                                                    "form": {
+                                                        "inputComponent": "date",
+                                                        "width": 2
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "clientName"
+                                ],
+                                "type": "object"
+                            },
+                            "minItems": 1,
+                            "title": "Clients",
+                            "type": "array"
+                        },
+                        "debits": {
+                            "type": "array",
+                            "title": "Debitable Items",
+                            "items": {
+                                "$ref": "#/definitions/debitableItem"
+                            }
+                        },
+                        "credits": {
+                            "type": "array",
+                            "title": "Creditable Items",
+                            "items": {
+                                "$ref": "#/definitions/creditableItem"
+                            }
+                        },
+                        "matterType": {
+                            "enum": [
+                                "purchase"
+                            ]
+                        }
+                    },
+                    "x-ordering": ["matterType", "assets", "clients", "debits", "credits"]
+                },
+                {
+                    "properties": {
+                        "matterType": {
+                            "enum": [
+                                "sale"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "matterType": {
+                            "enum": [
+                                "refinance"
+                            ]
+                        }
                     }
                 }
-            }, {
-                "properties": {
-                    "matterType": {
-                        "enum": ["sale"]
-                    }
-                }
-            }, {
-                "properties": {
-                    "matterType": {
-                        "enum": ["refinance"]
-                    }
-                }
-            }],
+            ],
             "x-hints": {
                 "form": {
                     "selector": "matterType"
@@ -89,9 +242,8 @@
             "ignore": true
         }
     },
-    "required": ["matter"]
+    "required": [
+        "matter"
+    ],
+    "title": "CV10: Trust Account Statement"
 }
-
-
-
-

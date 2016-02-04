@@ -75,6 +75,14 @@ html, body{
                 margin:4px;
             }
         }
+        hr{
+        clear: both;
+        width: 50%;
+
+        }
+        fieldset.with-controls{
+            padding-bottom:20px;
+        }
         & > fieldset {
             text-align: center;
             & > fieldset {
