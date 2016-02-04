@@ -172,7 +172,12 @@
                                             },
                                             "date": {
                                                 "title": "Date",
-                                                "type": "string"
+                                                "type": "string",
+                                                "x-hints": {
+                                                    "form": {
+                                                        "inputComponent": "date"
+                                                    }
+                                                }
                                             }
                                         }
                                     },
@@ -193,7 +198,12 @@
                                             },
                                             "date": {
                                                 "title": "Date",
-                                                "type": "string"
+                                                "type": "string",
+                                                "x-hints": {
+                                                    "form": {
+                                                        "inputComponent": "date"
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -219,7 +229,12 @@
                                 },
                                 "date": {
                                     "title": "Date",
-                                    "type": "string"
+                                    "type": "string",
+                                    "x-hints": {
+                                        "form": {
+                                            "inputComponent": "date"
+                                        }
+                                    }
                                 }
                             },
                             "required": [
