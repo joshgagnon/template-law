@@ -92,7 +92,7 @@ class FieldWrapper extends React.Component {
     render() {
         const width = this.props.schema && this.props.schema['x-hints'] &&
             this.props.schema['x-hints'].form && this.props.schema['x-hints'].form.width;
-        if(width){
+        if(width && false){
             const classes = 'col-sm-' + (12/width);
             return <div className={classes}>
                 { this.renderField() }
@@ -135,14 +135,15 @@ class SectionWrapper extends React.Component {
     }
 
     renderControlledSection(){
-        let classes = "form-section form-subsection with-controls"
-        return <fieldset className={ classes }>
-            <label htmlFor={this.props.label} className="col-sm-2 col-xs-12 control-label">{this.props.title}</label>
-            <div className="col-sm-7 col-xs-7">
+        let classes = "fieldset form-section form-subsection with-controls"
+        return <div  className={ classes }>
+            <div>
+            {/*<label htmlFor={this.props.label} className="col-sm-2 col-xs-12 control-label">{this.props.title}</label> */}
+            <div className="col-sm-9 col-xs-7">
                 { this.props.children }
             </div>
-            {!this.props.isLastItem  && <div className="col-sm-2 col-xs-5">
-                <div className="btn-group" role="group">
+            {!this.props.isLastItem  && <div className="col-sm-3 col-xs-5 list-controls">
+                <div className="btn-group  btn-group-xs" role="group">
                     <button className="btn btn-default" onClick={this.props.moveUp}>
                         <span className="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span>
                     </button>
@@ -154,21 +155,29 @@ class SectionWrapper extends React.Component {
                     </button>
                     </div>
             </div> }
-            <hr/>
-        </fieldset>
+            { !this.props.isLastItem  && <hr/> }
+        </div>
+        </div>
+    }
+
+    renderSection() {
+        if(this.props.canRemoveItem){
+            return this.renderControlledSection()
+        }
+        return <div className="fieldset form-section form-subsection">
+            { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
+            <div>
+            { this.props.children }
+            </div>
+            </div>
     }
 
     render() {
         if(this.props.schema && this.props.schema.ignore){
             return false;
         }
-        if(this.props.canRemoveItem){
-            return this.renderControlledSection()
-        }
-        return <fieldset className="form-section form-subsection">
-            { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
-            { this.props.children }
-            </fieldset>
+        return this.renderSection();
+
     }
 }
 

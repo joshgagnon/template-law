@@ -76,27 +76,55 @@ html, body{
             }
         }
         hr{
-        clear: both;
-        width: 50%;
-
+            clear: both;
+            width: 50%;
         }
-        fieldset.with-controls{
-            padding-bottom:20px;
+        .list-controls{
+            text-align: left;
         }
-        & > fieldset {
+        .form-group{
+            margin-bottom:4px;
+            margin-left:0;
+            margin-right:0;
+        }
+        label{
+            padding-right:0;
+        }
+        legend {
+            margin-bottom:4px;
+        }
+        .fieldset{
+             -webkit-column-break-inside: avoid;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        & > .fieldset {
             text-align: center;
-            & > fieldset {
-                text-align: center;
+            & > div{
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+                column-count: 2;
+            }
+
+            & > .fieldset, & > .form-group {
+                //@extend .col-md-6;
+                //width:50%
+            }
+            &  .fieldset {
+
                 legend {
                     border:none;
-                    font-size: 1.2em;
+                    font-size: 1em;
+                    font-style: italic;
+                    margin-top: 10px;
+
                 }
-                & > fieldset {
+                & .fieldset {
                     legend {
                         text-align: center;
                         font-size:1em;
-                        margin-left:40px;
-                        margin-bottom:6px;
+                        margin-top:1em;
+                        margin-bottom:0.5em;
                         font-style:italic;
                     }
                 }

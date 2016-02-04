@@ -10,29 +10,18 @@
                     "title": "Debit",
                     "type": "number",
                     "minimum": 0,
-                    "maximum": 100000000,
-                    "x-hints": {
-                        "form": {
-                            "width": 3
-                        }
-                    }
+                    "maximum": 100000000
                 },
                "mortgagee": {
                     "title": "Mortgagee",
-                    "type": "string",
-                    "x-hints": {
-                        "form": {
-                            "width": 3
-                        }
-                    }
+                    "type": "string"
                 },
                 "date": {
                     "title": "Date",
                     "type": "string",
                     "x-hints": {
                         "form": {
-                            "inputComponent": "date",
-                            "width": 3
+                            "inputComponent": "date"
                         }
                     }
                 }
@@ -46,29 +35,18 @@
                     "title": "Credit",
                     "type": "number",
                     "minimum": 0,
-                    "maximum": 100000000,
-                    "x-hints": {
-                        "form": {
-                            "width": 3
-                        }
-                    }
+                    "maximum": 100000000
                 },
                "financier": {
                     "title": "Financier",
-                    "type": "string",
-                    "x-hints": {
-                        "form": {
-                            "width": 3
-                        }
-                    }
+                    "type": "string"
                 },
                 "date": {
                     "title": "Date",
                     "type": "string",
                     "x-hints": {
                         "form": {
-                            "inputComponent": "date",
-                            "width": 3
+                            "inputComponent": "date"
                         }
                     }
                 }
@@ -85,20 +63,14 @@
                     "title": "Debit",
                     "type": "number",
                     "minimum": 0,
-                    "maximum": 100000000,
-                    "x-hints": {
-                        "form": {
-                            "width": 2
-                        }
-                    }
+                    "maximum": 100000000
                 },
                 "date": {
                     "title": "Date",
                     "type": "string",
                     "x-hints": {
                         "form": {
-                            "inputComponent": "date",
-                            "width": 2
+                            "inputComponent": "date"
                         }
                     }
                 }
@@ -118,20 +90,14 @@
                     "title": "Credit",
                     "type": "number",
                     "minimum": 0,
-                    "maximum": 100000000,
-                    "x-hints": {
-                        "form": {
-                            "width": 2
-                        }
-                    }
+                    "maximum": 100000000
                 },
                 "date": {
                     "title": "Date",
                     "type": "string",
                     "x-hints": {
                         "form": {
-                            "inputComponent": "date",
-                            "width": 2
+                            "inputComponent": "date"
                         }
                     }
                 }
@@ -202,22 +168,11 @@
                                                 "title": "Credit",
                                                 "type": "number",
                                                 "minimum": 0,
-                                                "maximum": 100000000,
-                                                "x-hints": {
-                                                    "form": {
-                                                        "width": 2
-                                                    }
-                                                }
+                                                "maximum": 100000000
                                             },
                                             "date": {
                                                 "title": "Date",
-                                                "type": "string",
-                                                "x-hints": {
-                                                    "form": {
-                                                        "inputComponent": "date",
-                                                        "width": 2
-                                                    }
-                                                }
+                                                "type": "string"
                                             }
                                         }
                                     },
@@ -238,13 +193,7 @@
                                             },
                                             "date": {
                                                 "title": "Date",
-                                                "type": "string",
-                                                "x-hints": {
-                                                    "form": {
-                                                        "inputComponent": "date",
-                                                        "width": 2
-                                                    }
-                                                }
+                                                "type": "string"
                                             }
                                         }
                                     }
@@ -266,22 +215,11 @@
                                     "title": "Debit",
                                     "type": "number",
                                     "minimum": 0,
-                                    "maximum": 100000000,
-                                    "x-hints": {
-                                        "form": {
-                                            "width": 2
-                                        }
-                                    }
+                                    "maximum": 100000000
                                 },
                                 "date": {
                                     "title": "Date",
-                                    "type": "string",
-                                    "x-hints": {
-                                        "form": {
-                                            "inputComponent": "date",
-                                            "width": 2
-                                        }
-                                    }
+                                    "type": "string"
                                 }
                             },
                             "required": [
@@ -329,20 +267,14 @@
                                     "title": "Debit",
                                     "type": "number",
                                     "minimum": 0,
-                                    "maximum": 100000000,
-                                    "x-hints": {
-                                        "form": {
-                                            "width": 2
-                                        }
-                                    }
+                                    "maximum": 100000000
                                 },
                                 "date": {
                                     "title": "Date",
                                     "type": "string",
                                     "x-hints": {
                                         "form": {
-                                            "inputComponent": "date",
-                                            "width": 2
+                                            "inputComponent": "date"
                                         }
                                     }
                                 }
@@ -359,29 +291,18 @@
                                     "title": "Credit",
                                     "type": "number",
                                     "minimum": 0,
-                                    "maximum": 100000000,
-                                    "x-hints": {
-                                        "form": {
-                                            "width": 3
-                                        }
-                                    }
+                                    "maximum": 100000000
                                 },
                                "lessCommission": {
                                     "title": "Less real estate agent's commission",
-                                    "type": "boolean",
-                                    "x-hints": {
-                                        "form": {
-                                            "width": 3
-                                        }
-                                    }
+                                    "type": "boolean"
                                 },
                                 "date": {
                                     "title": "Date",
                                     "type": "string",
                                     "x-hints": {
                                         "form": {
-                                            "inputComponent": "date",
-                                            "width": 3
+                                            "inputComponent": "date"
                                         }
                                     }
                                 }
@@ -489,8 +410,7 @@
                             "type": "string",
                             "x-hints": {
                                 "form": {
-                                    "inputComponent": "date",
-                                    "width": 2
+                                    "inputComponent": "date"
                                 }
                             }
                         },
@@ -498,12 +418,7 @@
                             "title": "Debit",
                             "type": "number",
                             "minimum": 0,
-                            "maximum": 100000000,
-                            "x-hints": {
-                                "form": {
-                                    "width": 2
-                                }
-                            }
+                            "maximum": 100000000
                         }
                     }
                 }
