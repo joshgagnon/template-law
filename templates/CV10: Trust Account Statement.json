@@ -9,6 +9,8 @@
                  "debit": {
                     "title": "Debit",
                     "type": "number",
+                    "minimum": 0,
+                    "maximum": 100000000,
                     "x-hints": {
                         "form": {
                             "width": 3
@@ -43,6 +45,8 @@
                  "credit": {
                     "title": "Credit",
                     "type": "number",
+                    "minimum": 0,
+                    "maximum": 100000000,
                     "x-hints": {
                         "form": {
                             "width": 3
@@ -80,6 +84,8 @@
                 "debit": {
                     "title": "Debit",
                     "type": "number",
+                    "minimum": 0,
+                    "maximum": 100000000,
                     "x-hints": {
                         "form": {
                             "width": 2
@@ -111,6 +117,8 @@
                 "credit": {
                     "title": "Credit",
                     "type": "number",
+                    "minimum": 0,
+                    "maximum": 100000000,
                     "x-hints": {
                         "form": {
                             "width": 2
@@ -131,6 +139,24 @@
             "required": [
                 "credit", "date"
             ]
+        },
+        "assets": {
+            "items": {
+                "properties": {
+                    "address": {
+                        "title": "Address",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "address"
+                ],
+                "type": "object"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "title": "Properties",
+            "type": "array"
         }
     },
     "properties": {
@@ -156,22 +182,7 @@
                 {
                     "properties": {
                         "assets": {
-                            "items": {
-                                "properties": {
-                                    "address": {
-                                        "title": "Address",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "address"
-                                ],
-                                "type": "object"
-                            },
-                            "maxItems": 1,
-                            "minItems": 1,
-                            "title": "Properties",
-                            "type": "array"
+                            "$ref": "#/definitions/assets"
                         },
                         "loadAdvance": {
                             "$ref": "#/definitions/loadAdvance"
@@ -190,6 +201,8 @@
                                             "credit": {
                                                 "title": "Credit",
                                                 "type": "number",
+                                                "minimum": 0,
+                                                "maximum": 100000000,
                                                 "x-hints": {
                                                     "form": {
                                                         "width": 2
@@ -215,6 +228,8 @@
                                             "credit": {
                                                 "title": "Credit",
                                                 "type": "number",
+                                                "minimum": 0,
+                                                "maximum": 100000000,
                                                 "x-hints": {
                                                     "form": {
                                                         "width": 2
@@ -245,11 +260,13 @@
                         },
                         "balancePurchasePrice": {
                             "type": "object",
-                            "title": "Balance of Purchase Price",
+                            "title": "Payment of Balance of Purchase Price",
                             "properties": {
                                 "debit": {
                                     "title": "Debit",
                                     "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100000000,
                                     "x-hints": {
                                         "form": {
                                             "width": 2
@@ -291,6 +308,7 @@
                             ]
                         }
                     },
+                    "required": ["matterType", "assets"],
                     "x-ordering": ["matterType", "assets", "loadAdvance", "clients", "debits", "credits"]
                 },
                 {
@@ -300,6 +318,9 @@
                                 "sale"
                             ]
                         },
+                        "assets": {
+                            "$ref": "#/definitions/assets"
+                        },
                         "balancePurchasePrice": {
                             "type": "object",
                             "title": "Balance of Purchase Price",
@@ -307,6 +328,8 @@
                                 "credit": {
                                     "title": "Debit",
                                     "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100000000,
                                     "x-hints": {
                                         "form": {
                                             "width": 2
@@ -335,15 +358,17 @@
                                 "credit": {
                                     "title": "Credit",
                                     "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100000000,
                                     "x-hints": {
                                         "form": {
                                             "width": 3
                                         }
                                     }
                                 },
-                               "commission": {
-                                    "title": "Realestate Agent's Commission",
-                                    "type": "number",
+                               "lessCommission": {
+                                    "title": "Less real estate agent's commission",
+                                    "type": "boolean",
                                     "x-hints": {
                                         "form": {
                                             "width": 3
@@ -383,6 +408,7 @@
                             }
                         }
                     },
+                    "required": ["matterType", "assets"],
                     "x-ordering": ["matterType", "assets", "balancePurchasePrice", "deposit", "repaymentOfIndebtedness", "debits", "credits"]
                 },
                 {
@@ -391,6 +417,9 @@
                             "enum": [
                                 "refinance"
                             ]
+                        },
+                        "assets": {
+                            "$ref": "#/definitions/assets"
                         },
                         "loadAdvance": {
                             "$ref": "#/definitions/loadAdvance"
@@ -412,9 +441,11 @@
                                 "$ref": "#/definitions/creditableItem"
                             }
                         }
-                    }
+                    },
+                    "required": ["matterType", "assets"]
                 }
             ],
+            "required": ["matterType"],
             "x-hints": {
                 "form": {
                     "selector": "matterType"
@@ -466,6 +497,8 @@
                         "debit": {
                             "title": "Debit",
                             "type": "number",
+                            "minimum": 0,
+                            "maximum": 100000000,
                             "x-hints": {
                                 "form": {
                                     "width": 2
@@ -486,7 +519,7 @@
         }
     },
     "required": [
-        "matter"
+        "matter", "settlementDate", "paidByTrust"
     ],
     "title": "CV10: Trust Account Statement"
 }
