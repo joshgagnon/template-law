@@ -2,6 +2,74 @@
     "description": "CV10: Trust Account Statement",
     "extends": "Letter Template.json",
     "definitions": {
+        "repaymentOfIndebtedness": {
+            "type": "object",
+            "title": "Repayment of indebtedness to discharge Mortgage",
+            "properties": {
+                 "debit": {
+                    "title": "Debit",
+                    "type": "number",
+                    "x-hints": {
+                        "form": {
+                            "width": 3
+                        }
+                    }
+                },
+               "mortgagee": {
+                    "title": "Mortgagee",
+                    "type": "string",
+                    "x-hints": {
+                        "form": {
+                            "width": 3
+                        }
+                    }
+                },
+                "date": {
+                    "title": "Date",
+                    "type": "string",
+                    "x-hints": {
+                        "form": {
+                            "inputComponent": "date",
+                            "width": 3
+                        }
+                    }
+                }
+            }
+        },
+        "loadAdvance": {
+            "type": "object",
+            "title": "Loan advance",
+            "properties": {
+                 "credit": {
+                    "title": "Credit",
+                    "type": "number",
+                    "x-hints": {
+                        "form": {
+                            "width": 3
+                        }
+                    }
+                },
+               "financier": {
+                    "title": "Financier",
+                    "type": "string",
+                    "x-hints": {
+                        "form": {
+                            "width": 3
+                        }
+                    }
+                },
+                "date": {
+                    "title": "Date",
+                    "type": "string",
+                    "x-hints": {
+                        "form": {
+                            "inputComponent": "date",
+                            "width": 3
+                        }
+                    }
+                }
+            }
+        },
         "debitableItem": {
             "type": "object",
             "properties": {
@@ -28,7 +96,10 @@
                         }
                     }
                 }
-            }
+            },
+            "required": [
+                "debit", "date"
+            ]
         },
         "creditableItem": {
             "type": "object",
@@ -56,7 +127,10 @@
                         }
                     }
                 }
-            }
+            },
+            "required": [
+                "credit", "date"
+            ]
         }
     },
     "properties": {
@@ -98,6 +172,9 @@
                             "minItems": 1,
                             "title": "Properties",
                             "type": "array"
+                        },
+                        "loadAdvance": {
+                            "$ref": "#/definitions/loadAdvance"
                         },
                         "clients": {
                             "items": {
@@ -155,31 +232,6 @@
                                                 }
                                             }
                                         }
-                                    },
-                                    "balancePurchasePrice": {
-                                        "type": "object",
-                                        "title": "Balance of Purchase Price",
-                                        "properties": {
-                                            "debit": {
-                                                "title": "Debit",
-                                                "type": "number",
-                                                "x-hints": {
-                                                    "form": {
-                                                        "width": 2
-                                                    }
-                                                }
-                                            },
-                                            "date": {
-                                                "title": "Date",
-                                                "type": "string",
-                                                "x-hints": {
-                                                    "form": {
-                                                        "inputComponent": "date",
-                                                        "width": 2
-                                                    }
-                                                }
-                                            }
-                                        }
                                     }
                                 },
                                 "required": [
@@ -190,6 +242,34 @@
                             "minItems": 1,
                             "title": "Clients",
                             "type": "array"
+                        },
+                        "balancePurchasePrice": {
+                            "type": "object",
+                            "title": "Balance of Purchase Price",
+                            "properties": {
+                                "debit": {
+                                    "title": "Debit",
+                                    "type": "number",
+                                    "x-hints": {
+                                        "form": {
+                                            "width": 2
+                                        }
+                                    }
+                                },
+                                "date": {
+                                    "title": "Date",
+                                    "type": "string",
+                                    "x-hints": {
+                                        "form": {
+                                            "inputComponent": "date",
+                                            "width": 2
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "debit", "date"
+                            ]
                         },
                         "debits": {
                             "type": "array",
@@ -211,7 +291,7 @@
                             ]
                         }
                     },
-                    "x-ordering": ["matterType", "assets", "clients", "debits", "credits"]
+                    "x-ordering": ["matterType", "assets", "loadAdvance", "clients", "debits", "credits"]
                 },
                 {
                     "properties": {
@@ -219,8 +299,91 @@
                             "enum": [
                                 "sale"
                             ]
+                        },
+                        "balancePurchasePrice": {
+                            "type": "object",
+                            "title": "Balance of Purchase Price",
+                            "properties": {
+                                "credit": {
+                                    "title": "Debit",
+                                    "type": "number",
+                                    "x-hints": {
+                                        "form": {
+                                            "width": 2
+                                        }
+                                    }
+                                },
+                                "date": {
+                                    "title": "Date",
+                                    "type": "string",
+                                    "x-hints": {
+                                        "form": {
+                                            "inputComponent": "date",
+                                            "width": 2
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "credit", "date"
+                            ]
+                        },
+                        "deposit": {
+                            "type": "object",
+                            "title": "Payment of deposit",
+                            "properties": {
+                                "credit": {
+                                    "title": "Credit",
+                                    "type": "number",
+                                    "x-hints": {
+                                        "form": {
+                                            "width": 3
+                                        }
+                                    }
+                                },
+                               "commission": {
+                                    "title": "Realestate Agent's Commission",
+                                    "type": "number",
+                                    "x-hints": {
+                                        "form": {
+                                            "width": 3
+                                        }
+                                    }
+                                },
+                                "date": {
+                                    "title": "Date",
+                                    "type": "string",
+                                    "x-hints": {
+                                        "form": {
+                                            "inputComponent": "date",
+                                            "width": 3
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "credit", "date"
+                            ]
+                        },
+                        "repaymentOfIndebtedness": {
+                            "$ref": "#/definitions/repaymentOfIndebtedness"
+                        },
+                        "debits": {
+                            "type": "array",
+                            "title": "Debitable Items",
+                            "items": {
+                                "$ref": "#/definitions/debitableItem"
+                            }
+                        },
+                        "credits": {
+                            "type": "array",
+                            "title": "Creditable Items",
+                            "items": {
+                                "$ref": "#/definitions/creditableItem"
+                            }
                         }
-                    }
+                    },
+                    "x-ordering": ["matterType", "assets", "balancePurchasePrice", "deposit", "repaymentOfIndebtedness", "debits", "credits"]
                 },
                 {
                     "properties": {
@@ -228,6 +391,26 @@
                             "enum": [
                                 "refinance"
                             ]
+                        },
+                        "loadAdvance": {
+                            "$ref": "#/definitions/loadAdvance"
+                        },
+                        "repaymentOfIndebtedness": {
+                            "$ref": "#/definitions/repaymentOfIndebtedness"
+                        },
+                        "debits": {
+                            "type": "array",
+                            "title": "Debitable Items",
+                            "items": {
+                                "$ref": "#/definitions/debitableItem"
+                            }
+                        },
+                        "credits": {
+                            "type": "array",
+                            "title": "Creditable Items",
+                            "items": {
+                                "$ref": "#/definitions/creditableItem"
+                            }
                         }
                     }
                 }
@@ -235,6 +418,66 @@
             "x-hints": {
                 "form": {
                     "selector": "matterType"
+                }
+            }
+        },
+        "settlementDate": {
+            "title": "Settlement Date",
+            "type": "string",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "date"
+                }
+            }
+        },
+        "paidByTrust": {
+            "properties": {
+                "paidByTrust": {
+                    "title": "Invoice Paid by Trust",
+                    "enum": [
+                        "No",
+                        "Yes"
+                    ]
+                }
+            },
+            "oneOf": [
+                 {
+                    "properties": {
+                        "paidByTrust": {
+                            "enum": ["No"]
+                        }
+                    }
+                },
+                 {
+                    "properties": {
+                        "paidByTrust": {
+                            "enum": ["Yes"]
+                        },
+                        "date": {
+                            "title": "Date",
+                            "type": "string",
+                            "x-hints": {
+                                "form": {
+                                    "inputComponent": "date",
+                                    "width": 2
+                                }
+                            }
+                        },
+                        "debit": {
+                            "title": "Debit",
+                            "type": "number",
+                            "x-hints": {
+                                "form": {
+                                    "width": 2
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "paidByTrust"
                 }
             }
         },
