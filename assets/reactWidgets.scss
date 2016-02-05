@@ -67,12 +67,13 @@ $rw-version:          "4.1.0";
   border:           $popover-border-color 1px solid;
   background:       $popover-bg;
   padding:          2px;
-  overflow:         auto;
+  /*overflow:         auto;*/
 
   // the offsets allows for drop shadow to not be clipped by the container
   margin-bottom:    10px;
   left:             10px;
   right:            10px;
+
 
   .rw-dropup > & {
     margin-bottom: 0;

@@ -8,6 +8,7 @@ import mortgageDischargeSchema from '../../templates/CV05: Mortgage Discharge Re
 import vendorsSettlementSchema from '../../templates/CV06: Vendors Settlement Letter.json';
 import letterToFinancierSchema from '../../templates/CV07: Letter to Financier Enclosing Originals.json';
 import trustAccountStatementSchema from '../../templates/CV10: Trust Account Statement.json';
+import trustAccountStatementDerivedFields from '../../templates/calculations/CV10.js';
 import merge from 'deepmerge'
 
 
@@ -40,7 +41,8 @@ const FORMS = {
         schema: merge(letterTemplateSchema, letterToFinancierSchema)
     },
     'CV10: Trust Account Statement':{
-        schema: merge(letterTemplateSchema, trustAccountStatementSchema)
+        schema: merge(letterTemplateSchema, trustAccountStatementSchema),
+        calcuations: trustAccountStatementDerivedFields
     }
 };
 

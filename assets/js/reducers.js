@@ -21,19 +21,26 @@ function validate(schema, values, ctx){
     return hashedErrors(validator(schema, values, ctx)) || {};
 }
 
+function calculate(form, values){
+    if(FORMS[form].calculate){
+        return {...values, ...FORM[form].calculate(values)}
+    }
+    return values;
+}
+
+
 function active(state = {form: 'Letter of Engagement', values: {}, errors: {}}, action) {
     let schema;
-
     switch(action.type){
         case SET_ACTIVE_STATE:
             schema = FORMS[action.data.form].schema;
-            return {...action.data, errors: validate(schema, action.data, schema)};
+            return {...action.data, values: calculate(action.data.form, action.values), errors: validate(schema, action.data, schema)};
         case UPDATE_VALUES:
             schema = FORMS[state.form].schema;
-            return {...state, values: action.data, errors: validate(schema, action.data, schema)};
+            return {...state, values: calculate(state.form, action.data), errors: validate(schema, action.data, schema)};
         case SET_FORM:
             schema = FORMS[action.data.form].schema;
-            return {...state, form: action.data.form, errors: validate(schema, state.values, schema)};
+            return {...state, values: calculate(action.data.form, state.values), form: action.data.form, errors: validate(schema, state.values, schema)};
     }
     return state;
 }
