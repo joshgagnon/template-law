@@ -114,7 +114,11 @@ html, body{
             margin-left:0;
             margin-right:0;
             text-align: left;
+           &.has-error.has-feedback {
+                text-align: center;
+            }
         }
+
         label{
             padding-right:0;
         }
