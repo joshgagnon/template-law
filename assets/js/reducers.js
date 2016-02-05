@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { UPDATE_VALUES, SET_FORM, RENDER_REQUEST , RENDER_SUCCESS, RENDER_FAILURE, HIDE_ERROR, OPEN_MODAL, CLOSE_MODAL, SET_ACTIVE_STATE } from './actions';
+import { UPDATE_VALUES, SET_FORM, RENDER_REQUEST , RENDER_SUCCESS, RENDER_FAILURE, HIDE_ERROR, OPEN_MODAL, CLOSE_MODAL, SET_ACTIVE_STATE, TOGGLE_COLUMNS } from './actions';
 import validator from 'react-json-editor/lib/validate';
 import FORMS from './schemas';
 
@@ -23,7 +23,7 @@ function validate(schema, values, ctx){
 
 function calculate(form, values){
     if(FORMS[form].calculate){
-        return {...values, ...FORM[form].calculate(values)}
+        return FORMS[form].calculate(values)
     }
     return values;
 }
@@ -69,10 +69,20 @@ function modals(state = {}, action) {
     return state;
 }
 
+function view(state={}, action){
+    switch(action.type){
+        case TOGGLE_COLUMNS:
+            return {...state, columns: action.state}
+    }
+    return state;
+}
+
+
 const rootReducer = combineReducers({
     active,
     status,
-    modals
+    modals,
+    view
 });
 
 

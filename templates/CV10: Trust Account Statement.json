@@ -52,60 +52,6 @@
                 }
             }
         },
-        "debitableItem": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "title": "Description",
-                    "type": "string"
-                },
-                "debit": {
-                    "title": "Debit",
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100000000
-                },
-                "date": {
-                    "title": "Date",
-                    "type": "string",
-                    "x-hints": {
-                        "form": {
-                            "inputComponent": "date"
-                        }
-                    }
-                }
-            },
-            "required": [
-                "debit", "date"
-            ]
-        },
-        "creditableItem": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "title": "Description",
-                    "type": "string"
-                },
-                "credit": {
-                    "title": "Credit",
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100000000
-                },
-                "date": {
-                    "title": "Date",
-                    "type": "string",
-                    "x-hints": {
-                        "form": {
-                            "inputComponent": "date"
-                        }
-                    }
-                }
-            },
-            "required": [
-                "credit", "date"
-            ]
-        },
         "assets": {
             "items": {
                 "properties": {
@@ -241,20 +187,6 @@
                                 "debit", "date"
                             ]
                         },
-                        "debits": {
-                            "type": "array",
-                            "title": "Debitable Items",
-                            "items": {
-                                "$ref": "#/definitions/debitableItem"
-                            }
-                        },
-                        "credits": {
-                            "type": "array",
-                            "title": "Creditable Items",
-                            "items": {
-                                "$ref": "#/definitions/creditableItem"
-                            }
-                        },
                         "matterType": {
                             "enum": [
                                 "purchase"
@@ -262,7 +194,7 @@
                         }
                     },
                     "required": ["matterType", "assets"],
-                    "x-ordering": ["matterType", "assets", "loadAdvance", "clients", "debits", "credits"]
+                    "x-ordering": ["matterType", "assets", "loadAdvance", "clients"]
                 },
                 {
                     "properties": {
@@ -328,24 +260,10 @@
                         },
                         "repaymentOfIndebtedness": {
                             "$ref": "#/definitions/repaymentOfIndebtedness"
-                        },
-                        "debits": {
-                            "type": "array",
-                            "title": "Debitable Items",
-                            "items": {
-                                "$ref": "#/definitions/debitableItem"
-                            }
-                        },
-                        "credits": {
-                            "type": "array",
-                            "title": "Creditable Items",
-                            "items": {
-                                "$ref": "#/definitions/creditableItem"
-                            }
                         }
                     },
                     "required": ["matterType", "assets"],
-                    "x-ordering": ["matterType", "assets", "balancePurchasePrice", "deposit", "repaymentOfIndebtedness", "debits", "credits"]
+                    "x-ordering": ["matterType", "assets", "balancePurchasePrice", "deposit", "repaymentOfIndebtedness"]
                 },
                 {
                     "properties": {
@@ -362,20 +280,6 @@
                         },
                         "repaymentOfIndebtedness": {
                             "$ref": "#/definitions/repaymentOfIndebtedness"
-                        },
-                        "debits": {
-                            "type": "array",
-                            "title": "Debitable Items",
-                            "items": {
-                                "$ref": "#/definitions/debitableItem"
-                            }
-                        },
-                        "credits": {
-                            "type": "array",
-                            "title": "Creditable Items",
-                            "items": {
-                                "$ref": "#/definitions/creditableItem"
-                            }
                         }
                     },
                     "required": ["matterType", "assets"]
@@ -386,6 +290,68 @@
                 "form": {
                     "selector": "matterType"
                 }
+            }
+        },
+        "debits": {
+            "type": "array",
+            "title": "Debitable Items",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "debit": {
+                        "title": "Debit",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 100000000
+                    },
+                    "date": {
+                        "title": "Date",
+                        "type": "string",
+                        "x-hints": {
+                            "form": {
+                                "inputComponent": "date"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "debit", "date"
+                ]
+            }
+        },
+        "credits": {
+            "type": "array",
+            "title": "Creditable Items",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "credit": {
+                        "title": "Credit",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 100000000
+                    },
+                    "date": {
+                        "title": "Date",
+                        "type": "string",
+                        "x-hints": {
+                            "form": {
+                                "inputComponent": "date"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "credit", "date", "description"
+                ]
             }
         },
         "settlementDate": {
@@ -446,6 +412,24 @@
         },
         "subject": {
             "ignore": true
+        },
+        "totalDebits": {
+            "type": "number",
+            "title": "Total Debits",
+            "x-hints": {
+                "form": {
+                    "inputComponent": "readOnlyCurrency"
+                }
+            }
+        },
+        "totalCredits": {
+            "type": "number",
+            "title": "Total Credits",
+            "x-hints": {
+                "form": {
+                    "inputComponent": "readOnlyCurrency"
+                }
+            }
         }
     },
     "required": [

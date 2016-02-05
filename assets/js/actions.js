@@ -10,6 +10,7 @@ export const SET_FORM = 'SET_FORM';
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const SET_ACTIVE_STATE= 'SET_ACTIVE_STATE';
+export const TOGGLE_COLUMNS = 'TOGGLE_COLUMNS';
 
 
 const json_headers = {
@@ -22,6 +23,13 @@ export function updateValues(data){
         type: UPDATE_VALUES, data
     }
 }
+
+export function toggleColumns(state){
+    return {
+        type: TOGGLE_COLUMNS, state
+    }
+}
+
 
 export function setForm(data){
     return {

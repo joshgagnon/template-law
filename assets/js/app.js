@@ -8,13 +8,19 @@ import DateInput from './datePicker';
 import SaveLoadDialogs from './SaveLoadDialogs';
 import configureStore from './configureStore';
 import Form from 'react-json-editor/lib';
-import { updateValues, renderDocument, setForm, hideError, openModal } from './actions';
+import { updateValues, renderDocument, setForm, hideError, openModal, toggleColumns } from './actions';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import './helpers';
 import moment from 'moment';
 import FORMS from './schemas';
 
+
+export function numberWithCommas(x) {
+    const parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
 
 
 console.log(FORMS);
@@ -51,9 +57,23 @@ class TextArea extends React.Component {
 }
 
 
+class ReadOnly extends React.Component {
+    render() {
+        return <div className="text read-only">{ this.props.value }</div>
+    }
+}
+
+class ReadOnlyCurrency extends React.Component {
+    render() {
+        return <div className="text read-only">${ numberWithCommas(this.props.value || 0) }</div>
+    }
+}
+
 const handlers = {
     'textarea': TextArea,
-    'date': DateInput
+    'date': DateInput,
+    "readOnly": ReadOnly,
+    "readOnlyCurrency": ReadOnlyCurrency
 }
 
 
@@ -64,13 +84,13 @@ class FieldWrapper extends React.Component {
     renderControlledField(classes){
         return <div className={classes} key={this.props.label} >
             <label htmlFor={this.props.label} className="col-sm-3 col-xs-12 control-label">{this.props.title}</label>
-            <div className="col-sm-7 col-xs-7">
+            <div className="col-sm-6 col-xs-7">
                 {  this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
                 {  this.props.children }
                 { this.props.description && this.description() }
             </div>
-            <div className="col-sm-2 col-xs-5">
-                <div className="btn-group" role="group">
+            <div className="col-sm-3 col-xs-5">
+                <div className="btn-group btn-group-xs " role="group">
                     <button className="btn btn-default" onClick={this.props.children.props.moveUp}>
                         <span className="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span>
                     </button>
@@ -249,6 +269,10 @@ class App extends React.Component {
         this.props.dispatch(setForm({form: findDOMNode(this.refs.formName).value }));
     }
 
+    changeColumns() {
+        this.props.dispatch(toggleColumns(findDOMNode(this.refs.columns).checked))
+    }
+
     reset() {
         this.props.dispatch(updateValues(DEFAULT_DATA.active.values));
     }
@@ -290,16 +314,27 @@ class App extends React.Component {
     }
 
     render() {
+        let classes = "controls "
+        if(this.props.view.columns){
+            classes += 'columns '
+        }
         return <div className="container">
-            <div className="controls">
+            <div className={classes}>
                 <form className="form-horizontal">
-                    <FieldWrapper label="select" title="Form">
-                      <select ref="formName" className="form-control" onChange={::this.changeForm} value={this.props.active.form}>
-                            { Object.keys(FORMS).map((m, i)=>{
-                                return <option key={i} value={m}>{m}</option>
-                            })}
-                      </select>
-                    </FieldWrapper>
+                    <div className="col-md-8">
+                        <FieldWrapper label="select" title="Form">
+                          <select ref="formName" className="form-control" onChange={::this.changeForm} value={this.props.active.form}>
+                                { Object.keys(FORMS).map((m, i)=>{
+                                    return <option key={i} value={m}>{m}</option>
+                                })}
+                          </select>
+                        </FieldWrapper>
+                    </div>
+                    <div className="col-md-4">
+                        <FieldWrapper label="select" title="Columns">
+                            <input ref="columns" type="checkbox" onChange={::this.changeColumns} value={this.props.view.columns}/>
+                        </FieldWrapper>
+                    </div>
                 </form>
                 <Form ref="form" className="form-horizontal"
                     buttons={::this.buttons}

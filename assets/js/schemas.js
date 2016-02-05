@@ -42,7 +42,7 @@ const FORMS = {
     },
     'CV10: Trust Account Statement':{
         schema: merge(letterTemplateSchema, trustAccountStatementSchema),
-        calcuations: trustAccountStatementDerivedFields
+        calculate: trustAccountStatementDerivedFields
     }
 };
 

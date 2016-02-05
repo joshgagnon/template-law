@@ -71,6 +71,30 @@ html, body{
     button .glyphicon{
         top: 3px;
     }
+
+    &.columns {
+        form {
+            & > .fieldset {
+                & > div{
+                    -webkit-column-count: 2;
+                    -moz-column-count: 2;
+                    column-count: 2;
+                     & > .fieldset {
+                        -webkit-column-break-inside: avoid;
+                        page-break-inside: avoid;
+                        break-inside: avoid;
+                        & > * {
+                            display: inline-block;
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
     form {
         p {
             text-align:center;
@@ -89,6 +113,7 @@ html, body{
             margin-bottom:4px;
             margin-left:0;
             margin-right:0;
+            text-align: left;
         }
         label{
             padding-right:0;
@@ -100,13 +125,7 @@ html, body{
         & > .fieldset {
             text-align: center;
             & > div{
-                -webkit-column-count: 2;
-                -moz-column-count: 2;
-                column-count: 2;
                 & > .fieldset {
-                    -webkit-column-break-inside: avoid;
-                    page-break-inside: avoid;
-                    break-inside: avoid;
                     & > * {
                         display: inline-block;
                         width: 100%;
@@ -137,6 +156,11 @@ html, body{
                     }
                 }
             }
+        }
+
+        .read-only{
+            margin-bottom: 0;
+            padding-top: 7px;
         }
     }
 }
