@@ -187,6 +187,7 @@ class SectionWrapper extends React.Component {
         }
         return <div className="fieldset form-section form-subsection">
             { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
+            { (!this.props.title && this.props.errors) &&  <legend>{ this.errors() }</legend>}
             <div>
             { this.props.children }
             </div>
@@ -194,9 +195,6 @@ class SectionWrapper extends React.Component {
     }
 
     render() {
-        if(this.props.schema && this.props.schema.ignore){
-            return false;
-        }
         return this.renderSection();
 
     }
@@ -319,6 +317,7 @@ class App extends React.Component {
         if(this.props.view.columns){
             classes += 'columns '
         }
+        console.log('PROPS', this.props)
         return <div className="container">
             <div className={classes}>
                 <form className="form-horizontal">
