@@ -1,0 +1,195 @@
+{
+    "title": "DR01: Letter of Demand",
+    "description": "DR01: Letter of Demand",
+    "extends": "Letter Template.json",
+    "properties": {
+        "creditor": {
+            "type": "string",
+            "title": "Name of Creditor"
+        },
+        "debtor": {
+            "type": "string",
+            "title": "Name of Debtor"
+        },
+        "documentName": {
+            "type": "string",
+            "title": "Name of Document",
+            "description": "Name of document under which debt arises"
+        },
+        "documentDate": {
+            "title": "Date of Document",
+            "type": "string",
+            "x-hints": {
+                "form": {
+                    "inputComponent": "date"
+                }
+            }
+        },
+        "debtDate": {
+            "title": "Date Debt Calculated",
+            "type": "string",
+            "x-hints": {
+                "form": {
+                    "inputComponent": "date"
+                }
+            }
+        },
+        "totalIndebtedness": {
+            "title": "Total Indebtedness",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100000000
+        },
+        "breakdown": {
+            "type": "object",
+            "title": "Breakdown",
+            "properties": {
+                "show": {
+                    "title": "Show Breakdown",
+                    "enum": ["No", "Yes"]
+                }
+            },
+            "oneOf": [{
+                    "properties": {
+                        "show": {
+                            "enum": ["No"]
+                        }
+                    }
+                },{
+                    "properties": {
+                        "show": {
+                            "enum": ["Yes"]
+                        },
+                        "principalSum": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "title": "Principal Sum Amount",
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100000000,
+                                    "description": "Principal sum owing under the Agreement"
+                                },
+                                "date": {
+                                    "title": "Principal Sum Date",
+                                    "type": "string",
+                                    "x-hints": {
+                                        "form": {
+                                            "inputComponent": "date"
+                                        }
+                                    }
+                                }
+                            },
+                            "required": ["amount", "date"]
+                        },
+                        "interestAccrued": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "title": "Interest accrued",
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100000000,
+                                    "description": "Interest accrued under the Agreement"
+                                },
+                                "dateStart": {
+                                    "title": "Interest Date Start",
+                                    "type": "string",
+                                    "x-hints": {
+                                        "form": {
+                                            "inputComponent": "date"
+                                        }
+                                    }
+                                },
+                                "dateEnd": {
+                                    "title": "Interest Date End",
+                                    "type": "string",
+                                    "x-hints": {
+                                        "form": {
+                                            "inputComponent": "date"
+                                        }
+                                    }
+                                }
+                            },
+                            "required": ["amount", "dateStart", "dateEnd"]
+                        },
+                        "costsToCreditor": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "title": "Costs to Creditor",
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100000000,
+                                    "description": "Costs the Creditor has incurred to date in enforcing the Debtor’s obligations under the Agreement"
+                                }
+                            },
+                            "required": ["amount"]
+                        },
+                        "userDefined": {
+                            "type": "array",
+                            "title": "User Defined Line Items",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "title": "Description",
+                                        "type": "string"
+                                    },
+                                    "amount": {
+                                        "title": "Amount",
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 100000000
+                                    }
+                                },
+                                "required": [
+                                    "description", "amount"
+                                ]
+                            },
+                            "required": ["amount", "description"]
+                        },
+                        "calculatedAmount": {
+                            "type": "number",
+                            "title": "Calculated Amount",
+                            "x-hints": {
+                                "form": {
+                                    "inputComponent": "readOnlyCurrency"
+                                }
+                            }
+                        }
+                    },
+                    "required": ["principalSum", "interestAccrued", "costsToCreditor"]
+                }],
+            "x-hints": {
+                "form": {
+                    "selector": "show"
+                }
+            }
+        },
+        "interestIncluded": {
+            "type": "boolean",
+            "title": "Interest Amount Included",
+            "description": "Interest continues to accrue on the outstanding amount in accordance with the Agreement"
+        },
+        "deadline": {
+            "title": "Deadline for Payment",
+            "type": "string",
+            "x-hints": {
+                "form": {
+                    "inputComponent": "date"
+                }
+            }
+        },
+        "secuiredDebt": {
+            "type": "boolean",
+            "title": "Is Secured Debt"
+        },
+        "subject": {
+            "ignore": true
+        }
+    },
+    "required": [
+        "creditor", "debtor", "documentName", "documentDate", "breakdown"
+    ]
+}

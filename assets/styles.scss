@@ -114,9 +114,14 @@ html, body{
             margin-left:0;
             margin-right:0;
             text-align: left;
+            clear: left;
            &.has-error.has-feedback {
                 text-align: center;
             }
+        }
+
+        .description{
+            padding-left:12px;
         }
 
         label{

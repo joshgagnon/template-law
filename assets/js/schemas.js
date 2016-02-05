@@ -9,6 +9,8 @@ import vendorsSettlementSchema from '../../templates/CV06: Vendors Settlement Le
 import letterToFinancierSchema from '../../templates/CV07: Letter to Financier Enclosing Originals.json';
 import trustAccountStatementSchema from '../../templates/CV10: Trust Account Statement.json';
 import trustAccountStatementDerivedFields from '../../templates/calculations/CV10.js';
+import demandCalculate from '../../templates/calculations/DR01.js';
+import demandSchema from '../../templates/DR01: Letter of Demand.json';
 import merge from 'deepmerge'
 
 
@@ -43,6 +45,10 @@ const FORMS = {
     'CV10: Trust Account Statement':{
         schema: merge(letterTemplateSchema, trustAccountStatementSchema),
         calculate: trustAccountStatementDerivedFields
+    },
+    'DR01: Letter of Demand':{
+        schema: merge(letterTemplateSchema, demandSchema),
+        calculate: demandCalculate
     }
 };
 

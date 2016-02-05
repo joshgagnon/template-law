@@ -106,7 +106,7 @@ class FieldWrapper extends React.Component {
     }
 
     description() {
-        return <em>{this.props.description}</em>
+        return <em className="description">{this.props.description}</em>
     }
 
     render() {
@@ -175,6 +175,7 @@ class SectionWrapper extends React.Component {
                     </button>
                     </div>
             </div> }
+            { this.props.isLastItem  && <div className="col-sm-3 col-xs-5"></div> }
             { !this.props.isLastItem  && <hr/> }
         </div>
         </div>
