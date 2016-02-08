@@ -9,7 +9,7 @@ export default class DateInput extends React.Component {
 
     render() {
         const format="D MMMM YYYY";
-        const readFormats = [format, "D M YYYY", "D/M/YYYY", "D-M-YYYY"]
+        const readFormats = [format, "D M YYYY", "D MMM YYYY", "D/M/YYYY", "D-M-YYYY"]
         return <DateTimePicker
             {...this.props}
             time={false}

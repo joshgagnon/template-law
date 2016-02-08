@@ -271,19 +271,23 @@ class App extends React.Component {
         this.props.dispatch(toggleColumns(findDOMNode(this.refs.columns).checked))
     }
 
-    reset() {
+    reset(e) {
+        e.preventDefault();
         this.props.dispatch(updateValues({values: DEFAULT_DATA.active.values, output: DEFAULT_DATA.active.values}));
     }
 
-    save() {
+    save(e) {
+        e.preventDefault();
         this.props.dispatch(openModal('save'))
     }
 
-    load() {
+    load(e) {
+        e.preventDefault();
         this.props.dispatch(openModal('load'));
     }
 
-    generate() {
+    generate(e) {
+        e.preventDefault();
         let filename;
         this.props.dispatch(renderDocument({formName: this.props.active.form,
                 values: {...this.props.active.output, mappings: FORMS[this.props.active.form].schema.mappings }}))
@@ -304,9 +308,6 @@ class App extends React.Component {
     buttons() {
         const valid = !Object.keys(this.props.active.errors).length
         return <p>
-            <button className="btn btn-info" onClick={::this.load}>Load</button>
-            <button className="btn btn-info" onClick={::this.save}>Save</button>
-            <button className="btn btn-warning" onClick={::this.reset}>Reset</button>
             <button className="btn btn-primary" onClick={::this.generate} ref='submit' disabled={!valid}>Generate File</button>
             </p>
     }
@@ -320,7 +321,8 @@ class App extends React.Component {
         return <div className="container">
             <div className={classes}>
                 <form className="form-horizontal">
-                    <div className="col-md-8">
+                    <div className="row">
+                        <div className="col-md-8">
                         <FieldWrapper label="select" title="Form">
                           <select ref="formName" className="form-control" onChange={::this.changeForm} value={this.props.active.form}>
                                 { Object.keys(FORMS).map((m, i)=>{
@@ -334,6 +336,12 @@ class App extends React.Component {
                             <input ref="columns" type="checkbox" onChange={::this.changeColumns} value={this.props.view.columns}/>
                         </FieldWrapper>
                     </div>
+                    </div>
+                     <div><p>
+                        <button className="btn btn-info" onClick={::this.load}>Load</button>
+                        <button className="btn btn-info" onClick={::this.save}>Save</button>
+                        <button className="btn btn-warning" onClick={::this.reset}>Reset</button>
+                        </p></div>
                 </form>
                 <Form ref="form" className="form-horizontal"
                     buttons={::this.buttons}

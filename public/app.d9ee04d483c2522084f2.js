@@ -628,22 +628,26 @@
 	        }
 	    }, {
 	        key: 'reset',
-	        value: function reset() {
+	        value: function reset(e) {
+	            e.preventDefault();
 	            this.props.dispatch((0, _actions.updateValues)({ values: DEFAULT_DATA.active.values, output: DEFAULT_DATA.active.values }));
 	        }
 	    }, {
 	        key: 'save',
-	        value: function save() {
+	        value: function save(e) {
+	            e.preventDefault();
 	            this.props.dispatch((0, _actions.openModal)('save'));
 	        }
 	    }, {
 	        key: 'load',
-	        value: function load() {
+	        value: function load(e) {
+	            e.preventDefault();
 	            this.props.dispatch((0, _actions.openModal)('load'));
 	        }
 	    }, {
 	        key: 'generate',
-	        value: function generate() {
+	        value: function generate(e) {
+	            e.preventDefault();
 	            var filename = undefined;
 	            this.props.dispatch((0, _actions.renderDocument)({ formName: this.props.active.form,
 	                values: _extends({}, this.props.active.output, { mappings: _schemas2.default[this.props.active.form].schema.mappings }) })).then(function (response) {
@@ -664,21 +668,6 @@
 	            return _react2.default.createElement(
 	                'p',
 	                null,
-	                _react2.default.createElement(
-	                    'button',
-	                    { className: 'btn btn-info', onClick: this.load.bind(this) },
-	                    'Load'
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    { className: 'btn btn-info', onClick: this.save.bind(this) },
-	                    'Save'
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    { className: 'btn btn-warning', onClick: this.reset.bind(this) },
-	                    'Reset'
-	                ),
 	                _react2.default.createElement(
 	                    'button',
 	                    { className: 'btn btn-primary', onClick: this.generate.bind(this), ref: 'submit', disabled: !valid },
@@ -707,30 +696,57 @@
 	                        { className: 'form-horizontal' },
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'col-md-8' },
+	                            { className: 'row' },
 	                            _react2.default.createElement(
-	                                FieldWrapper,
-	                                { label: 'select', title: 'Form' },
+	                                'div',
+	                                { className: 'col-md-8' },
 	                                _react2.default.createElement(
-	                                    'select',
-	                                    { ref: 'formName', className: 'form-control', onChange: this.changeForm.bind(this), value: this.props.active.form },
-	                                    Object.keys(_schemas2.default).map(function (m, i) {
-	                                        return _react2.default.createElement(
-	                                            'option',
-	                                            { key: i, value: m },
-	                                            m
-	                                        );
-	                                    })
+	                                    FieldWrapper,
+	                                    { label: 'select', title: 'Form' },
+	                                    _react2.default.createElement(
+	                                        'select',
+	                                        { ref: 'formName', className: 'form-control', onChange: this.changeForm.bind(this), value: this.props.active.form },
+	                                        Object.keys(_schemas2.default).map(function (m, i) {
+	                                            return _react2.default.createElement(
+	                                                'option',
+	                                                { key: i, value: m },
+	                                                m
+	                                            );
+	                                        })
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'col-md-4' },
+	                                _react2.default.createElement(
+	                                    FieldWrapper,
+	                                    { label: 'select', title: 'Columns' },
+	                                    _react2.default.createElement('input', { ref: 'columns', type: 'checkbox', onChange: this.changeColumns.bind(this), value: this.props.view.columns })
 	                                )
 	                            )
 	                        ),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'col-md-4' },
+	                            null,
 	                            _react2.default.createElement(
-	                                FieldWrapper,
-	                                { label: 'select', title: 'Columns' },
-	                                _react2.default.createElement('input', { ref: 'columns', type: 'checkbox', onChange: this.changeColumns.bind(this), value: this.props.view.columns })
+	                                'p',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'button',
+	                                    { className: 'btn btn-info', onClick: this.load.bind(this) },
+	                                    'Load'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'button',
+	                                    { className: 'btn btn-info', onClick: this.save.bind(this) },
+	                                    'Save'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'button',
+	                                    { className: 'btn btn-warning', onClick: this.reset.bind(this) },
+	                                    'Reset'
+	                                )
 	                            )
 	                        )
 	                    ),
@@ -21554,7 +21570,7 @@
 	            var _this2 = this;
 	
 	            var format = "D MMMM YYYY";
-	            var readFormats = [format, "D M YYYY", "D/M/YYYY", "D-M-YYYY"];
+	            var readFormats = [format, "D M YYYY", "D MMM YYYY", "D/M/YYYY", "D-M-YYYY"];
 	            return _react2.default.createElement(_DateTimePicker2.default, _extends({}, this.props, {
 	                time: false,
 	                value: this.props.value ? new Date(this.props.value) : null,
@@ -35726,6 +35742,15 @@
 			},
 			"documentDate": {
 				"title": "Date of Document",
+				"type": "string",
+				"x-hints": {
+					"form": {
+						"inputComponent": "date"
+					}
+				}
+			},
+			"debtDate": {
+				"title": "Date Debt Calculated",
 				"type": "string",
 				"x-hints": {
 					"form": {
