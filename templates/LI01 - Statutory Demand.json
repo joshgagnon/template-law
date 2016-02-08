@@ -210,6 +210,6 @@
         }
     },
     "required": [
-        "creditor", "debtor", "documentName", "documentDate", "breakdown"
+        "creditor", "debtor", "documentName", "documentDate", "debtDate", "breakdown"
     ]
 }
