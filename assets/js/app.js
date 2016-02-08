@@ -17,7 +17,7 @@ import FORMS from './schemas';
 
 
 export function numberWithCommas(x) {
-    const parts = x.toString().split(".");
+    const parts = x.toFixed(2).split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
@@ -261,7 +261,7 @@ class ErrorDialog extends React.Component {
 class App extends React.Component {
 
     update(data) {
-        this.props.dispatch(updateValues(data.output));
+        this.props.dispatch(updateValues(data));
     }
 
     changeForm(e) {
@@ -273,7 +273,7 @@ class App extends React.Component {
     }
 
     reset() {
-        this.props.dispatch(updateValues(DEFAULT_DATA.active.values));
+        this.props.dispatch(updateValues({values: DEFAULT_DATA.active.values, output: DEFAULT_DATA.active.values}));
     }
 
     save() {
@@ -287,7 +287,7 @@ class App extends React.Component {
     generate() {
         let filename;
         this.props.dispatch(renderDocument({formName: this.props.active.form,
-                values: {...this.props.active.values, mappings: FORMS[this.props.active.form].schema.mappings }}))
+                values: {...this.props.active.output, mappings: FORMS[this.props.active.form].schema.mappings }}))
             .then((response) => {
                 if(response.error){
                     throw response.error;
@@ -343,6 +343,7 @@ class App extends React.Component {
                     schema={FORMS[this.props.active.form].schema}
                     update={::this.update}
                     values={this.props.active.values}
+                    output={this.props.active.output || this.props.active.values}
                     errors={this.props.active.errors}
                     handlers={handlers} />
             </div>

@@ -11,5 +11,5 @@ export default function calculate(values){
             return acc + ((d || {}).amount || 0);
         }, 0);
     }
-    return {...values, breakdown: {...breakdown, calculatedAmount: amount}};
+    return {breakdown: {calculatedAmount: amount}};
 }

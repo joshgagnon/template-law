@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 import { UPDATE_VALUES, SET_FORM, RENDER_REQUEST , RENDER_SUCCESS, RENDER_FAILURE, HIDE_ERROR, OPEN_MODAL, CLOSE_MODAL, SET_ACTIVE_STATE, TOGGLE_COLUMNS } from './actions';
 import validator from 'react-json-editor/lib/validate';
 import FORMS from './schemas';
+import merge from 'deepmerge'
+
 
 function hashedErrors(errors) {
   var result = {};
@@ -21,26 +23,31 @@ function validate(schema, values, ctx){
     return hashedErrors(validator(schema, values, ctx)) || {};
 }
 
-function calculate(form, values){
-    if(FORMS[form].calculate){
+function calculate(form, values = {}){
+    if(FORMS[form] && FORMS[form].calculate){
         return FORMS[form].calculate(values)
     }
-    return values;
+    return {};
 }
 
 
 function active(state = {form: 'Letter of Engagement', values: {}, errors: {}}, action) {
-    let schema;
+    let schema, calculated;
+
     switch(action.type){
         case SET_ACTIVE_STATE:
+            calculated = calculate(action.data.form, action.data.output)
             schema = FORMS[action.data.form].schema;
-            return {...action.data, values: calculate(action.data.form, action.values), errors: validate(schema, action.data, schema)};
+            return {...action.data, values: merge(action.values, calculated),  output: merge(action.values, calculated), errors: validate(schema, action.data.output, schema)};
         case UPDATE_VALUES:
+            calculated = calculate(state.form, action.data.output)
             schema = FORMS[state.form].schema;
-            return {...state, values: calculate(state.form, action.data), errors: validate(schema, action.data, schema)};
+            return {...state, values: merge(action.data.values, calculated), output: merge(action.data.output, calculated), errors: validate(schema, action.data.output, schema)};
         case SET_FORM:
+            calculated = calculate(action.data.form, state.output)
             schema = FORMS[action.data.form].schema;
-            return {...state, values: calculate(action.data.form, state.values), form: action.data.form, errors: validate(schema, state.values, schema)};
+            const values = merge(state.values, calculate(action.data.form, state.values))
+            return {...state, values: values, output: values, form: action.data.form, errors: validate(schema, state.output, schema)};
     }
     return state;
 }

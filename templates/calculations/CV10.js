@@ -31,5 +31,5 @@ export default function calculate(values){
             return acc + (credit.credit || 0);
         }, 0);
     }
-    return {...values, totalDebits: debits, totalCredits: credits};
+    return {totalDebits: debits, totalCredits: credits};
 }
