@@ -98,18 +98,9 @@
                                     "minimum": 0,
                                     "maximum": 100000000,
                                     "description": "Principal sum owing under the Agreement"
-                                },
-                                "date": {
-                                    "title": "Principal Sum Date",
-                                    "type": "string",
-                                    "x-hints": {
-                                        "form": {
-                                            "inputComponent": "date"
-                                        }
-                                    }
                                 }
                             },
-                            "required": ["amount", "date"]
+                            "required": ["amount"]
                         },
                         "interestAccrued": {
                             "type": "object",
@@ -140,7 +131,7 @@
                                     }
                                 }
                             },
-                            "required": ["amount", "dateStart", "dateEnd"]
+                            "required": ["amount"]
                         },
                         "costsToCreditor": {
                             "type": "object",
@@ -188,13 +179,18 @@
                             }
                         }
                     },
-                    "required": ["principalSum", "interestAccrued", "costsToCreditor"]
+                    "required": ["principalSum"]
                 }],
             "x-hints": {
                 "form": {
                     "selector": "show"
                 }
             }
+        },
+        "interestIncluded": {
+            "type": "boolean",
+            "title": "Interest Amount Included",
+            "description": "Interest continues to accrue on the outstanding amount in accordance with the Agreement"
         },
         "subject": {
             "ignore": true
