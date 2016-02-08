@@ -350,6 +350,22 @@
                 "Thomas Bloy",
                 "Tamina Cunningham-Adams"
             ]
+        },
+        "copyTo": {
+            "type": "array",
+            "title": "Copy To",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "address": {
+                        "$ref": "#/definitions/address"
+                    }
+                }
+            }
         }
     },
     "required": [
