@@ -25,6 +25,15 @@
                 }
             }
         },
+        "debtDate": {
+            "title": "Date Debt Calculated",
+            "type": "string",
+            "x-hints": {
+                "form": {
+                    "inputComponent": "date"
+                }
+            }
+        },
         "demandSent": {
             "type": "object",
             "title": "Demand",

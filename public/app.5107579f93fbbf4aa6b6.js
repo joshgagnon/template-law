@@ -16520,7 +16520,7 @@
 	      return function() {
 	        if(!canRemoveItem(i, n)) return;
 	
-	        var newList = props.getOutput(props.path);
+	        var newList = props.getOutput(props.path) || [];
 	        newList.splice(i, 1);
 	        props.update(props.path, newList, newList);
 	      };
@@ -35726,6 +35726,15 @@
 			},
 			"documentDate": {
 				"title": "Date of Document",
+				"type": "string",
+				"x-hints": {
+					"form": {
+						"inputComponent": "date"
+					}
+				}
+			},
+			"debtDate": {
+				"title": "Date Debt Calculated",
 				"type": "string",
 				"x-hints": {
 					"form": {
