@@ -361,10 +361,15 @@
                         "type": "string",
                         "title": "Name"
                     },
+                    "email": {
+                        "type": "string",
+                        "title": "Email"
+                    },
                     "address": {
                         "$ref": "#/definitions/address"
                     }
-                }
+                },
+                "required": ["name"]
             }
         }
     },
@@ -379,6 +384,11 @@
     ],
     "type": "object",
     "x-ordering": ["filename", "fileType", "dateString", "recipient", "contactMethod"],
+    "x-form": {
+        "form":{
+            "allowEmpty": true
+        }
+    },
     "mappings": {
         "sender": {
             "Thomas Bloy": {

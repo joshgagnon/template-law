@@ -28,7 +28,6 @@ console.log(FORMS);
 const DEFAULT_DATA = {
     active: {
         values: {
-            dateString: moment().format("DD MMMM YYYY")
         },
         errors: {},
         form: 'G01: Letter'
@@ -162,7 +161,7 @@ class SectionWrapper extends React.Component {
             <div className="col-sm-9 col-xs-7">
                 { this.props.children }
             </div>
-            {!this.props.isLastItem  && <div className="col-sm-3 col-xs-5 list-controls">
+            { <div className="col-sm-3 col-xs-5 list-controls">
                 <div className="btn-group  btn-group-xs" role="group">
                     <button className="btn btn-default" onClick={this.props.moveUp}>
                         <span className="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span>
@@ -175,8 +174,7 @@ class SectionWrapper extends React.Component {
                     </button>
                     </div>
             </div> }
-            { this.props.isLastItem  && <div className="col-sm-3 col-xs-5"></div> }
-            { !this.props.isLastItem  && <hr/> }
+            <div className="row"><hr/></div>
         </div>
         </div>
     }
@@ -190,6 +188,7 @@ class SectionWrapper extends React.Component {
             { (!this.props.title && this.props.errors) &&  <legend>{ this.errors() }</legend>}
             <div>
             { this.props.children }
+            { this.props.addItem && <div className="add-item"><button className="btn btn-default" onClick={this.props.addItem}>Add Entry</button></div>}
             </div>
             </div>
     }

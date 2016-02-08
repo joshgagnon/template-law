@@ -153,6 +153,7 @@ html, body{
                     font-size: 1em;
                     font-style: italic;
                     margin-top: 10px;
+                    font-weight: bold;
 
                 }
                 & .fieldset {
@@ -162,11 +163,15 @@ html, body{
                         margin-top:1em;
                         margin-bottom:0.5em;
                         font-style:italic;
+                        font-weight: bold;
                     }
                 }
             }
         }
 
+        .add-item{
+            padding-bottom:12px;
+        }
         .read-only{
             margin-bottom: 0;
             padding-top: 7px;
