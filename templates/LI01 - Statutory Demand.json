@@ -111,50 +111,6 @@
                             },
                             "required": ["amount"]
                         },
-                        "interestAccrued": {
-                            "type": "object",
-                            "properties": {
-                                "amount": {
-                                    "title": "Interest accrued",
-                                    "type": "number",
-                                    "minimum": 0,
-                                    "maximum": 100000000,
-                                    "description": "Interest accrued under the Agreement"
-                                },
-                                "dateStart": {
-                                    "title": "Interest Date Start",
-                                    "type": "string",
-                                    "x-hints": {
-                                        "form": {
-                                            "inputComponent": "date"
-                                        }
-                                    }
-                                },
-                                "dateEnd": {
-                                    "title": "Interest Date End",
-                                    "type": "string",
-                                    "x-hints": {
-                                        "form": {
-                                            "inputComponent": "date"
-                                        }
-                                    }
-                                }
-                            },
-                            "required": ["amount"]
-                        },
-                        "costsToCreditor": {
-                            "type": "object",
-                            "properties": {
-                                "amount": {
-                                    "title": "Costs to Creditor",
-                                    "type": "number",
-                                    "minimum": 0,
-                                    "maximum": 100000000,
-                                    "description": "Costs the Creditor has incurred to date in enforcing the Debtor’s obligations under the Agreement"
-                                }
-                            },
-                            "required": ["amount"]
-                        },
                         "userDefined": {
                             "type": "array",
                             "title": "User Defined Line Items",
@@ -176,7 +132,7 @@
                                     "description", "amount"
                                 ]
                             },
-                            "required": ["amount", "description"]
+                            "description": "Eg. Interest, collection costs"
                         },
                         "calculatedAmount": {
                             "type": "number",

@@ -17,6 +17,9 @@ import FORMS from './schemas';
 
 
 export function numberWithCommas(x) {
+    if(!x.toFixed){
+        return "ERROR"
+    }
     const parts = x.toFixed(2).split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");

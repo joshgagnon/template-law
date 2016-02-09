@@ -78,12 +78,16 @@
             "enum": [
                 "odt",
                 "pdf",
-                "docx"
+                "docx",
+                "png",
+                "html"
             ],
             "enumNames": [
                 "OpenDocument Text (.odt)",
                 "Portable Document Format (.pdf)",
-                "Word Document (.docx)"
+                "Word Document (.docx)",
+                "PNG",
+                "HTML"
             ]
         },
         "dateString": {
