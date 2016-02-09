@@ -12,7 +12,7 @@ import CV10Calcuate from '../../templates/calculations/CV10.js';
 import DR01Calculate from '../../templates/calculations/DR01.js';
 import DR02Calculate from '../../templates/calculations/DR02.js';
 import LI01Calculate from '../../templates/calculations/LI01.js';
-import DR01Schema from '../../templates/DR01: Letter of Demand.json';
+import DR01Schema from '../../templates/DR01: Letter of Demand - Debtor.json';
 import DR02Schema from '../../templates/DR02: Letter of Demand - Guarantor.json';
 import LI01Schema from '../../templates/LI01 - Statutory Demand.json';
 import merge from 'deepmerge'
@@ -50,7 +50,7 @@ const FORMS = {
         schema: merge(letterTemplateSchema, trustAccountStatementSchema),
         calculate: CV10Calcuate
     },
-    'DR01: Letter of Demand':{
+    'DR01: Letter of Demand - Debtor':{
         schema: merge(letterTemplateSchema, DR01Schema),
         calculate: DR01Calculate
     },

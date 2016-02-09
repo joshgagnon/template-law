@@ -7,15 +7,6 @@
             "type": "string",
             "title": "Name of Creditor"
         },
-        "debtor": {
-            "type": "string",
-            "title": "Name of Debtor"
-        },
-        "documentName": {
-            "type": "string",
-            "title": "Name of Document",
-            "description": "Name of Document Containing Guarantee"
-        },
         "documentDate": {
             "title": "Date of Document",
             "type": "string",
@@ -69,18 +60,9 @@
                                     "minimum": 0,
                                     "maximum": 100000000,
                                     "description": "Principal sum owing under the Agreement"
-                                },
-                                "date": {
-                                    "title": "Principal Sum Date",
-                                    "type": "string",
-                                    "x-hints": {
-                                        "form": {
-                                            "inputComponent": "date"
-                                        }
-                                    }
                                 }
                             },
-                            "required": ["amount", "date"]
+                            "required": ["amount"]
                         },
                         "userDefined": {
                             "type": "array",
@@ -142,6 +124,6 @@
         }
     },
     "required": [
-        "creditor", "debtor", "documentName", "documentDate", "breakdown", "totalIndebtedness", "debtDate"
+        "creditor", "debtor", "documentDate", "breakdown", "totalIndebtedness", "debtDate"
     ]
 }

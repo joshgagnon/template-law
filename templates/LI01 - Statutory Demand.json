@@ -3,13 +3,26 @@
     "description": "LI01 - Statutory Demand",
     "extends": "Letter Template.json",
     "properties": {
+        "recipient": {
+            "ignore": true
+        },
+        "recipientCompany": {
+            "type": "object",
+            "properties": {
+                "companyName": {
+                    "title": "Company Name",
+                    "type": "string"
+                },
+                "contact": {
+                    "title": "Contact",
+                    "type": "string"
+                }
+            },
+            "required": ["companyName", "contact"]
+        },
         "creditor": {
             "type": "string",
             "title": "Name of Creditor"
-        },
-        "debtor": {
-            "type": "string",
-            "title": "Name of Debtor"
         },
         "documentName": {
             "type": "string",
@@ -166,6 +179,6 @@
         }
     },
     "required": [
-        "creditor", "debtor", "documentName", "documentDate", "debtDate", "breakdown"
+        "recipientCompany", "creditor", "documentName", "documentDate", "debtDate", "breakdown"
     ]
 }

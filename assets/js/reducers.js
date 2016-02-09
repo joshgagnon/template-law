@@ -96,6 +96,7 @@ function preview(state={}, action){
             return {...state, fetching: false};
         case PREVIEW_FAILURE:
             return {...state, error: true, fetching: false};
+        case SET_FORM:
         case UPDATE_VALUES:
             return {...state, error: false, current: false};
     }

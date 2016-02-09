@@ -17,7 +17,7 @@ import moment from 'moment';
 import FORMS from './schemas';
 import PDFJS from 'pdfjs-dist'
 
-//PDFJS.disableWorker = true;
+PDFJS.disableWorker = true;
 
 export function numberWithCommas(x) {
     if(!x.toFixed){
@@ -27,9 +27,6 @@ export function numberWithCommas(x) {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
-
-
-console.log(FORMS);
 
 const DEFAULT_DATA = {
     active: {
@@ -329,7 +326,7 @@ class PDF extends React.Component {
           });
           return <canvas ref="pdfCanvas" width={1500} heigth={2250}/>
         }
-        return (this.props.loading || <div>Click Update to load...</div>);
+        return <div>Could not load preview.  Please complete all required fields.</div>
     }
 
     _onDocumentComplete(pdf) {
@@ -437,7 +434,7 @@ class App extends React.Component {
 
     generatePreview(e) {
         e && e.preventDefault();
-        if(this.props.preview.fetching || this.props.preview.error || this.props.preview.current){
+        if(this.props.preview.fetching || this.props.preview.error || this.props.preview.current || !this.valid()){
             return;
         }
         this.props.dispatch(renderPreview({formName: this.props.active.form,
@@ -458,10 +455,13 @@ class App extends React.Component {
     }
 
     buttons() {
-        const valid = !Object.keys(this.props.active.errors).length
         return <p>
-            <button className="btn btn-primary" onClick={::this.generate} ref='submit' disabled={!valid}>Generate File</button>
+            <button className="btn btn-primary" onClick={::this.generate} ref='submit' disabled={!this.valid()}>Generate File</button>
             </p>
+    }
+
+    valid() {
+        return !Object.keys(this.props.active.errors).length
     }
 
     componentDidMount() {
