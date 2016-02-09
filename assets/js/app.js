@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Handlebars from 'handlebars';
 import { render, findDOMNode } from 'react-dom';
 import { Provider, connect } from 'react-redux';
@@ -8,13 +9,15 @@ import DateInput from './datePicker';
 import SaveLoadDialogs from './SaveLoadDialogs';
 import configureStore from './configureStore';
 import Form from 'react-json-editor/lib';
-import { updateValues, renderDocument, setForm, hideError, openModal, toggleColumns } from './actions';
+import { updateValues, renderDocument, setForm, hideError, openModal, setView, setPreview, renderPreview } from './actions';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import './helpers';
 import moment from 'moment';
 import FORMS from './schemas';
+import PDFJS from 'pdfjs-dist'
 
+//PDFJS.disableWorker = true;
 
 export function numberWithCommas(x) {
     if(!x.toFixed){
@@ -260,6 +263,130 @@ class ErrorDialog extends React.Component {
     }
 }
 
+class PDF extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { };
+    }
+
+     _loadPDFDocument(props) {
+        if(props.data){
+            return PDFJS.getDocument({data: props.data}).then(::this._onDocumentComplete);
+        }
+    }
+
+    componentDidMount() {
+        this._loadPDFDocument(this.props);
+    }
+
+    componentWillReceiveProps(newProps) {
+        if ((newProps.data && newProps.data !== this.props.data)) {
+          this._loadPDFDocument(newProps);
+        }
+        if (!!this.state.pdf && !!newProps.page && newProps.page !== this.props.page) {
+          this.setState({page: null});
+          this.state.pdf.getPage(newProps.page)
+            .then(::this._onPageComplete);
+        }
+    }
+
+    shouldComponentUpdate(newProps, newState) {
+        if ((newProps.data && newProps.data !== this.props.data)){
+            return true;
+        }
+        if ((newProps.page && newProps.page !== this.props.page)){
+            return true;
+        }
+        if((newState.pdf && newState.pdf !== this.state.pdf) ||
+            (newState.page && newState.page !== this.state.page)){
+            return true;
+        }
+        return false;
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this._renderTimeout);
+        this._unmounted = true;
+    }
+
+    render() {
+        if (!!this.state.page){
+            clearTimeout(this._renderTimeout)
+            this._renderTimeout = setTimeout(() => {
+                const canvas = ReactDOM.findDOMNode(this.refs.pdfCanvas),
+                    context = canvas.getContext('2d'),
+                    scale = this.props.scale || 1,
+                    viewport = this.state.page.getViewport(canvas.width / this.state.page.getViewport(1.0).width);
+
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                  };
+                this.state.page.render(renderContext);
+          });
+          return <canvas ref="pdfCanvas" width={1500} heigth={2250}/>
+        }
+        return (this.props.loading || <div>Click Update to load...</div>);
+    }
+
+    _onDocumentComplete(pdf) {
+        if (!this._unmounted) {
+            this.setState({ pdf: pdf });
+            pdf
+                .getPage(this.props.page)
+                .then(::this._onPageComplete);
+            this.props.onDocumentComplete(pdf.numPages);
+        }
+    }
+
+    _onPageComplete(page) {
+        if(!this._ummounted){
+            this.setState({ page: page });
+        }
+    }
+}
+
+class Preview extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { pages: 1, page: 0 };
+    }
+
+    pdfLoaded(pages) {
+        this.setState({pages: pages})
+    }
+
+    prev(e) {
+        e.preventDefault();
+        this.setState({page: Math.abs((this.state.page - 1) % this.state.pages)})
+    }
+
+    next(e) {
+        e.preventDefault();
+        this.setState({page: Math.abs((this.state.page + 1) % this.state.pages)})
+    }
+
+    render() {
+        return <div className="preview">
+            <p>
+            <button className="btn btn-info" onClick={this.props.update}>Update</button>
+            </p>
+            { this.state.pages > 1 && <p>
+                <button className="btn btn-info" onClick={::this.prev}><span className="glyphicon glyphicon-arrow-left"/></button>
+                <button className="btn btn-info" onClick={::this.next}><span className="glyphicon glyphicon-arrow-right"/></button>
+                </p>
+            }
+            <PDF onDocumentComplete={::this.pdfLoaded} data={this.props.data} page={this.state.page+1} />
+        </div>
+    }
+}
+
+
+
 class App extends React.Component {
 
     update(data) {
@@ -270,8 +397,8 @@ class App extends React.Component {
         this.props.dispatch(setForm({form: findDOMNode(this.refs.formName).value }));
     }
 
-    changeColumns() {
-        this.props.dispatch(toggleColumns(findDOMNode(this.refs.columns).checked))
+    changeView() {
+        this.props.dispatch(setView(findDOMNode(this.refs.view).value))
     }
 
     reset(e) {
@@ -308,6 +435,28 @@ class App extends React.Component {
             .catch(() => {});
     }
 
+    generatePreview(e) {
+        e && e.preventDefault();
+        if(this.props.preview.fetching || this.props.preview.error || this.props.preview.current){
+            return;
+        }
+        this.props.dispatch(renderPreview({formName: this.props.active.form,
+                values: {...this.props.active.output, fileType: 'pdf', mappings: FORMS[this.props.active.form].schema.mappings }}))
+            .then((response) => {
+                return response.response.blob()
+            })
+            .then(blob => {
+
+                const fileReader = new FileReader();
+                fileReader.onload = () => {
+                    this.props.dispatch(setPreview(fileReader.result));
+                };
+                fileReader.readAsArrayBuffer(blob);
+
+            })
+            .catch(() => {});
+    }
+
     buttons() {
         const valid = !Object.keys(this.props.active.errors).length
         return <p>
@@ -315,47 +464,76 @@ class App extends React.Component {
             </p>
     }
 
+    componentDidMount() {
+        this.eagerPreview();
+    }
+
+    componentDidUpdate() {
+        this.eagerPreview();
+    }
+
+    eagerPreview() {
+        if(this.props.view.mode === 'preview' && !this.props.preview.preview){
+            this.generatePreview()
+        }
+    }
+
     render() {
-        let classes = "controls "
-        if(this.props.view.columns){
-            classes += 'columns '
+        let classes = '';
+        if(this.props.view.mode === 'columns'){
+            classes += 'container columns '
+        }
+        else if(this.props.view.mode === 'preview'){
+            classes += 'container-fluid has-preview';
+        }
+        else{
+            classes += "container ";
         }
         console.log('PROPS', this.props)
-        return <div className="container">
-            <div className={classes}>
-                <form className="form-horizontal">
-                    <div className="row">
-                        <div className="col-md-8">
-                        <FieldWrapper label="select" title="Form">
-                          <select ref="formName" className="form-control" onChange={::this.changeForm} value={this.props.active.form}>
-                                { Object.keys(FORMS).map((m, i)=>{
-                                    return <option key={i} value={m}>{m}</option>
-                                })}
-                          </select>
-                        </FieldWrapper>
+        return <div className="main">
+                <div className="container">
+                    <form className="form-horizontal">
+                        <div className="row">
+                            <div className="col-md-8">
+                            <FieldWrapper label="select" title="Form">
+                              <select ref="formName" className="form-control" onChange={::this.changeForm} value={this.props.active.form}>
+                                    { Object.keys(FORMS).map((m, i)=>{
+                                        return <option key={i} value={m}>{m}</option>
+                                    })}
+                              </select>
+                            </FieldWrapper>
+                        </div>
+                        <div className="col-md-4">
+                            <FieldWrapper label="select" title="View">
+                              <select ref="view" className="form-control" onChange={::this.changeView} value={this.props.view.mode}>
+                                <option key={0} value={'single'}>Single</option>
+                                <option key={1} value={'columns'}>Columns</option>
+                                <option key={2} value={'preview'}>Preview</option>
+                              </select>
+                            </FieldWrapper>
+                        </div>
+                        </div>
+                         <div><p>
+                            <button className="btn btn-info" onClick={::this.load}>Load</button>
+                            <button className="btn btn-info" onClick={::this.save}>Save</button>
+                            <button className="btn btn-warning" onClick={::this.reset}>Reset</button>
+                            </p></div>
+                    </form>
+                </div>
+                <div className={classes}>
+                    <div className="controls">
+                        <Form ref="form" className="form-horizontal form-controls"
+                            buttons={::this.buttons}
+                            fieldWrapper={FieldWrapper}
+                            sectionWrapper={SectionWrapper}
+                            schema={FORMS[this.props.active.form].schema}
+                            update={::this.update}
+                            values={this.props.active.values}
+                            output={this.props.active.output || this.props.active.values}
+                            errors={this.props.active.errors}
+                            handlers={handlers} />
                     </div>
-                    <div className="col-md-4">
-                        <FieldWrapper label="select" title="Columns">
-                            <input ref="columns" type="checkbox" onChange={::this.changeColumns} value={this.props.view.columns}/>
-                        </FieldWrapper>
-                    </div>
-                    </div>
-                     <div><p>
-                        <button className="btn btn-info" onClick={::this.load}>Load</button>
-                        <button className="btn btn-info" onClick={::this.save}>Save</button>
-                        <button className="btn btn-warning" onClick={::this.reset}>Reset</button>
-                        </p></div>
-                </form>
-                <Form ref="form" className="form-horizontal"
-                    buttons={::this.buttons}
-                    fieldWrapper={FieldWrapper}
-                    sectionWrapper={SectionWrapper}
-                    schema={FORMS[this.props.active.form].schema}
-                    update={::this.update}
-                    values={this.props.active.values}
-                    output={this.props.active.output || this.props.active.values}
-                    errors={this.props.active.errors}
-                    handlers={handlers} />
+                    { this.props.view.mode === 'preview' && <Preview data={this.props.preview.preview } update={ ::this.generatePreview } /> }
             </div>
             { this.props.status.fetching && <Fetching /> }
             { this.props.status.error && <ErrorDialog close={() => this.props.dispatch(hideError())}  /> }

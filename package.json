@@ -29,7 +29,6 @@
     "json-schema-faker": "^0.2.8",
     "mocha": "^2.3.4",
     "moment": "^2.11.1",
-    "pdfjs": "^1.0.0-alpha.5",
     "react": "^0.14.6",
     "react-bootstrap": "^0.28.2",
     "react-dom": "^0.14.6",
@@ -52,8 +51,10 @@
     "bootstrap-sass": "^3.3.6",
     "copy-webpack-plugin": "^0.3.3",
     "css-loader": "^0.23.1",
+    "entry-loader": "^0.1.0",
     "file-loader": "^0.8.5",
     "node-sass": "^3.4.2",
+    "pdfjs-dist": "^1.4.44",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.10"

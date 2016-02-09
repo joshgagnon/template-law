@@ -58,7 +58,45 @@ html, body{
     padding:0;
 }
 
-.controls{
+.columns {
+    form.form-controls {
+        & > .fieldset {
+            & > div{
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+                column-count: 2;
+                 & > .fieldset {
+                    -webkit-column-break-inside: avoid;
+                    page-break-inside: avoid;
+                    break-inside: avoid;
+                    & > * {
+                        display: inline-block;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.main{
+
+    .has-preview {
+        .form-controls{
+            @extend .col-md-5;
+        }
+        .preview{
+            text-align: center;
+            @extend .col-md-7;
+            canvas{
+                width:100%;
+                max-width:1000px;
+                border: 1px solid #cdcdcd;
+            }
+        }
+    }
+
+
     padding-top:2em;
     background-color:#fff;
     font-size:12px;
@@ -71,29 +109,6 @@ html, body{
     button .glyphicon{
         top: 3px;
     }
-
-    &.columns {
-        form {
-            & > .fieldset {
-                & > div{
-                    -webkit-column-count: 2;
-                    -moz-column-count: 2;
-                    column-count: 2;
-                     & > .fieldset {
-                        -webkit-column-break-inside: avoid;
-                        page-break-inside: avoid;
-                        break-inside: avoid;
-                        & > * {
-                            display: inline-block;
-                            width: 100%;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
 
     form {
         p {

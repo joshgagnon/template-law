@@ -5,12 +5,18 @@ export const UPDATE_VALUES = 'UPDATE_VALUES';
 export const RENDER_REQUEST = 'RENDER_REQUEST';
 export const RENDER_SUCCESS = 'RENDER_SUCCESS';
 export const RENDER_FAILURE = 'RENDER_FAILURE';
+
+export const PREVIEW_REQUEST = 'PREVIEW_REQUEST';
+export const PREVIEW_SUCCESS = 'PREVIEW_SUCCESS';
+export const PREVIEW_FAILURE = 'PREVIEW_FAILURE';
+
 export const HIDE_ERROR = 'HIDE_ERROR';
 export const SET_FORM = 'SET_FORM';
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const SET_ACTIVE_STATE= 'SET_ACTIVE_STATE';
-export const TOGGLE_COLUMNS = 'TOGGLE_COLUMNS';
+export const SET_VIEW = 'SET_VIEW';
+export const SET_PREVIEW = 'SET_PREVIEW';
 
 
 const json_headers = {
@@ -24,9 +30,15 @@ export function updateValues(data){
     }
 }
 
-export function toggleColumns(state){
+export function setView(view){
     return {
-        type: TOGGLE_COLUMNS, state
+        type: SET_VIEW, view
+    }
+}
+
+export function setPreview(preview){
+    return {
+        type: SET_PREVIEW, preview
     }
 }
 
@@ -65,9 +77,23 @@ export function setActiveState(data){
 
 export function renderDocument(data) {
     return {
-        types: [RENDER_REQUEST , RENDER_SUCCESS, RENDER_FAILURE],
+        types: [RENDER_REQUEST, RENDER_SUCCESS, RENDER_FAILURE],
         callAPI: () => fetch('/render', {
             method: 'POST',
+            shouldCallAPI: (state) => { !state.status.fetching },
+            headers: json_headers,
+            body: JSON.stringify(data),
+            credentials: 'same-origin'
+        })
+    };
+}
+
+export function renderPreview(data) {
+    return {
+        types: [PREVIEW_REQUEST, PREVIEW_SUCCESS, PREVIEW_FAILURE],
+        callAPI: () => fetch('/render', {
+            method: 'POST',
+            shouldCallAPI: (state) => { !state.preview.fetching && !state.preview.error },
             headers: json_headers,
             body: JSON.stringify(data),
             credentials: 'same-origin'

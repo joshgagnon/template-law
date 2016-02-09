@@ -23,7 +23,7 @@ function save(state){
 class StateSaver extends React.Component {
 
     update() {
-        save({active: this.props.active});
+        save({active: this.props.active, view: this.props.view});
     }
 
     componentDidMount() {
