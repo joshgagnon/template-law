@@ -3,7 +3,26 @@
     "description": "Letter to Fincancier Enclosing Originals",
     "title": "Letter to Fincancier Enclosing Originals",
     "properties": {
-
+        "matter": {
+            "type": "object",
+            "properties": {
+                "assets": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "address": {
+                                "title": "Address",
+                                "type": "string"
+                            }
+                        },
+                        "required": ["address"]
+                    },
+                    "minItems": 1,
+                    "title": "Properties",
+                    "type": "array"
+                }
+            }
+        },
         "purchaserNames": {
             "items": {
                 "type": "string",

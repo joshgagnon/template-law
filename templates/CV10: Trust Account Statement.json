@@ -93,6 +93,10 @@
             "oneOf": [
                 {
                     "properties": {
+                        "matterId": {
+                            "title": "Matter ID",
+                            "type" : "string"
+                        },
                         "assets": {
                             "$ref": "#/definitions/assets"
                         },
@@ -193,8 +197,8 @@
                             ]
                         }
                     },
-                    "required": ["matterType", "assets"],
-                    "x-ordering": ["matterType", "assets", "loadAdvance", "clients"]
+                    "required": ["matterType", "matterId", "assets"],
+                    "x-ordering": ["matterId", "matterType", "assets", "loadAdvance", "clients"]
                 },
                 {
                     "properties": {
@@ -202,6 +206,10 @@
                             "enum": [
                                 "sale"
                             ]
+                        },
+                        "matterId": {
+                            "title": "Matter ID",
+                            "type" : "string"
                         },
                         "assets": {
                             "$ref": "#/definitions/assets"
@@ -262,8 +270,8 @@
                             "$ref": "#/definitions/repaymentOfIndebtedness"
                         }
                     },
-                    "required": ["matterType", "assets"],
-                    "x-ordering": ["matterType", "assets", "balancePurchasePrice", "deposit", "repaymentOfIndebtedness"]
+                    "required": ["matterType", "matterId", "assets"],
+                    "x-ordering": ["matterId", "matterType", "assets", "balancePurchasePrice", "deposit", "repaymentOfIndebtedness"]
                 },
                 {
                     "properties": {
@@ -271,6 +279,10 @@
                             "enum": [
                                 "refinance"
                             ]
+                        },
+                        "matterId": {
+                            "title": "Matter ID",
+                            "type" : "string"
                         },
                         "assets": {
                             "$ref": "#/definitions/assets"
@@ -282,7 +294,8 @@
                             "$ref": "#/definitions/repaymentOfIndebtedness"
                         }
                     },
-                    "required": ["matterType", "assets"]
+                    "required": ["matterId", "matterType", "matterId", "assets"],
+                    "x-ordering": ["matterId", "matterType", "assets"]
                 }
             ],
             "required": ["matterType"],

@@ -3,7 +3,26 @@
     "description": "Vendors Settlement Letter",
     "title": "Vendors Settlement Letter",
     "properties": {
-
+        "matter": {
+            "type": "object",
+            "properties": {
+                "assets": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "address": {
+                                "title": "Address",
+                                "type": "string"
+                            }
+                        },
+                        "required": ["address"]
+                    },
+                    "minItems": 1,
+                    "title": "Properties",
+                    "type": "array"
+                }
+            }
+        },
         "vendorNames": {
             "items": {
                 "type": "string",
