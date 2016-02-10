@@ -51,24 +51,6 @@
                     }
                 }
             }
-        },
-        "assets": {
-            "items": {
-                "properties": {
-                    "address": {
-                        "title": "Address",
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "address"
-                ],
-                "type": "object"
-            },
-            "maxItems": 1,
-            "minItems": 1,
-            "title": "Properties",
-            "type": "array"
         }
     },
     "properties": {
@@ -129,7 +111,10 @@
                                                     }
                                                 }
                                             }
-                                        }
+                                        },
+                                        "required": [
+                                            "credit", "date"
+                                        ]
                                     },
                                     "kiwiSaverHomeStart": {
                                         "type": "object",
@@ -155,7 +140,10 @@
                                                     }
                                                 }
                                             }
-                                        }
+                                        },
+                                        "required": [
+                                            "credit", "date"
+                                        ]
                                     }
                                 },
                                 "required": [
@@ -219,7 +207,7 @@
                             "title": "Balance of Purchase Price",
                             "properties": {
                                 "credit": {
-                                    "title": "Debit",
+                                    "title": "Credit",
                                     "type": "number",
                                     "minimum": 0,
                                     "maximum": 100000000

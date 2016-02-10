@@ -94,7 +94,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "2af5aa73b9af834ea7df" + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "192c5b192ecaabc9d436" + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -34674,6 +34674,28 @@
 		"description": "Vendors Settlement Letter",
 		"title": "Vendors Settlement Letter",
 		"properties": {
+			"matter": {
+				"type": "object",
+				"properties": {
+					"assets": {
+						"items": {
+							"type": "object",
+							"properties": {
+								"address": {
+									"title": "Address",
+									"type": "string"
+								}
+							},
+							"required": [
+								"address"
+							]
+						},
+						"minItems": 1,
+						"title": "Properties",
+						"type": "array"
+					}
+				}
+			},
 			"vendorNames": {
 				"items": {
 					"type": "string",
@@ -34721,6 +34743,69 @@
 		"description": "Letter to Fincancier Enclosing Originals",
 		"title": "Letter to Fincancier Enclosing Originals",
 		"properties": {
+			"matter": {
+				"type": "object",
+				"properties": {
+					"matterType": {
+						"title": "Matter Type",
+						"enum": [
+							"purchase",
+							"refinance"
+						],
+						"enumNames": [
+							"Purchase",
+							"Refinance"
+						]
+					}
+				},
+				"oneOf": [
+					{
+						"properties": {
+							"matterId": {
+								"title": "Matter ID",
+								"type": "string"
+							},
+							"matterType": {
+								"enum": [
+									"purchase"
+								]
+							},
+							"assets": {
+								"$ref": "#/definitions/assets"
+							}
+						},
+						"required": [
+							"matterId",
+							"assets"
+						]
+					},
+					{
+						"properties": {
+							"matterId": {
+								"title": "Matter ID",
+								"type": "string"
+							},
+							"matterType": {
+								"enum": [
+									"refinance"
+								]
+							},
+							"assets": {
+								"$ref": "#/definitions/assets"
+							}
+						},
+						"required": [
+							"matterId",
+							"assets"
+						]
+					}
+				],
+				"x-hints": {
+					"form": {
+						"selector": "matterType"
+					}
+				}
+			},
 			"purchaserNames": {
 				"items": {
 					"type": "string",
@@ -34842,24 +34927,6 @@
 						}
 					}
 				}
-			},
-			"assets": {
-				"items": {
-					"properties": {
-						"address": {
-							"title": "Address",
-							"type": "string"
-						}
-					},
-					"required": [
-						"address"
-					],
-					"type": "object"
-				},
-				"maxItems": 1,
-				"minItems": 1,
-				"title": "Properties",
-				"type": "array"
 			}
 		},
 		"properties": {
@@ -34884,6 +34951,10 @@
 				"oneOf": [
 					{
 						"properties": {
+							"matterId": {
+								"title": "Matter ID",
+								"type": "string"
+							},
 							"assets": {
 								"$ref": "#/definitions/assets"
 							},
@@ -34916,7 +34987,11 @@
 														}
 													}
 												}
-											}
+											},
+											"required": [
+												"credit",
+												"date"
+											]
 										},
 										"kiwiSaverHomeStart": {
 											"type": "object",
@@ -34942,7 +35017,11 @@
 														}
 													}
 												}
-											}
+											},
+											"required": [
+												"credit",
+												"date"
+											]
 										}
 									},
 									"required": [
@@ -34987,9 +35066,11 @@
 						},
 						"required": [
 							"matterType",
+							"matterId",
 							"assets"
 						],
 						"x-ordering": [
+							"matterId",
 							"matterType",
 							"assets",
 							"loadAdvance",
@@ -35003,6 +35084,10 @@
 									"sale"
 								]
 							},
+							"matterId": {
+								"title": "Matter ID",
+								"type": "string"
+							},
 							"assets": {
 								"$ref": "#/definitions/assets"
 							},
@@ -35011,7 +35096,7 @@
 								"title": "Balance of Purchase Price",
 								"properties": {
 									"credit": {
-										"title": "Debit",
+										"title": "Credit",
 										"type": "number",
 										"minimum": 0,
 										"maximum": 100000000
@@ -35066,9 +35151,11 @@
 						},
 						"required": [
 							"matterType",
+							"matterId",
 							"assets"
 						],
 						"x-ordering": [
+							"matterId",
 							"matterType",
 							"assets",
 							"balancePurchasePrice",
@@ -35083,6 +35170,10 @@
 									"refinance"
 								]
 							},
+							"matterId": {
+								"title": "Matter ID",
+								"type": "string"
+							},
 							"assets": {
 								"$ref": "#/definitions/assets"
 							},
@@ -35094,6 +35185,13 @@
 							}
 						},
 						"required": [
+							"matterId",
+							"matterType",
+							"matterId",
+							"assets"
+						],
+						"x-ordering": [
+							"matterId",
 							"matterType",
 							"assets"
 						]
@@ -35611,6 +35709,24 @@
 						"type": "string"
 					}
 				}
+			},
+			"assets": {
+				"items": {
+					"properties": {
+						"address": {
+							"title": "Address",
+							"type": "string"
+						}
+					},
+					"required": [
+						"address"
+					],
+					"type": "object"
+				},
+				"maxItems": 1,
+				"minItems": 1,
+				"title": "Properties",
+				"type": "array"
 			},
 			"addressRequired": {
 				"type": "object",

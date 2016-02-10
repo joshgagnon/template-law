@@ -6,23 +6,58 @@
         "matter": {
             "type": "object",
             "properties": {
-                "assets": {
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "address": {
-                                "title": "Address",
-                                "type": "string"
-                            }
+                "matterType": {
+                    "title": "Matter Type",
+                    "enum": [
+                        "purchase",
+                        "refinance"
+                    ],
+                    "enumNames": [
+                        "Purchase",
+                        "Refinance"
+                    ]
+
+                }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "matterId": {
+                            "title": "Matter ID",
+                            "type" : "string"
                         },
-                        "required": ["address"]
+                        "matterType": {
+                            "enum": ["purchase"]
+                        },
+                        "assets": {
+                            "$ref": "#/definitions/assets"
+                        }
                     },
-                    "minItems": 1,
-                    "title": "Properties",
-                    "type": "array"
+                    "required":["matterId", "assets"]
+                },
+                {
+                    "properties": {
+                        "matterId": {
+                            "title": "Matter ID",
+                            "type" : "string"
+                        },
+                        "matterType": {
+                            "enum": ["refinance"]
+                        },
+                        "assets": {
+                            "$ref": "#/definitions/assets"
+                        }
+                    },
+                    "required":["matterId", "assets"]
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "matterType"
                 }
             }
-        },
+         },
+
         "purchaserNames": {
             "items": {
                 "type": "string",

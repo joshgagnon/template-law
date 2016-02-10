@@ -25,6 +25,24 @@
                 }
             }
         },
+        "assets": {
+            "items": {
+                "properties": {
+                    "address": {
+                        "title": "Address",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "address"
+                ],
+                "type": "object"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "title": "Properties",
+            "type": "array"
+        },
         "addressRequired": {
             "type": "object",
             "properties": {
