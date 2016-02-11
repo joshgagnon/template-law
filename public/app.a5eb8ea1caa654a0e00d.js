@@ -94,7 +94,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "687c46b4267d520d9d94" + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "a5eb8ea1caa654a0e00d" + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -524,7 +524,6 @@
 	            } else {
 	                classes += "container ";
 	            }
-	            console.log('PROPS', this.props);
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'main' },
@@ -34746,22 +34745,63 @@
 			"matter": {
 				"type": "object",
 				"properties": {
-					"assets": {
-						"items": {
-							"type": "object",
-							"properties": {
-								"address": {
-									"title": "Address",
-									"type": "string"
-								}
+					"matterType": {
+						"title": "Matter Type",
+						"enum": [
+							"purchase",
+							"refinance"
+						],
+						"enumNames": [
+							"Purchase",
+							"Refinance"
+						]
+					}
+				},
+				"oneOf": [
+					{
+						"properties": {
+							"matterId": {
+								"title": "Matter ID",
+								"type": "string"
 							},
-							"required": [
-								"address"
-							]
+							"matterType": {
+								"enum": [
+									"purchase"
+								]
+							},
+							"assets": {
+								"$ref": "#/definitions/assets"
+							}
 						},
-						"minItems": 1,
-						"title": "Properties",
-						"type": "array"
+						"required": [
+							"matterId",
+							"assets"
+						]
+					},
+					{
+						"properties": {
+							"matterId": {
+								"title": "Matter ID",
+								"type": "string"
+							},
+							"matterType": {
+								"enum": [
+									"refinance"
+								]
+							},
+							"assets": {
+								"$ref": "#/definitions/assets"
+							}
+						},
+						"required": [
+							"matterId",
+							"assets"
+						]
+					}
+				],
+				"x-hints": {
+					"form": {
+						"selector": "matterType"
 					}
 				}
 			},
@@ -34886,24 +34926,6 @@
 						}
 					}
 				}
-			},
-			"assets": {
-				"items": {
-					"properties": {
-						"address": {
-							"title": "Address",
-							"type": "string"
-						}
-					},
-					"required": [
-						"address"
-					],
-					"type": "object"
-				},
-				"maxItems": 1,
-				"minItems": 1,
-				"title": "Properties",
-				"type": "array"
 			}
 		},
 		"properties": {
@@ -34964,7 +34986,11 @@
 														}
 													}
 												}
-											}
+											},
+											"required": [
+												"credit",
+												"date"
+											]
 										},
 										"kiwiSaverHomeStart": {
 											"type": "object",
@@ -34990,7 +35016,11 @@
 														}
 													}
 												}
-											}
+											},
+											"required": [
+												"credit",
+												"date"
+											]
 										}
 									},
 									"required": [
@@ -35065,7 +35095,7 @@
 								"title": "Balance of Purchase Price",
 								"properties": {
 									"credit": {
-										"title": "Debit",
+										"title": "Credit",
 										"type": "number",
 										"minimum": 0,
 										"maximum": 100000000
@@ -35678,6 +35708,24 @@
 						"type": "string"
 					}
 				}
+			},
+			"assets": {
+				"items": {
+					"properties": {
+						"address": {
+							"title": "Address",
+							"type": "string"
+						}
+					},
+					"required": [
+						"address"
+					],
+					"type": "object"
+				},
+				"maxItems": 1,
+				"minItems": 1,
+				"title": "Properties",
+				"type": "array"
 			},
 			"addressRequired": {
 				"type": "object",

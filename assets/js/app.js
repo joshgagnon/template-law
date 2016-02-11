@@ -220,7 +220,6 @@ class App extends React.Component {
         else{
             classes += "container ";
         }
-        console.log('PROPS', this.props)
         return <div className="main">
                 <div className="container">
                     <form className="form-horizontal">
