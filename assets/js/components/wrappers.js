@@ -113,10 +113,10 @@ export class SectionWrapper extends React.Component {
         return <div className="fieldset form-section form-subsection">
             { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
             { (!this.props.title && this.props.errors) &&  <legend>{ this.errors() }</legend>}
+            { this.props.description && this.description() }
             <div>
             { this.props.children }
             { this.props.addItem && <div className="add-item"><button className="btn btn-default" onClick={this.props.addItem}>Add Entry</button></div>}
-            { this.props.description && this.description() }
             </div>
             </div>
     }
