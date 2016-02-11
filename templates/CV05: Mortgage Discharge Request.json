@@ -89,7 +89,8 @@
         "ownerNames": {
             "items": {
                 "type": "string",
-                "title": "Owner Name"
+                "title": "Owner Name",
+                "minLength": 1
             },
             "minItems": 1,
             "title": "Owner Names",

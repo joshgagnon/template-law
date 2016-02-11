@@ -51,7 +51,7 @@ export class FieldWrapper extends React.Component {
         if(this.props.schema && this.props.schema.ignore){
             return false;
         }
-        if(this.props.children.props.isArrayItem && !this.props.children.props.isLastItem){
+        if(this.props.children.props.isArrayItem){
             return this.renderControlledField(classes, this.props)
         }
 
@@ -74,6 +74,10 @@ export class SectionWrapper extends React.Component {
                 return <label key={i} className="control-label">{ e }</label>
             }) }
         </div>
+    }
+
+    description() {
+        return <em className="description">{this.props.description}</em>
     }
 
     renderControlledSection(){
@@ -112,6 +116,7 @@ export class SectionWrapper extends React.Component {
             <div>
             { this.props.children }
             { this.props.addItem && <div className="add-item"><button className="btn btn-default" onClick={this.props.addItem}>Add Entry</button></div>}
+            { this.props.description && this.description() }
             </div>
             </div>
     }

@@ -1,0 +1,119 @@
+{
+    "extends": "Letter Template.json",
+    "description": "Letter of Advice to Purchaser",
+    "title": "Letter of Advice to Purchaser",
+    "properties": {
+        "matter": {
+            "type": "object",
+            "properties": {
+                "assets": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "address": {
+                                "title": "Address",
+                                "type": "string"
+                            }
+                        },
+                        "required": ["address"]
+                    },
+                    "minItems": 1,
+                    "title": "Properties",
+                    "type": "array"
+                }
+            }
+        },
+        "vendorNames": {
+            "items": {
+                "type": "string",
+                "title": "Vendor Name",
+                "minLength": 1
+            },
+            "minItems": 1,
+            "title": "Vendor Names",
+            "type": "array"
+        },
+        "agreementDate": {
+            "title": "Agreement Date",
+            "type": "string",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "date"
+                }
+            }
+        },
+        "purchaseAmount": {
+            "title": "Purchase Amount",
+            "type": "number"
+        },
+        "includeGST": {
+            "type": "boolean",
+            "title": "GST Inclusive"
+        },
+        "depositAmount": {
+            "title": "Deposit Amount",
+            "type": "number"
+        },
+        "payable": {
+            "type": "object",
+            "properties": {
+                "when": {
+                    "title": "Payable When",
+                    "enumNames": [
+                        "upon signing the Agreement",
+                        "when the Agreement becomes unconditional"
+                    ]
+                }
+            },
+            "oneOf":[
+                {
+                    "properties": {
+                        "when": {"enum": ["signed"]}
+                }
+            },
+                {
+                    "properties": {
+                        "when": {"enum": ["unconditional"]}
+                    }
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "when"
+                }
+            }
+        },
+        "payableTo": {
+            "title": "Where Payable To",
+            "type": "string"
+        },
+        "payableToRecipient": {
+            "title": "Payable To",
+            "type": "string",
+            "description": "e.g. real estate agent"
+        },
+        "settlementDate": {
+            "title": "Settlement Date",
+            "type": "string",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "date"
+                }
+            }
+        },
+        "conditions": {
+            "items": {
+                "type": "string",
+                "title": "Condition",
+                "minLength": 1
+            },
+            "title": "Conditions",
+            "type": "array",
+            "description": "e.g: finance, LIM report, builder’s report, due diligence"
+        },
+        "subject": {
+            "ignore": true
+        }
+    },
+    "required": ["vendorNames", "agreementDate", "purchaseAmount", "payableTo", "payableToRecipient", "settlementDate"]
+}

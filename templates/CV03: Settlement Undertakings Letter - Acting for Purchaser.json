@@ -26,7 +26,8 @@
         "vendorNames": {
             "items": {
                 "type": "string",
-                "title": "Vendor Name"
+                "title": "Vendor Name",
+                "minLength": 1
             },
             "minItems": 1,
             "title": "Vendor Names",
@@ -35,7 +36,8 @@
         "purchaserNames": {
             "items": {
                 "type": "string",
-                "title": "Purchaser Name"
+                "title": "Purchaser Name",
+                "minLength": 1
             },
             "minItems": 1,
             "title": "Purchaser Names",

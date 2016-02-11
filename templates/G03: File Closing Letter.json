@@ -26,7 +26,8 @@
             "title": "Documents",
             "items": {
                 "title": "Document name and date",
-                "type": "string"
+                "type": "string",
+                "minLength": 1
             }
         }
     },
