@@ -3,6 +3,7 @@ import letterOfEngagementSchema from '../../templates/G02: Letter of Engagement 
 import fileClosingSchema from '../../templates/G03: File Closing Letter.json';
 import letterOfEngagementConveyancingSchema from '../../templates/CV01: Letter of Engagement - Conveyancing.json';
 import letterOfAdvice from '../../templates/CV02: Letter of Advice to Purchaser.json';
+import CV02Calucate from '../../templates/calculations/CV02.js';
 import settleUnderTakingsSchema from '../../templates/CV03: Settlement Undertakings Letter - Acting for Purchaser.json';
 import settleUnderTakingsVendorSchema from '../../templates/CV04: Settlement Undertakings Letter - Acting for Vendor.json';
 import mortgageDischargeSchema from '../../templates/CV05: Mortgage Discharge Request.json';
@@ -33,7 +34,8 @@ const FORMS = {
         schema: merge(letterTemplateSchema, letterOfEngagementConveyancingSchema)
     },
     'CV02: Letter of Advice to Purchaser': {
-        schema: merge(letterTemplateSchema, letterOfAdvice)
+        schema: merge(letterTemplateSchema, letterOfAdvice),
+        calculate: CV02Calucate
     },
     'CV03: Settlement Undertakings Letter - Acting for Purchaser':{
         schema: merge(letterTemplateSchema, settleUnderTakingsSchema)

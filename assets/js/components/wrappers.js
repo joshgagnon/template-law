@@ -11,7 +11,7 @@ export class FieldWrapper extends React.Component {
                 {  this.props.children }
                 { this.props.description && this.description() }
             </div>
-            <div className="col-sm-3 col-xs-5">
+            <div className="col-sm-3 col-xs-5 list-controls">
                 <div className="btn-group btn-group-xs " role="group">
                     <button className="btn btn-default" onClick={this.props.children.props.moveUp}>
                         <span className="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span>

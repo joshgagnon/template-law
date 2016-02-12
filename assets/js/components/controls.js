@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import DateInput from './datePicker';
 import Form from 'react-json-editor/lib';
 import { FieldWrapper, SectionWrapper } from './wrappers';
@@ -15,7 +16,9 @@ function numberWithCommas(x) {
 
 class TextArea extends React.Component {
     render() {
-        return <input/>
+        return <textarea ref="textarea" {...this.props}
+        onChange={(e) => this.props.onChange(findDOMNode(this.refs['textarea']).value) }
+        className="form-control" rows={3}/>
     }
 }
 

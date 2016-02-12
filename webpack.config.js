@@ -28,14 +28,15 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel', // 'babel-loader' is also a legal name to reference
                 query: {
+                    cacheDirectory: '/tmp/x',
                     presets: ['react', 'es2015', "stage-0"]
                 }
             }, {
-            test: /\.(scss|css)$/,
-            loader: ExtractTextPlugin.extract(
-                // activate source maps via loader query
-                'css?sourceMap!' +
-                'sass?sourceMap'
+                test: /\.(scss|css)$/,
+                loader: ExtractTextPlugin.extract(
+                    // activate source maps via loader query
+                    'css?sourceMap!' +
+                    'sass?sourceMap'
             )
             }, {
                 test: /\.html$/, loader: "handlebars-loader"
