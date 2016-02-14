@@ -1,89 +1,106 @@
 import React from 'react';
-import PDFJS from 'pdfjs-dist'
 import { findDOMNode } from 'react-dom';
+import shallowCompare from 'react-addons-shallow-compare';
+import PDFJS from 'pdfjs-dist'
+import pureRender from 'pure-render-decorator';
+import Promise from 'bluebird';
 
-export default class PDF extends React.Component {
+Promise.config({
+    cancellation: true
+});
 
+class PDF extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { };
-    }
-
-     _loadPDFDocument(props) {
-        if(props.data){
-            return PDFJS.getDocument({data: props.data}).then(::this._onDocumentComplete);
-        }
+        this._pdfPromise = null;
+        this._pagePromises = null;
+        this.state = {};
     }
 
     componentDidMount() {
-        this._loadPDFDocument(this.props);
+        this.loadDocument(this.props);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return shallowCompare(this, nextProps, nextState);
     }
 
     componentWillReceiveProps(newProps) {
-        if ((newProps.data && newProps.data !== this.props.data)) {
-          this._loadPDFDocument(newProps);
-        }
-        if (!!this.state.pdf && !!newProps.page && newProps.page !== this.props.page) {
-          this.setState({page: null});
-          this.state.pdf.getPage(newProps.page)
-            .then(::this._onPageComplete);
+        if((newProps.data && newProps.data !== this.props.data)) {
+            this.loadDocument(newProps);
         }
     }
 
-    shouldComponentUpdate(newProps, newState) {
-        if ((newProps.data && newProps.data !== this.props.data)){
-            return true;
+    loadDocument(props) {
+        if(props.data || props.url){
+            this.cleanup();
+            this._pdfPromise = Promise.resolve(PDFJS.getDocument(props.data ? { data: props.data } : props.url))
+                .then(::this.completeDocument)
+                .catch(PDFJS.MissingPDFException, () => this.setState({error: "Can't find PDF"}))
         }
-        if ((newProps.page && newProps.page !== this.props.page)){
-            return true;
-        }
-        if((newState.pdf && newState.pdf !== this.state.pdf) ||
-            (newState.page && newState.page !== this.state.page)){
-            return true;
-        }
-        return false;
+    }
+
+    completeDocument(pdf) {
+        this.setState({ pdf: pdf, error: null });
+        this._pagePromises && this._pagePromises.isPending() && this._pagePromises.cancel();
+        return this._pagePromises = Promise.map(Array(this.state.pdf.numPages).fill(), (p, i) => {
+            return pdf.getPage(i + 1);
+        })
+        .then((pages) => {
+            this.setState({ pages: pages });
+        })
     }
 
     componentWillUnmount() {
-        clearTimeout(this._renderTimeout);
-        this._unmounted = true;
+        this.cleanup();
+    }
+
+    cleanup() {
+        this._pdfPromise && this._pdfPromise.isPending() && this._pdfPromise.cancel();
+        this._pagePromises && this._pagePromises.isPending() && this._pagePromises.cancel();
+    }
+
+    componentDidUpdate() {
+        if(this.state.pdf && this.state.pages){
+            this.state.pages.map((page, i) => {
+                const canvas = findDOMNode(this.refs[i]),
+                    context = canvas.getContext('2d'),
+                    scale = this.props.scale || 1,
+                    viewport = page.getViewport(canvas.width / page.getViewport(scale).width);
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                });
+            })
+        }
     }
 
     render() {
-        if (!!this.state.page){
-            clearTimeout(this._renderTimeout)
-            this._renderTimeout = setTimeout(() => {
-                const canvas = findDOMNode(this.refs.pdfCanvas),
-                    context = canvas.getContext('2d'),
-                    scale = this.props.scale || 1,
-                    viewport = this.state.page.getViewport(canvas.width / this.state.page.getViewport(1.0).width);
-
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                  };
-                this.state.page.render(renderContext);
-          });
-          return <canvas ref="pdfCanvas" width={1500} heigth={2250}/>
+        if(this.state.error){
+            return <div>{ this.state.error }</div>
         }
-        return <div>Could not load preview.  Please complete all required fields.</div>
-    }
-
-    _onDocumentComplete(pdf) {
-        if (!this._unmounted) {
-            this.setState({ pdf: pdf });
-            pdf
-                .getPage(this.props.page)
-                .then(::this._onPageComplete);
-            this.props.onDocumentComplete(pdf.numPages);
+        if(!this.state.pdf){
+            return <div>No Document to show</div>
         }
-    }
-
-    _onPageComplete(page) {
-        if(!this._ummounted){
-            this.setState({ page: page });
-        }
+        return <div>
+            { Array(this.state.pdf.numPages).fill().map((page, i) => {
+                return <canvas key={i} ref={i} width={ this.props.width || 1500}  />
+            }) }
+        </div>
     }
 }
+
+PDF.propTypes = {
+    data: (props) => {
+        if(props.data && !(props.data instanceof ArrayBuffer)){
+           return new Error('Validation failed!');
+        }
+    },
+    url: React.PropTypes.string,
+    width: React.PropTypes.number
+};
+
+
+export default PDF;
