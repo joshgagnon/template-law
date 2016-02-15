@@ -1,5 +1,5 @@
 import React from 'react';
-import PDF from './pdf';
+import PDF from 'react-pdf-component';
 
 export default class Preview extends React.Component {
     constructor(props) {
