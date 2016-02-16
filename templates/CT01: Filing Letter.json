@@ -1,0 +1,79 @@
+{
+    "extends": "Letter Template.json",
+    "description": "Filing Letter",
+    "title": "Filing Letter",
+    "properties": {
+        "civNumber": {
+            "type": "string",
+            "title": "CIV Number"
+        },
+        "plantiffs": {
+            "type": "array",
+            "minItems": 1,
+            "title": "Plantiffs/Applicants",
+            "items": {
+                "type": "string",
+                "title": "Name"
+            }
+        },
+        "defendants": {
+            "type": "array",
+            "minItems": 1,
+            "title": "Defendants/Respondents",
+            "items": {
+                "type": "string",
+                "title": "Name"
+            }
+        },
+         "filingFee": {
+            "type": "object",
+            "properties": {
+                "include": {
+                    "type": "boolean",
+                    "title": "Filing Fee Included"
+                }
+            },
+            "oneOf":[
+                {
+                    "properties": {
+                        "include": {
+                            "enum": [false]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "include": {
+                            "enum": [true]
+                        },
+                        "amount": {
+                            "title": "Amount",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["amount"]
+                }
+
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "include"
+                }
+            }
+        },
+        "documents": {
+            "type": "array",
+            "title": "Documents",
+            "items": {
+                "title": "Document name and date",
+                "type": "string",
+                "minLength": 1
+            },
+            "minItems": 1
+        },
+        "subject":{
+            "ignore": true
+        }
+    },
+    "required": ["plantiffs", "defendants", "documents"]
+}

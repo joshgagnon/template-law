@@ -16,7 +16,9 @@ import DR02Calculate from '../../templates/calculations/DR02.js';
 import LI01Calculate from '../../templates/calculations/LI01.js';
 import DR01Schema from '../../templates/DR01: Letter of Demand - Debtor.json';
 import DR02Schema from '../../templates/DR02: Letter of Demand - Guarantor.json';
-import LI01Schema from '../../templates/LI01 - Statutory Demand.json';
+import LI01Schema from '../../templates/LI01: Statutory Demand.json';
+import CT01Schema from '../../templates/CT01: Filing Letter.json';
+import CT02Schema from '../../templates/CT02: Service Letter.json';
 import merge from 'deepmerge'
 
 
@@ -64,9 +66,15 @@ const FORMS = {
         schema: merge(letterTemplateSchema, DR02Schema),
         calculate: DR02Calculate
     },
-    'LI01 - Statutory Demand':{
+    'LI01: Statutory Demand':{
         schema: merge(letterTemplateSchema, LI01Schema),
         calculate: LI01Calculate
+    },
+    'CT01: Filing Letter':{
+        schema: merge(letterTemplateSchema, CT01Schema)
+    },
+    'CT02: Service Letter':{
+        schema: merge(letterTemplateSchema, CT02Schema)
     }
 };
 

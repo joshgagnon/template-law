@@ -1,0 +1,43 @@
+{
+    "extends": "Letter Template.json",
+    "description": "Service Letter",
+    "title": "Service Letter",
+    "properties": {
+        "civNumber": {
+            "type": "string",
+            "title": "CIV Number"
+        },
+        "plantiffs": {
+            "type": "array",
+            "minItems": 1,
+            "title": "Plantiffs/Applicants",
+            "items": {
+                "type": "string",
+                "title": "Name"
+            }
+        },
+        "defendants": {
+            "type": "array",
+            "minItems": 1,
+            "title": "Defendants/Respondents",
+            "items": {
+                "type": "string",
+                "title": "Name"
+            }
+        },
+        "documents": {
+            "type": "array",
+            "title": "Documents",
+            "items": {
+                "title": "Document name and date",
+                "type": "string",
+                "minLength": 1
+            },
+            "minItems": 1
+        },
+        "subject":{
+            "ignore": true
+        }
+    },
+    "required": ["plantiffs", "defendants", "documents"]
+}
