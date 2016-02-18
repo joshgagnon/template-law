@@ -34,11 +34,18 @@ class ReadOnlyCurrency extends React.Component {
     }
 }
 
+class Invisible extends React.Component {
+    render() {
+        return null;
+    }
+}
+
 const handlers = {
     'textarea': TextArea,
     'date': DateInput,
     "readOnly": ReadOnly,
-    "readOnlyCurrency": ReadOnlyCurrency
+    "readOnlyCurrency": ReadOnlyCurrency,
+    'invisible': Invisible
 }
 
 

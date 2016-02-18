@@ -32,8 +32,11 @@ export class FieldWrapper extends React.Component {
     }
 
     render() {
-        const width = this.props.schema && this.props.schema['x-hints'] &&
-            this.props.schema['x-hints'].form && this.props.schema['x-hints'].form.width;
+        const hints = (this.props.schema && this.props.schema['x-hints'] &&
+            this.props.schema['x-hints'].form && this.props.schema['x-hints'].form || {})
+        const width = hints.width;
+        const invisible = hints.inputComponent === 'invisible';
+        if(invisible) return false;
         if(width && false){
             const classes = 'col-sm-' + (12/width);
             return <div className={classes}>

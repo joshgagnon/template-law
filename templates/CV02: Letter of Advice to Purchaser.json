@@ -110,6 +110,18 @@
                 }
             }
         },
+        "conditionList": {
+            "type": "array",
+            "title": "Condition List",
+            "items": {
+                "type": "string"
+            },
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "invisible"
+                }
+            }
+        },
 
         "conditions": {
             "type": "object",

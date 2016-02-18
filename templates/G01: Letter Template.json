@@ -94,18 +94,14 @@
         "fileType": {
             "title": "File Type",
             "enum": [
-                "odt",
-                "pdf",
                 "docx",
-                "png",
-                "html"
+                "odt",
+                "pdf"
             ],
             "enumNames": [
-                "OpenDocument Text (.odt)",
-                "Portable Document Format (.pdf)",
                 "Word Document (.docx)",
-                "PNG",
-                "HTML"
+                "OpenDocument Text (.odt)",
+                "Portable Document Format (.pdf)"
             ]
         },
         "dateString": {

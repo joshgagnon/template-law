@@ -117,7 +117,8 @@ class App extends React.Component {
 
     reset(e) {
         e.preventDefault();
-        this.props.dispatch(updateValues({values: DEFAULT_DATA.active.values, output: DEFAULT_DATA.active.values}));
+        const defaults = {...DEFAULT_DATA.active.values, ...(FORMS[this.props.active.form].schema.defaults || {})};
+        this.props.dispatch(updateValues({values: defaults, output: defaults}));
     }
 
     save(e) {
@@ -211,6 +212,7 @@ class App extends React.Component {
 
     render() {
         let classes = '';
+        console.log(this.props)
         if(this.props.view.mode === 'columns'){
             classes += 'container columns '
         }
