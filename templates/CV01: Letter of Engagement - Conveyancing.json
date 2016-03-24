@@ -3,6 +3,10 @@
     "description": "Letter of Engagment - Conveyancing",
     "title": "Letter of Engagment - Conveyancing",
     "properties": {
+        "isNewClient": {
+            "type": "boolean",
+            "title": "Is new client"
+        },
         "matter": {
             "type": "object",
             "properties": {
