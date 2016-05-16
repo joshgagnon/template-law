@@ -13,6 +13,7 @@ import { updateValues, renderDocument, setForm, hideError, openModal, setView, s
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import './helpers';
+import deepmerge from './deepmerge'
 import moment from 'moment';
 import FORMS from './schemas';
 
@@ -98,7 +99,13 @@ class ErrorDialog extends React.Component {
     }
 }
 
-
+function applyAliases(values, aliases={}){
+    values = deepmerge({}, values);
+    Object.keys(aliases).map(k => {
+        values[aliases[k]] = values[k];
+    });
+    return values;
+}
 
 
 class App extends React.Component {
@@ -135,7 +142,8 @@ class App extends React.Component {
         e.preventDefault();
         let filename;
         this.props.dispatch(renderDocument({formName: this.props.active.form,
-                values: {...this.props.active.output, mappings: FORMS[this.props.active.form].schema.mappings }}))
+                values: {...applyAliases(this.props.active.output, FORMS[this.props.active.form].schema.aliases),
+                    mappings: FORMS[this.props.active.form].schema.mappings }}))
             .then((response) => {
                 if(response.error){
                     throw response.error;
@@ -156,7 +164,8 @@ class App extends React.Component {
             return;
         }
         this.props.dispatch(renderPreview({formName: this.props.active.form,
-                values: {...this.props.active.output, fileType: 'pdf', mappings: FORMS[this.props.active.form].schema.mappings }}))
+                values: {...applyAliases(this.props.active.output, FORMS[this.props.active.form].schema.aliases),
+                fileType: 'pdf', mappings: FORMS[this.props.active.form].schema.mappings }}))
             .then((response) => {
                 return response.response.blob()
             })

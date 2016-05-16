@@ -57,7 +57,13 @@
                 }
             }
          },
-
+        "recipient": {
+            "ignore": true
+        },
+        "newMortgagee": {
+             "$ref": "#/definitions/recipient",
+             "title": "New Mortgagee (recipient)"
+        },
         "purchaserNames": {
             "items": {
                 "type": "string",
@@ -113,5 +119,8 @@
             "ignore": true
         }
     },
-    "required": ["purchaserNames", "facilityAgreementDate", "solicitorCertDate"]
+    "required": ["newMortgagee", "purchaserNames", "facilityAgreementDate", "solicitorCertDate"],
+    "aliases": {
+        "newMortgagee": "recipient"
+    }
 }

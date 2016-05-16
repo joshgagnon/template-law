@@ -3,6 +3,14 @@
     "description": "Letter of Advice to Purchaser",
     "title": "Letter of Advice to Purchaser",
     "properties": {
+        "recipient": {
+            "ignore": true
+        },
+        "client": {
+             "$ref": "#/definitions/recipient",
+             "title": "Client (recipient)"
+        },
+
         "matter": {
             "type": "object",
             "properties": {
@@ -575,5 +583,8 @@
                 "Heated towel rail"
             ]
     },
-    "required": ["vendorNames", "agreementDate", "purchaseAmount", "depositAmount", "payableTo", "payableToRecipient", "settlementDate", "titleStatus", "encumbrances", "penaltyInterestRate"]
+    "required": ["recipient", "vendorNames", "agreementDate", "purchaseAmount", "depositAmount", "payableTo", "payableToRecipient", "settlementDate", "titleStatus", "encumbrances", "penaltyInterestRate"],
+    "aliases": {
+        "client": "recipient"
+    }
 }

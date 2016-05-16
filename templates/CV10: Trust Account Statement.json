@@ -54,6 +54,13 @@
         }
     },
     "properties": {
+        "recipient": {
+            "ignore": true
+        },
+        "client": {
+             "$ref": "#/definitions/recipient",
+             "title": "Client (recipient)"
+        },
         "matter": {
             "title": "Matter",
             "type": "object",
@@ -434,7 +441,10 @@
         }
     },
     "required": [
-        "matter", "settlementDate", "paidByTrust"
+        "client", "matter", "settlementDate", "paidByTrust"
     ],
-    "title": "CV10: Trust Account Statement"
+    "title": "CV10: Trust Account Statement",
+    "aliases": {
+        "client": "recipient"
+    }
 }

@@ -28,9 +28,12 @@
                             "items": {
                                 "$ref": "#/definitions/individual"
                             }
+                        },
+                        "contactMethod": {
+                            "$ref": "#/definitions/contactMethod"
                         }
                     },
-                    "required": ["individuals"]
+                    "required": ["individuals", "contactMethod"]
                 },
                 {
                     "type": "object",
@@ -47,9 +50,12 @@
                         "contact": {
                             "title": "Contact",
                             "type": "string"
+                        },
+                        "contactMethod": {
+                            "$ref": "#/definitions/contactMethod"
                         }
                     },
-                    "required": ["companyName", "contact"]
+                    "required": ["companyName", "contact", "contactMethod"]
                 }
             ],
             "x-hints": {
@@ -57,7 +63,7 @@
                     "selector": "recipientType"
                 }
             }
-            },
+        },
         "address": {
             "type": "object",
             "properties": {
@@ -140,36 +146,6 @@
                 }
             },
             "required": ["firstName", "lastName"]
-        }
-    },
-    "description": "Letter Template",
-    "title": "Letter Template",
-    "properties": {
-        "filename": {
-            "title": "File Name",
-            "type": "string"
-        },
-        "fileType": {
-            "title": "File Type",
-            "enum": [
-                "docx",
-                "odt",
-                "pdf"
-            ],
-            "enumNames": [
-                "Word Document (.docx)",
-                "OpenDocument Text (.odt)",
-                "Portable Document Format (.pdf)"
-            ]
-        },
-        "dateString": {
-            "title": "Date",
-            "type": "string",
-            "x-hints" : {
-                "form": {
-                  "inputComponent": "date"
-                }
-            }
         },
         "contactMethod": {
             "title": "Contact Method",
@@ -262,6 +238,36 @@
             "x-hints": {
                 "form": {
                     "selector": "method"
+                }
+            }
+        }
+    },
+    "description": "Letter Template",
+    "title": "Letter Template",
+    "properties": {
+        "filename": {
+            "title": "File Name",
+            "type": "string"
+        },
+        "fileType": {
+            "title": "File Type",
+            "enum": [
+                "docx",
+                "odt",
+                "pdf"
+            ],
+            "enumNames": [
+                "Word Document (.docx)",
+                "OpenDocument Text (.odt)",
+                "Portable Document Format (.pdf)"
+            ]
+        },
+        "dateString": {
+            "title": "Date",
+            "type": "string",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "date"
                 }
             }
         },
@@ -404,7 +410,7 @@
         "valediction"
     ],
     "type": "object",
-    "x-ordering": ["filename", "fileType", "dateString", "recipient", "contactMethod"],
+    "x-ordering": ["filename", "fileType", "dateString", "recipient", "client", "counterPartySolicitors", "existingMortgagee", "newMortgagee", "guarantor", "debtor"],
     "x-form": {
         "form":{
             "allowEmpty": true

@@ -3,6 +3,13 @@
     "description": "DR02: Letter of Demand - Guarantor",
     "extends": "Letter Template.json",
     "properties": {
+        "recipient": {
+            "ignore": true
+        },
+        "guarantor": {
+             "$ref": "#/definitions/recipient",
+             "title": "Guarantor (recipient)"
+        },
         "creditor": {
             "type": "string",
             "title": "Name of Creditor"
@@ -124,6 +131,9 @@
         }
     },
     "required": [
-        "creditor", "debtor", "documentDate", "breakdown", "totalIndebtedness", "debtDate"
-    ]
+        "creditor", "guarantor", "documentDate", "breakdown", "totalIndebtedness", "debtDate"
+    ],
+    "aliases": {
+        "guarantor": "recipient"
+    }
 }

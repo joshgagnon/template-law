@@ -86,6 +86,14 @@
             }
 
         },
+        "recipient": {
+            "ignore": true
+        },
+        "existingMortgagee": {
+             "$ref": "#/definitions/recipient",
+             "title": "Existing Mortgagee (recipient)"
+        },
+
         "ownerNames": {
             "items": {
                 "type": "string",
@@ -117,5 +125,8 @@
             "ignore": true
         }
     },
-    "required": ["ownerNames", "settlementDate", "identifierNumber", "registryLocation"]
+    "required": ["existingMortgagee", "ownerNames", "settlementDate", "identifierNumber", "registryLocation"],
+    "aliases": {
+        "existingMortgagee": "recipient"
+    }
 }

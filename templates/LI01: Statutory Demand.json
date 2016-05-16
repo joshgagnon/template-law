@@ -6,6 +6,10 @@
         "recipient": {
             "ignore": true
         },
+        "debtor": {
+             "$ref": "#/definitions/recipient",
+             "title": "Debtor (recipient)"
+        },
         "recipientCompany": {
             "type": "object",
             "properties": {
@@ -179,6 +183,10 @@
         }
     },
     "required": [
-        "recipientCompany", "creditor", "documentName", "documentDate", "debtDate", "breakdown"
-    ]
+        "debtor", "recipientCompany", "creditor", "documentName", "documentDate", "debtDate", "breakdown"
+    ],
+    "aliases": {
+        "debtor": "recipient"
+    }
+
 }

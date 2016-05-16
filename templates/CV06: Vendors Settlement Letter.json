@@ -23,6 +23,13 @@
                 }
             }
         },
+        "recipient": {
+            "ignore": true
+        },
+        "counterPartySolicitors": {
+             "$ref": "#/definitions/recipient",
+             "title": "Counterparty Solicitors (recipient)"
+        },
         "vendorNames": {
             "items": {
                 "type": "string",
@@ -56,5 +63,9 @@
             "ignore": true
         }
     },
-    "required": ["vendorNames", "purchaserNames", "settlementDate"]
+    "required": ["counterPartySolicitors", "vendorNames", "purchaserNames", "settlementDate"],
+    "aliases": {
+        "counterPartySolicitors": "recipient"
+    }
+
 }

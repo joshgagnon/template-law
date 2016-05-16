@@ -3,6 +3,14 @@
     "description": "DR01: Letter of Demand",
     "extends": "Letter Template.json",
     "properties": {
+        "recipient": {
+            "ignore": true
+        },
+        "debtor": {
+             "$ref": "#/definitions/recipient",
+             "title": "Debtor (recipient)"
+        },
+
         "creditor": {
             "type": "string",
             "title": "Name of Creditor"
@@ -134,5 +142,9 @@
     },
     "required": [
         "creditor", "debtor", "documentName", "documentDate", "breakdown", "totalIndebtedness", "debtDate"
-    ]
+    ],
+    "aliases": {
+        "debtor": "recipient"
+    }
+
 }
