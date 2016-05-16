@@ -3,13 +3,15 @@ import React from 'react';
 
 export class FieldWrapper extends React.Component {
 
+
     renderControlledField(classes){
         return <div className={classes} key={this.props.label} >
             <label htmlFor={this.props.label} className="col-sm-3 col-xs-12 control-label">{this.props.title}</label>
             <div className="col-sm-6 col-xs-7">
                 {  this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
                 {  this.props.children }
-                { this.props.description && this.description() }
+                {  this.props.description && this.description() }
+                {  this.includedIn() }
             </div>
             <div className="col-sm-3 col-xs-5 list-controls">
                 <div className="btn-group btn-group-xs " role="group">
@@ -29,6 +31,10 @@ export class FieldWrapper extends React.Component {
 
     description() {
         return <em className="description">{this.props.description}</em>
+    }
+
+    includedIn() {
+        return this.props.schema && this.props.schema.includedIn && <em className="included-in"><div><strong>Used in:</strong></div> {this.props.schema.includedIn.join(', ')}</em>
     }
 
     render() {
@@ -63,7 +69,8 @@ export class FieldWrapper extends React.Component {
                 <div className="col-sm-9">
                     { this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
                     { this.props.children }
-                    { this.props.description && this.description() }
+                    { this.description() }
+                    { this.includedIn() }
                 </div>
             </div>
     }
@@ -71,6 +78,7 @@ export class FieldWrapper extends React.Component {
 
 
 export class SectionWrapper extends React.Component {
+
     errors() {
         return <div className="form-group has-error has-feedback">
             { this.props.errors.map((e, i) => {
@@ -81,6 +89,10 @@ export class SectionWrapper extends React.Component {
 
     description() {
         return <em className="description">{this.props.description}</em>
+    }
+
+    includedIn() {
+        return this.props.schema && this.props.schema.includedIn && <em className="included-in"><div><strong>Used in:</strong></div> {this.props.schema.includedIn.join(', ')}</em>
     }
 
     renderControlledSection(){
@@ -117,6 +129,7 @@ export class SectionWrapper extends React.Component {
             { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
             { (!this.props.title && this.props.errors) &&  <legend>{ this.errors() }</legend>}
             { this.props.description && this.description() }
+            { this.includedIn() }
             <div>
             { this.props.children }
             { this.props.addItem && <div className="add-item"><button className="btn btn-default" onClick={this.props.addItem}>Add Entry</button></div>}

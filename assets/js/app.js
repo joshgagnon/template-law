@@ -212,7 +212,6 @@ class App extends React.Component {
 
     render() {
         let classes = '';
-        console.log(this.props)
         if(this.props.view.mode === 'columns'){
             classes += 'container columns '
         }
@@ -222,6 +221,7 @@ class App extends React.Component {
         else{
             classes += "container ";
         }
+        console.log(this.props)
         return <div className="main">
                 <div className="container">
                     <form className="form-horizontal">

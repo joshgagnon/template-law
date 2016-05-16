@@ -7,6 +7,9 @@
             "type": "boolean",
             "title": "Is new client"
         },
+        "client": {
+
+        },
         "matter": {
             "type": "object",
             "properties": {

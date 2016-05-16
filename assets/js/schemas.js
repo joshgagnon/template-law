@@ -19,12 +19,12 @@ import DR02Schema from '../../templates/DR02: Letter of Demand - Guarantor.json'
 import LI01Schema from '../../templates/LI01: Statutory Demand.json';
 import CT01Schema from '../../templates/CT01: Filing Letter.json';
 import CT02Schema from '../../templates/CT02: Service Letter.json';
-import merge from 'deepmerge'
+import merge from './deepmerge'
 
 
 const FORMS = {
     'G01: Letter': {
-        schema: letterTemplateSchema
+        schema: letterTemplateSchema,
     },
     'G02: Letter of Engagement': {
         schema: merge(letterTemplateSchema, letterOfEngagementSchema)
@@ -78,6 +78,8 @@ const FORMS = {
     }
 };
 
+
+
 // REMOVE ignored fields, for validation
 (function removeIgnored(obj){
     Object.keys(obj).map(k => {
@@ -92,5 +94,25 @@ const FORMS = {
     });
 })(FORMS);
 
+
+// create super form
+
+
+FORMS['Super Set'] = Object.keys(FORMS).reduce((acc, key) => {
+    const code = key.split(':')[0];
+    acc.schema = merge(FORMS[key].schema, acc.schema, (x) => {
+        if(x && x.title){
+            x.includedIn = [...(x.includedIn || []), code]
+            x.includedIn.sort();
+        }
+    });
+    let calc = acc.calculate;
+    acc.calculate = (values) => merge(calc(values), FORMS[key].calculate ? FORMS[key].calculate(values) : {});
+    return acc;
+}, {schema: {}, calculate: x => ({})})
+// hack
+delete FORMS['Super Set'].schema.properties.includedIn;
+
+console.log(FORMS)
 
 export default FORMS;

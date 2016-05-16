@@ -35,7 +35,6 @@ function calculate(form, values = {}){
 
 function active(state = {form: 'Letter of Engagement', values: {}, errors: {}}, action) {
     let schema, calculated;
-
     switch(action.type){
         case SET_ACTIVE_STATE:
             calculated = calculate(action.data.form, action.data.output)
@@ -49,7 +48,7 @@ function active(state = {form: 'Letter of Engagement', values: {}, errors: {}}, 
             calculated = calculate(action.data.form, state.output)
             schema = FORMS[action.data.form].schema;
             const values = merge(state.values, calculate(action.data.form, state.output))
-            return {...state, values: values, output: merge(state.output, calculated), form: action.data.form, errors: validate(schema, state.output, schema)};
+            return {...state, values: values, output: merge(state.output || {}, calculated), form: action.data.form, errors: validate(schema, state.output, schema)};
     }
     return state;
 }

@@ -1,5 +1,63 @@
 {
     "definitions": {
+        "recipient":{
+            "title": "Recipient Details",
+            "type": "object",
+            "properties": {
+                "recipientType": {
+                    "title": "Recipient Type",
+                    "enumNames": [
+                        "Individual(s)",
+                        "Company"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "individuals"
+                            ]
+                        },
+                        "individuals": {
+                            "minItems": 1,
+                            "title": "Individual(s)",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/individual"
+                            }
+                        }
+                    },
+                    "required": ["individuals"]
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "company"
+                            ]
+                        },
+                        "companyName": {
+                            "title": "Company Name",
+                            "type": "string"
+                        },
+                        "contact": {
+                            "title": "Contact",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["companyName", "contact"]
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "recipientType"
+                }
+            }
+            },
         "address": {
             "type": "object",
             "properties": {
@@ -208,62 +266,7 @@
             }
         },
         "recipient": {
-            "title": "Recipient Details",
-            "type": "object",
-            "properties": {
-                "recipientType": {
-                    "title": "Recipient Type",
-                    "enumNames": [
-                        "Individual(s)",
-                        "Company"
-                    ]
-                }
-            },
-            "oneOf": [
-                {
-                    "type": "object",
-                    "properties": {
-                        "recipientType": {
-                            "enum": [
-                                "individuals"
-                            ]
-                        },
-                        "individuals": {
-                            "minItems": 1,
-                            "title": "Individual(s)",
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/individual"
-                            }
-                        }
-                    },
-                    "required": ["individuals"]
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "recipientType": {
-                            "enum": [
-                                "company"
-                            ]
-                        },
-                        "companyName": {
-                            "title": "Company Name",
-                            "type": "string"
-                        },
-                        "contact": {
-                            "title": "Contact",
-                            "type": "string"
-                        }
-                    },
-                    "required": ["companyName", "contact"]
-                }
-            ],
-            "x-hints": {
-                "form": {
-                    "selector": "recipientType"
-                }
-            }
+             "$ref": "#/definitions/recipient"
         },
         "matter": {
             "type": "object",
