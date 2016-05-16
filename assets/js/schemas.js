@@ -101,7 +101,7 @@ const FORMS = {
 FORMS['Super Set'] = Object.keys(FORMS).reduce((acc, key) => {
     const code = key.split(':')[0];
     acc.schema = merge(acc.schema, FORMS[key].schema, (x, path) => {
-        if(x && path[0] === 'properties'){
+        if(x && path[0] === 'properties' && path.length > 1){
             x.includedIn = [...(x.includedIn || []), code]
             x.includedIn.sort();
             if(x.includedIn.length === Object.keys(FORMS).length -1){
@@ -112,10 +112,12 @@ FORMS['Super Set'] = Object.keys(FORMS).reduce((acc, key) => {
     let calc = acc.calculate;
     acc.calculate = (values) => merge(calc(values), FORMS[key].calculate ? FORMS[key].calculate(values) : {});
     return acc;
-}, {schema: {}, calculate: x => ({})})
+}, {schema: {}, SUPERSET: true, calculate: x => ({})})
 
-// hack
-delete FORMS['Super Set'].schema.properties.includedIn;
+
+FORMS['Super Set'].schema.title = 'Super Set';
+FORMS['Super Set'].schema.description = 'All forms in one';
+
 
 console.log(FORMS)
 

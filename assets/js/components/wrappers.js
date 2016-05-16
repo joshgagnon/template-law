@@ -10,7 +10,7 @@ export class FieldWrapper extends React.Component {
             <div className="col-sm-6 col-xs-7">
                 {  this.props.errors && <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span> }
                 {  this.props.children }
-                {  this.props.description && this.description() }
+                {  this.description() }
                 {  this.includedIn() }
             </div>
             <div className="col-sm-3 col-xs-5 list-controls">
@@ -30,7 +30,7 @@ export class FieldWrapper extends React.Component {
     }
 
     description() {
-        return <em className="description">{this.props.description}</em>
+        return this.props.description && <em className="description">{this.props.description}</em>
     }
 
     includedIn() {
@@ -88,7 +88,7 @@ export class SectionWrapper extends React.Component {
     }
 
     description() {
-        return <em className="description">{this.props.description}</em>
+        return this.props.description && <em className="description">{this.props.description}</em>
     }
 
     includedIn() {
@@ -128,7 +128,7 @@ export class SectionWrapper extends React.Component {
         return <div className="fieldset form-section form-subsection">
             { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
             { (!this.props.title && this.props.errors) &&  <legend>{ this.errors() }</legend>}
-            { this.props.description && this.description() }
+            { this.description() }
             { this.includedIn() }
             <div>
             { this.props.children }

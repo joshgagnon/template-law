@@ -9,7 +9,7 @@ import configureStore from './configureStore';
 import Preview from './components/preview';
 import Controls from './components/controls';
 import { FieldWrapper, SectionWrapper } from './components/wrappers';
-import { updateValues, renderDocument, setForm, hideError, openModal, setView, setPreview, renderPreview } from './actions';
+import { updateValues, renderDocument, setForm, hideError, openModal, setPageView, setFormView, setPreview, renderPreview } from './actions';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import './helpers';
@@ -23,22 +23,12 @@ const DEFAULT_DATA = {
         values: {
         },
         errors: {},
-        form: 'G01: Letter'
+        form: 'Super Set'
     }
 };
 
-let data;
+let data = DEFAULT_DATA;
 
-try{
-    data = JSON.parse(localStorage['currentView']);
-}
-catch(e){
-    data = DEFAULT_DATA;
-}
-
-if(!FORMS[data.active.form]){
-    data.active.form = DEFAULT_DATA.active.form;
-}
 
 const store = configureStore(data);
 
@@ -114,12 +104,12 @@ class App extends React.Component {
         this.props.dispatch(updateValues(data));
     }
 
-    changeForm(e) {
-        this.props.dispatch(setForm({form: findDOMNode(this.refs.formName).value }));
+    changePageView(e) {
+        this.props.dispatch(setPageView(findDOMNode(this.refs.pageView).value));
     }
 
-    changeView() {
-        this.props.dispatch(setView(findDOMNode(this.refs.view).value))
+    changeFormView() {
+        this.props.dispatch(setFormView(findDOMNode(this.refs.formView).value))
     }
 
     reset(e) {
@@ -187,6 +177,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.eagerPreview();
+        this.props.dispatch(setForm({form: this.props.active.form }));
     }
 
     componentDidUpdate() {
@@ -194,24 +185,14 @@ class App extends React.Component {
     }
 
     eagerPreview() {
-        if(this.props.view.mode === 'preview' && !this.props.preview.preview){
+        if(this.props.pageView.mode === 'preview' && !this.props.preview.preview){
             this.generatePreview()
         }
     }
 
-    renderFormSelect() {
-        return <FieldWrapper label="select" title="Form">
-          <select ref="formName" className="form-control" onChange={::this.changeForm} value={this.props.active.form}>
-                { Object.keys(FORMS).map((m, i)=>{
-                    return <option key={i} value={m}>{m}</option>
-                })}
-          </select>
-        </FieldWrapper>
-    }
-
-    renderViewSelect() {
-        return <FieldWrapper label="select" title="View">
-              <select ref="view" className="form-control" onChange={::this.changeView} value={this.props.view.mode}>
+    renderPageViewSelect() {
+        return <FieldWrapper label="select" title="Page View">
+              <select ref="pageView" className="form-control" onChange={::this.changePageView} value={this.props.pageView.mode}>
                 <option key={0} value={'single'}>Single</option>
                 <option key={1} value={'columns'}>Columns</option>
                 <option key={2} value={'preview'}>Preview</option>
@@ -219,12 +200,38 @@ class App extends React.Component {
             </FieldWrapper>
     }
 
+    renderFormViewSelect() {
+        return <FieldWrapper label="select" title="Form View">
+              <select ref="formView" className="form-control" onChange={::this.changeFormView} value={this.props.formView.mode}>
+                <option key={0} value={'single'}>Full Form</option>
+                <option key={1} value={'columns'}>Errors Only</option>
+              </select>
+            </FieldWrapper>
+    }
+
+    renderTemplateSelect() {
+        return <div className="container">
+            <SectionWrapper label="select" title="Output Templates">
+            { Object.keys(FORMS).map((key, i)=>{
+                if(!FORMS[key].SUPERSET){
+                    return <div key={i} className="row"><div className="form-group ">
+                        <label className="col-sm-4 control-label text-right">{ key }</label>
+                        <div className="col-sm-1"><input  type="checkbox" /></div>
+                    </div>
+                    </div>
+                }
+            }) }
+
+        </SectionWrapper>
+        </div>
+    }
+
     render() {
         let classes = '';
-        if(this.props.view.mode === 'columns'){
+        if(this.props.pageView.mode === 'columns'){
             classes += 'container columns '
         }
-        else if(this.props.view.mode === 'preview'){
+        else if(this.props.pageView.mode === 'preview'){
             classes += 'container-fluid has-preview';
         }
         else{
@@ -235,11 +242,11 @@ class App extends React.Component {
                 <div className="container">
                     <form className="form-horizontal">
                         <div className="row">
-                            <div className="col-md-8">
-                                { this.renderFormSelect() }
+                            <div className="col-md-4 col-md-offset-2">
+                                { this.renderFormViewSelect() }
                             </div>
                             <div className="col-md-4">
-                                { this.renderViewSelect() }
+                                { this.renderPageViewSelect() }
                             </div>
                         </div>
                          <div><p>
@@ -255,13 +262,14 @@ class App extends React.Component {
                         valid={::this.valid}
                         active={this.props.active}
                         update={::this.update} />
-                    { this.props.view.mode === 'preview' && <Preview data={this.props.preview.preview } update={ ::this.generatePreview } /> }
+                    { this.props.pageView.mode === 'preview' && <Preview data={this.props.preview.preview } update={ ::this.generatePreview } /> }
             </div>
             { this.props.status.fetching && <Fetching /> }
             { this.props.status.error && <ErrorDialog close={() => this.props.dispatch(hideError())}  /> }
             { FORMS[this.props.active.form].emails && <EmailView values={this.props.active.values} emails={FORMS[this.props.active.form].emails} /> }
             <StateSaver />
             <SaveLoadDialogs />
+            { this.renderTemplateSelect() }
         </div>
     }
 }

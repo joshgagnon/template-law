@@ -70,12 +70,18 @@ html, body{
                     page-break-inside: avoid;
                     break-inside: avoid;
                     & > * {
-                        display: inline-block;
-                        width: 100%;
+
                     }
                 }
             }
         }
+    }
+}
+
+.form-horizontal{
+    input[type="radio"],
+    input[type="checkbox"] {
+        margin: 10px 0 0;
     }
 }
 

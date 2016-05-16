@@ -15,7 +15,8 @@ export const SET_FORM = 'SET_FORM';
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const SET_ACTIVE_STATE= 'SET_ACTIVE_STATE';
-export const SET_VIEW = 'SET_VIEW';
+export const SET_PAGE_VIEW = 'SET_FORM_VIEW';
+export const SET_FORM_VIEW = 'SET_PAGE_VIEW';
 export const SET_PREVIEW = 'SET_PREVIEW';
 
 
@@ -30,12 +31,17 @@ export function updateValues(data){
     }
 }
 
-export function setView(view){
+export function setFormView(view){
     return {
-        type: SET_VIEW, view
+        type: SET_FORM_VIEW, view
     }
 }
 
+export function setPageView(view){
+    return {
+        type: SET_PAGE_VIEW, view
+    }
+}
 export function setPreview(preview){
     return {
         type: SET_PREVIEW, preview

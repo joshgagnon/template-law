@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { UPDATE_VALUES, SET_FORM, RENDER_REQUEST , RENDER_SUCCESS, RENDER_FAILURE,
     PREVIEW_REQUEST, PREVIEW_SUCCESS, PREVIEW_FAILURE,
-    HIDE_ERROR, OPEN_MODAL, CLOSE_MODAL, SET_ACTIVE_STATE, SET_VIEW, SET_PREVIEW} from './actions';
+    HIDE_ERROR, OPEN_MODAL, CLOSE_MODAL, SET_ACTIVE_STATE, SET_PAGE_VIEW, SET_FORM_VIEW, SET_PREVIEW} from './actions';
 import validator from 'react-json-editor/lib/validate';
 import FORMS from './schemas';
 import merge from 'deepmerge'
@@ -77,9 +77,17 @@ function modals(state = {}, action) {
     return state;
 }
 
-function view(state={}, action){
+function pageView(state={}, action){
     switch(action.type){
-        case SET_VIEW:
+        case SET_PAGE_VIEW:
+            return {...state, mode: action.view}
+    }
+    return state;
+}
+
+function formView(state={}, action){
+    switch(action.type){
+        case SET_FORM_VIEW:
             return {...state, mode: action.view}
     }
     return state;
@@ -107,7 +115,8 @@ const rootReducer = combineReducers({
     active,
     status,
     modals,
-    view,
+    pageView,
+    formView,
     preview
 });
 
