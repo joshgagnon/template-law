@@ -1,5 +1,5 @@
 
-export default function deepmerge(target, src, sentinal) {
+export default function deepmerge(target, src, sentinal, path=[]) {
     var array = Array.isArray(src);
     var dst = array && [] || {};
 
@@ -10,14 +10,14 @@ export default function deepmerge(target, src, sentinal) {
             if (typeof dst[i] === 'undefined') {
                 dst[i] = e;
             } else if (typeof e === 'object') {
-                dst[i] = deepmerge(target[i], e, sentinal);
+                dst[i] = deepmerge(target[i], e, sentinal, path);
             } else {
                 if (target.indexOf(e) === -1) {
                     dst.push(e);
                 }
             }
             if(sentinal){
-                sentinal(dst)
+                sentinal(dst, path)
             }
 
         });
@@ -35,10 +35,10 @@ export default function deepmerge(target, src, sentinal) {
                 if (!target[key]) {
                     dst[key] = src[key];
                 } else {
-                    dst[key] = deepmerge(target[key], src[key], sentinal);
+                    dst[key] = deepmerge(target[key], src[key], sentinal, path.concat([key]));
                 }
                 if(sentinal){
-                    sentinal(dst[key])
+                    sentinal(dst[key], path.concat([key]))
                 }
             }
         });
