@@ -10,6 +10,14 @@ export const PREVIEW_REQUEST = 'PREVIEW_REQUEST';
 export const PREVIEW_SUCCESS = 'PREVIEW_SUCCESS';
 export const PREVIEW_FAILURE = 'PREVIEW_FAILURE';
 
+export const SAVE_REQUEST = 'SAVE_REQUEST';
+export const SAVE_SUCCESS = 'SAVE_SUCCESS';
+export const SAVE_FAILURE = 'SAVE_FAILURE';
+
+export const LOAD_REQUEST = 'LOAD_REQUEST';
+export const LOAD_SUCCESS = 'LOAD_SUCCESS';
+export const LOAD_FAILURE = 'LOAD_FAILURE';
+
 export const HIDE_ERROR = 'HIDE_ERROR';
 export const SET_FORM = 'SET_FORM';
 export const OPEN_MODAL = 'OPEN_MODAL';
@@ -79,14 +87,37 @@ export function setActiveState(data){
     }
 }
 
+export function save(data) {
+    return {
+        types: [SAVE_REQUEST, SAVE_SUCCESS, SAVE_FAILURE],
+        callAPI: () => fetch('/save', {
+            method: 'POST',
+            shouldCallAPI: (state) => { !state.save.fetching },
+            headers: json_headers,
+            body: JSON.stringify(data),
+            credentials: 'same-origin'
+        })
+    };
+}
 
+export function load() {
+    return {
+        types: [LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE],
+        callAPI: () => fetch('/load', {
+            method: 'GET',
+            shouldCallAPI: (state) => { !state.savedStates.fetching },
+            headers: json_headers,
+            credentials: 'same-origin'
+        })
+    };
+}
 
 export function renderDocument(data) {
     return {
         types: [RENDER_REQUEST, RENDER_SUCCESS, RENDER_FAILURE],
         callAPI: () => fetch('/render', {
             method: 'POST',
-            shouldCallAPI: (state) => { !state.status.fetching },
+            shouldCallAPI: (state) => { !state.savedStates.fetching },
             headers: json_headers,
             body: JSON.stringify(data),
             credentials: 'same-origin'

@@ -57,7 +57,7 @@ export function callAPIMiddleware({
             return callAPI()
                 .then(checkStatus)
                 .then(response => {
-                    return action.json ? parseJSON(response) : response
+                    return response.headers.get('Content-Type') === "application/json; charset=utf-8" ? parseJSON(response) : response
                 })
                 .then(response => dispatch(Object.assign({}, payload, {
                     response: response,

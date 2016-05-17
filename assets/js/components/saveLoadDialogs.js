@@ -2,18 +2,22 @@ import React from 'react';
 import { findDOMNode } from 'react-dom'
 import { connect } from 'react-redux';
 import Modal from 'react-bootstrap/lib/Modal'
-import { closeModal, setActiveState } from '../actions';
+import { closeModal, setActiveState, load, save } from '../actions';
 
 class LoadDialog extends React.Component {
+    componentDidMount() {
+        this.props.fetch();
+    }
+
     render() {
-        return <Modal show={true}>
+        return <Modal show={true} bsSize="large" onHide={this.props.close} backdrop={'static'}>
             <Modal.Header >
                 <Modal.Title>Load</Modal.Title>
             </Modal.Header>
              <Modal.Body>
                 <div className="list-group">
-                { this.props.names.map(name => {
-                    return <button key={name} className="list-group-item" onClick={() => this.props.load(name)}>{ name }</button>
+                { (this.props.savedStates.data || []).map(row => {
+                    return <button key={row.title} className="list-group-item" onClick={() => this.props.load(row.data) }>{ row.title }</button>
                 })}
                 </div>
             </Modal.Body>
@@ -25,6 +29,9 @@ class LoadDialog extends React.Component {
 }
 
 class SaveDialog extends React.Component {
+    componentDidMount() {
+        this.props.fetch();
+    }
 
     save() {
         const name = findDOMNode(this.refs.name).value;
@@ -36,7 +43,7 @@ class SaveDialog extends React.Component {
     }
 
     render() {
-        return <Modal show={true}>
+        return <Modal show={true} bsSize="large" onHide={this.props.close} backdrop={'static'}>
             <Modal.Header >
                 <Modal.Title>Save</Modal.Title>
             </Modal.Header>
@@ -49,8 +56,8 @@ class SaveDialog extends React.Component {
                 </div>
                 <br/>
                 <div className="list-group">
-                { this.props.names.map(name => {
-                    return <button key={name} className="list-group-item" onClick={() => this.select(name)}>{ name }</button>
+                { (this.props.savedStates.data || []).map(row => {
+                    return <button key={row.title} className="list-group-item" onClick={() => this.select(row.title) }>{ row.title }</button>
                 })}
                 </div>
             </Modal.Body>
@@ -65,29 +72,33 @@ class SaveDialog extends React.Component {
 class SaveLoadDialogs extends React.Component {
 
     save(name) {
-        localStorage[name] = JSON.stringify(this.props.active);
         this.props.dispatch(closeModal('save'));
+        this.props.dispatch(save({
+            title: name,
+            data: this.props.active
+        }))
     }
 
-    load(name) {
-        this.props.dispatch(setActiveState(JSON.parse(localStorage[name])));
+    load(data) {
+        this.props.dispatch(setActiveState(data));
         this.props.dispatch(closeModal('load'));
     }
 
-    names() {
-        return Object.keys(localStorage);
+    fetch() {
+        this.props.dispatch(load())
     }
+
 
     render() {
         if(this.props.modals.save){
-            return <SaveDialog names={this.names()} save={::this.save} close={() => this.props.dispatch(closeModal('save')) } />
+            return <SaveDialog save={::this.save}  fetch={::this.fetch} close={() => this.props.dispatch(closeModal('save')) } savedStates={this.props.savedStates} />
         }
         else if(this.props.modals.load){
-            return <LoadDialog names={this.names()} load={::this.load} close={() => this.props.dispatch(closeModal('load')) } />
+            return <LoadDialog load={::this.load} fetch={::this.fetch} close={() => this.props.dispatch(closeModal('load')) } savedStates={this.props.savedStates} />
         }
         return false;
     }
 };
 
 
-export default connect(state => ({modals: state.modals, active: state.active}))(SaveLoadDialogs);
+export default connect(state => ({modals: state.modals, active: state.active, savedStates: state.savedStates}))(SaveLoadDialogs);
