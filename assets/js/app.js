@@ -98,7 +98,7 @@ function applyAliases(values, aliases={}){
 }
 
 
-class App extends React.Component {
+class App2 extends React.Component {
 
     update(data) {
         this.props.dispatch(updateValues(data));
@@ -166,7 +166,6 @@ class App extends React.Component {
                     this.props.dispatch(setPreview(fileReader.result));
                 };
                 fileReader.readAsArrayBuffer(blob);
-
             })
             .catch(() => {});
     }
@@ -203,8 +202,8 @@ class App extends React.Component {
     renderFormViewSelect() {
         return <FieldWrapper label="select" title="Form View">
               <select ref="formView" className="form-control" onChange={::this.changeFormView} value={this.props.formView.mode}>
-                <option key={0} value={'single'}>Full Form</option>
-                <option key={1} value={'columns'}>Errors Only</option>
+                <option key={0} value={'full'}>Full Form</option>
+                <option key={1} value={'selected'}>Selected Forms Only</option>
               </select>
             </FieldWrapper>
     }
@@ -250,9 +249,9 @@ class App extends React.Component {
                             </div>
                         </div>
                          <div><p>
-                            <button className="btn btn-info" onClick={::this.load}>Load</button>
-                            <button className="btn btn-info" onClick={::this.save}>Save</button>
-                            <button className="btn btn-warning" onClick={::this.reset}>Reset</button>
+                            <button className="btn btn-warning" onClick={::this.reset}>New Matter</button>
+                            <button className="btn btn-info" onClick={::this.load}>Load Matter</button>
+                            <button className="btn btn-info" onClick={::this.save}>Save Matter</button>
                             </p></div>
                     </form>
                 </div>
@@ -274,10 +273,116 @@ class App extends React.Component {
     }
 }
 
+
+class Header extends React.Component {
+    render() {
+        return <nav className="navbar navbar-default navbar-static-top">
+                <div className="container">
+                <form className="navbar-form">
+                    <div className="text-center">
+                        <div className="form-group">
+                            <button className="btn btn-warning" onClick={::this.props.reset}>New Matter</button>
+                            </div>
+                        <div className="form-group">
+                            <button className="btn btn-info" onClick={::this.props.load}>Load Matter</button>
+                            </div>
+                        <div className="form-group">
+                            <button className="btn btn-info" onClick={::this.props.save}>Save Matter</button>
+                            </div>
+                            </div>
+                        </form>
+                </div>
+            </nav>
+    }
+}
+
+
+
+class FullForm extends React.Component {
+    render() {
+        const classes = "container";
+        return <div className={classes}>
+                    <Controls
+                        active={this.props.active}
+                        update={::this.props.update} />
+            </div>
+    }
+}
+
+
+
+class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.reset = ::this.reset;
+        this.save = ::this.save;
+        this.load = ::this.load;
+        this.update = ::this.update;
+    }
+
+    reset(e) {
+        e.preventDefault();
+        const defaults = {...DEFAULT_DATA.active.values, ...(FORMS[this.props.active.form].schema.defaults || {})};
+        this.props.dispatch(updateValues({values: defaults, output: defaults}));
+    }
+
+    update(data) {
+        this.props.dispatch(updateValues(data));
+    }
+
+    save(e) {
+        e.preventDefault();
+        this.props.dispatch(openModal('save'))
+    }
+
+    load(e) {
+        e.preventDefault();
+        this.props.dispatch(openModal('load'));
+    }
+
+    render(){
+        return <div className="main">
+            <Header reset={this.reset} save={this.save} load={this.save} />
+            <SaveLoadDialogs />
+            { React.Children.map(this.props.children,
+                 (child) => React.cloneElement(child, {
+                    active: this.props.active,
+                    update: this.update
+                })) }
+            { this.props.status.fetching && <Fetching />  }
+        </div>
+    }
+}
+
+class ModeChoice extends React.Component {
+    render(){
+        return <div className="container">
+            <div className="col-md-6">
+                <Link to='/full_populate' className="btn btn-lg btn-default">Edit Mega Ultra Form</Link>
+            </div>
+            <div className="col-md-6">
+                <Link to='/form_check' className="btn btn-lg btn-default">Create Templates</Link>
+
+            </div>
+        </div>
+    }
+}
+
 const ConnectedApp = connect(state => state)(App)
 
+import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
+
+const history = syncHistoryWithStore(browserHistory, store);
+
 render( <Provider store = {store} >
-        <ConnectedApp />
+          <Router history={history}>
+              <Route path="/" component={ConnectedApp}>
+                    <IndexRoute component={ModeChoice} />
+                    <Route path="/full_populate" component={FullForm} />
+              </Route>
+        </Router>
     </Provider>,
     document.getElementById('root')
 )

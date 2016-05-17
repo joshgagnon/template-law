@@ -85,6 +85,12 @@ html, body{
     }
 }
 
+
+.navbar .form-group{
+    margin: 0 20px;
+}
+
+
 .main{
 
     .has-preview {
@@ -107,9 +113,7 @@ html, body{
        position: relative;
     }
 
-    padding-top:2em;
-    background-color:#fff;
-    font-size:12px;
+
     input[type="text"], select{
         @extend .form-control;
     }
@@ -136,8 +140,6 @@ html, body{
         }
         .form-group{
             margin-bottom:4px;
-            margin-left:0;
-            margin-right:0;
             text-align: left;
             clear: left;
            &.has-error.has-feedback {

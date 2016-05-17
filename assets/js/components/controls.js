@@ -62,7 +62,7 @@ export default class Controls extends React.Component {
     render() {
         return <div className="controls">
                 <Form ref="form" className="form-horizontal form-controls"
-                buttons={::this.buttons}
+                buttons={null}
                 fieldWrapper={FieldWrapper}
                 sectionWrapper={SectionWrapper}
                 schema={FORMS[this.props.active.form].schema}

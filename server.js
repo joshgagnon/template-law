@@ -37,10 +37,6 @@ app.post('/render', proxy(CONVERT, {
 }));
 
 
-app.get('/', function(req, res) {
-    res.send(base({content: '', assetNames}));
-});
-
 
 app.post('/save', function(req, res) {
     //USE UPSERT
@@ -71,6 +67,12 @@ app.get('/load', function(req, res) {
             res.status = 500;
             res.send(e)
         })
+});
+
+
+
+app.get('/*', function(req, res) {
+    res.send(base({content: '', assetNames}));
 });
 
 

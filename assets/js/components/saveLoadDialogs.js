@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, setActiveState, load, save } from '../actions';
 
 class LoadDialog extends React.Component {
+
     componentDidMount() {
         this.props.fetch();
     }
@@ -29,6 +30,7 @@ class LoadDialog extends React.Component {
 }
 
 class SaveDialog extends React.Component {
+
     componentDidMount() {
         this.props.fetch();
     }
@@ -75,7 +77,7 @@ class SaveLoadDialogs extends React.Component {
         this.props.dispatch(closeModal('save'));
         this.props.dispatch(save({
             title: name,
-            data: this.props.active
+            data: this.props.active.values
         }))
     }
 
@@ -87,7 +89,6 @@ class SaveLoadDialogs extends React.Component {
     fetch() {
         this.props.dispatch(load())
     }
-
 
     render() {
         if(this.props.modals.save){

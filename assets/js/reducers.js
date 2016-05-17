@@ -8,7 +8,7 @@ import { UPDATE_VALUES, SET_FORM, RENDER_REQUEST , RENDER_SUCCESS, RENDER_FAILUR
 import validator from 'react-json-editor/lib/validate';
 import FORMS from './schemas';
 import merge from 'deepmerge'
-
+import { routerReducer } from 'react-router-redux'
 
 function hashedErrors(errors) {
   var result = {};
@@ -138,7 +138,8 @@ const rootReducer = combineReducers({
     pageView,
     formView,
     preview,
-    savedStates
+    savedStates,
+    routing: routerReducer
 });
 
 
