@@ -51,8 +51,9 @@ $rw-version:          "4.1.0";
         button{
             @extend .btn;
             @extend .btn-default;
+            @extend .btn-sm;
             // TODO remove this hack
-            height: 34px;
+
         }
     }
 }

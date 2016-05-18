@@ -28,10 +28,18 @@ export const SET_FORM_VIEW = 'SET_PAGE_VIEW';
 export const SET_PREVIEW = 'SET_PREVIEW';
 
 
+export const SELECT_TEMPLATE = 'SELECT_TEMPLATE';
+
 const json_headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
 };
+
+export function selectTemplate(data){
+    return {
+        type: SELECT_TEMPLATE, data
+    }
+}
 
 export function updateValues(data){
     return {

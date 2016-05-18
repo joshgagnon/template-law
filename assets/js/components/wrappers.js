@@ -132,7 +132,7 @@ export class SectionWrapper extends React.Component {
             { this.includedIn() }
             <div>
             { this.props.children }
-            { this.props.addItem && <div className="add-item"><button className="btn btn-default" onClick={this.props.addItem}>Add Entry</button></div>}
+            { this.props.addItem && <div className="add-item"><button onClick={this.props.addItem}>Add Entry</button></div>}
             </div>
             </div>
     }

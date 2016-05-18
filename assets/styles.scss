@@ -78,21 +78,36 @@ html, body{
     }
 }
 
-.form-horizontal{
-    input[type="radio"],
-    input[type="checkbox"] {
-        margin: 10px 0 0;
+.create-templates{
+
+
+    .validation-errors, .validation-success, .edit{
+                padding-left:20px;
+    }
+    .validation-success{
+        color:green;
+    }
+    .validation-errors{
+        color:red;
+    }
+    .btn-row{
+        text-align:center;
+        margin: 20px 0;
     }
 }
-
 
 .navbar .form-group{
     margin: 0 20px;
 }
 
+.pager li {
+    padding: 0 10px;
+}
 
 .main{
-
+    hr{
+        margin: 0;
+    }
     .has-preview {
         .form-controls{
             @extend .col-md-5;
@@ -112,14 +127,23 @@ html, body{
     .fieldset{
        position: relative;
     }
-
+    input[type="radio"],
+    input[type="checkbox"] {
+        margin: 10px 0 0;
+    }
 
     input[type="text"], select{
         @extend .form-control;
+        @extend .input-sm;
     }
-    input[type="text"], select, button{
-        font-size:12px;
+    button{
+        @extend .btn;
+        @extend .btn-sm;
     }
+    label{
+        font-size:12px
+    }
+
     button .glyphicon{
         top: 3px;
     }
@@ -187,20 +211,8 @@ html, body{
 
         & > .fieldset {
             text-align: center;
-            & > div{
-                & > .fieldset {
-                    & > * {
-                        //display: inline-block;
-                        //width: 100%;
-                    }
-                }
-            }
-            &  > .fieldset, & > .form-group {
-                //@extend .col-md-6;
-                //width:50%
-            }
-            &  .fieldset {
 
+            &  .fieldset {
                 legend {
                     border:none;
                     font-size: 1em;
@@ -221,22 +233,37 @@ html, body{
                 }
             }
              & > div > .fieldset > legend{
-                font-size: 1.4em;
-                 .has-error{
+                background-color: #504F4F;
+                color: white;
+                font-style: normal;
+                padding: 6px;
+                font-weight: normal;
+                font-size: 1.2em;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                margin:0;
+                .has-error{
                     font-size:0.8em
-                 }
+                }
             }
              & > div > .fieldset{
                 background-color:#efefef;
-                margin-top: 30px;
-                margin-bottom: 30px;
-                padding: 16px;
+                padding: 0;
                 border-radius: 8px;
+                margin-bottom:8px;
+                &  > div {
+                    padding-left: 10%;
+                    padding-right: 10%;
+                    padding-top: 6px;
+                    padding-bottom: 6px;
+                }
+
+
             }
         }
 
         .add-item{
-            padding-bottom:12px;
+            padding-bottom:6px;
         }
         .read-only{
             margin-bottom: 0;

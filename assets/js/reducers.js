@@ -3,7 +3,8 @@ import { UPDATE_VALUES, SET_FORM, RENDER_REQUEST , RENDER_SUCCESS, RENDER_FAILUR
     PREVIEW_REQUEST, PREVIEW_SUCCESS, PREVIEW_FAILURE,
     HIDE_ERROR, OPEN_MODAL, CLOSE_MODAL, SET_ACTIVE_STATE, SET_PAGE_VIEW, SET_FORM_VIEW, SET_PREVIEW,
     LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE,
-    SAVE_REQUEST, SAVE_SUCCESS, SAVE_FAILURE
+    SAVE_REQUEST, SAVE_SUCCESS, SAVE_FAILURE,
+    SELECT_TEMPLATE
     } from './actions';
 import validator from 'react-json-editor/lib/validate';
 import FORMS from './schemas';
@@ -130,6 +131,13 @@ function preview(state={}, action){
     return state;
 }
 
+function templates(state={}, action){
+    switch(action.type){
+        case SELECT_TEMPLATE:
+            return {...state, ...action.data}
+    }
+    return state;
+}
 
 const rootReducer = combineReducers({
     active,
@@ -139,6 +147,7 @@ const rootReducer = combineReducers({
     formView,
     preview,
     savedStates,
+    templates,
     routing: routerReducer
 });
 

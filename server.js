@@ -17,17 +17,11 @@ const db = pgp(cn);
 const fs = Promise.promisifyAll(_fs);
 const app = express();
 
-const DEV = process.env.NODE_ENV !== 'production';
+const DEV = process.env.NODE_ENV !== 'production'
 const PORT = DEV ? 3000 : 5667;
 const CONVERT = DEV ? 'localhost:5668' : 'https://convert.catalex.nz'
 
 let base, assetNames = {js: 'app.js', css: 'app.css'};
-
-
-
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
 
 
 app.post('/render', proxy(CONVERT, {
@@ -35,6 +29,12 @@ app.post('/render', proxy(CONVERT, {
         return '/render';
     }
 }));
+
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+
 
 
 

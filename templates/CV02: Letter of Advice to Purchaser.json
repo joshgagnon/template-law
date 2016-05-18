@@ -64,6 +64,7 @@
         },
         "payable": {
             "type": "object",
+            "title": "Payable When",
             "properties": {
                 "when": {
                     "title": "Payable When",
@@ -373,6 +374,7 @@
 
         "title": {
             "type": "object",
+            "title": "Title Status",
             "properties": {
                 "status": {
                     "title": "Title Status",

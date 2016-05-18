@@ -9,13 +9,15 @@ import configureStore from './configureStore';
 import Preview from './components/preview';
 import Controls from './components/controls';
 import { FieldWrapper, SectionWrapper } from './components/wrappers';
-import { updateValues, renderDocument, setForm, hideError, openModal, setPageView, setFormView, setPreview, renderPreview } from './actions';
+import { updateValues, renderDocument, setForm, hideError, openModal, setPageView, setFormView, setPreview, renderPreview, selectTemplate } from './actions';
 import '../styles.scss';
 import { saveAs } from 'filesaver.js';
 import './helpers';
 import deepmerge from './deepmerge'
 import moment from 'moment';
 import FORMS from './schemas';
+import validator from 'react-json-editor/lib/validate';
+import Promise from 'bluebird';
 
 
 const DEFAULT_DATA = {
@@ -297,14 +299,114 @@ class Header extends React.Component {
 }
 
 
+class Navs extends React.Component {
+    render() {
+        return <nav>
+            <ul className="pager">
+            <li><Link to='/full_populate' >Edit Mega Ultra Form</Link></li>
+                <li><Link to='/create'>Create Templates</Link></li>
+            </ul>
+         </nav>
+    }
+}
+
+
 
 class FullForm extends React.Component {
     render() {
         const classes = "container";
         return <div className={classes}>
+                <Navs />
+
                     <Controls
+                        active={{...this.props.active, form: 'Super Set'}}
+                        update={::this.props.update} />
+            </div>
+    }
+}
+
+
+class CreateTemplates extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleDownload = ::this.handleDownload;
+    }
+
+    handleChange(key) {
+        this.props.selectTemplate({[key]: findDOMNode(this.refs[key]).checked});
+    }
+
+    handleEdit(key) {
+        this.props.setForm({form: key});
+    }
+
+    handleDownload() {
+        const keys = Object.keys(this.props.templates).reduce((acc, key) => {
+            if(this.props.templates[key]){
+                acc.push(key)
+            }
+            return acc;
+        }, []);
+        this.props.generate(keys);
+    }
+
+
+    validate(key) {
+        return validator(FORMS[key].schema, this.props.active.values, FORMS[key].schema);
+    }
+
+    reportValid(key) {
+        if(this.props.templates[key]){
+           const errors = this.validate(key);
+           if(!errors.length){
+                return <span className="validation-success">Valid</span>
+           }
+           return <span className="validation-errors">{errors.length} Errors</span>
+        }
+    }
+    editButton(key) {
+        if(this.props.templates[key]){
+            return <a className="edit" href="#" onClick={() => this.handleEdit(key)}>Edit</a>
+        }
+    }
+
+    renderTemplateSelect() {
+        return <form><SectionWrapper label="select" title="Output Templates">
+            { Object.keys(FORMS).map((key, i)=>{
+                if(!FORMS[key].SUPERSET){
+                    return <div key={i} className="row"><div className="form-group ">
+                        <label className="col-sm-6 control-label text-right">{ key }</label>
+                        <div className="col-sm-3"><input  ref={key} type="checkbox"
+                            onChange={() => this.handleChange(key)} checked={this.props.templates[key]}/>
+                            { this.reportValid(key) }
+                            { this.editButton(key) }
+                        </div>
+                    </div>
+                    </div>
+                }
+            }) }
+
+        </SectionWrapper>
+        </form>
+    }
+
+    renderForm() {
+        if(!FORMS[this.props.active.form].SUPERSET){
+            return <Controls
                         active={this.props.active}
                         update={::this.props.update} />
+        }
+    }
+
+    render() {
+        const classes = "container create-templates";
+        return <div className={classes}>
+                <Navs />
+                { this.renderTemplateSelect() }
+             <div className="btn-row">
+                    <button className="btn btn-primary btn-lg" onClick={this.handleDownload}>Download</button>
+                </div>
+                { this.renderForm() }
             </div>
     }
 }
@@ -319,6 +421,9 @@ class App extends React.Component {
         this.save = ::this.save;
         this.load = ::this.load;
         this.update = ::this.update;
+        this.selectTemplate = ::this.selectTemplate;
+        this.generate = ::this.generate;
+        this.setForm = ::this.setForm;
     }
 
     reset(e) {
@@ -341,14 +446,49 @@ class App extends React.Component {
         this.props.dispatch(openModal('load'));
     }
 
+    selectTemplate(data) {
+        this.props.dispatch(selectTemplate(data));
+    }
+
+    setForm(data) {
+        this.props.dispatch(setForm(data));
+    }
+
+    generate(forms) {
+        let filename;
+        Promise.each(forms, (formKey) => {
+            return this.props.dispatch(renderDocument({formName: formKey,
+                    values: {...applyAliases(this.props.active.output || {}, FORMS[formKey].schema.aliases || {}),
+                        mappings: FORMS[formKey].schema.mappings }}))
+                .then((response) => {
+                    if(response.error){
+                        throw response.error;
+                    }
+                    const disposition = response.response.headers.get('Content-Disposition')
+                    filename = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition)[1].replace(/"/g, '');
+                    return response.response.blob()
+                })
+                .then(blob => {
+                    saveAs(blob, filename);
+                })
+                .catch(() => {});
+        });
+    }
+
+
+
     render(){
         return <div className="main">
-            <Header reset={this.reset} save={this.save} load={this.save} />
+            <Header reset={this.reset} save={this.save} load={this.load} />
             <SaveLoadDialogs />
             { React.Children.map(this.props.children,
                  (child) => React.cloneElement(child, {
                     active: this.props.active,
-                    update: this.update
+                    update: this.update,
+                    selectTemplate: this.selectTemplate,
+                    templates: this.props.templates,
+                    generate: this.generate,
+                    setForm: this.setForm
                 })) }
             { this.props.status.fetching && <Fetching />  }
         </div>
@@ -379,7 +519,8 @@ const history = syncHistoryWithStore(browserHistory, store);
 render( <Provider store = {store} >
           <Router history={history}>
               <Route path="/" component={ConnectedApp}>
-                    <IndexRoute component={ModeChoice} />
+                    <IndexRoute component={FullForm} />
+                    <Route path="/create" component={CreateTemplates} />
                     <Route path="/full_populate" component={FullForm} />
               </Route>
         </Router>

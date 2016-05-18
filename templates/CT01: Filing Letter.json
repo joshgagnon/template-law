@@ -26,6 +26,7 @@
             }
         },
          "filingFee": {
+            "title": "Filing Fee",
             "type": "object",
             "properties": {
                 "include": {

@@ -77,7 +77,7 @@ class SaveLoadDialogs extends React.Component {
         this.props.dispatch(closeModal('save'));
         this.props.dispatch(save({
             title: name,
-            data: this.props.active.values
+            data: this.props.active
         }))
     }
 

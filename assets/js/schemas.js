@@ -101,11 +101,11 @@ const FORMS = {
 FORMS['Super Set'] = Object.keys(FORMS).reduce((acc, key) => {
     const code = key.split(':')[0];
     acc.schema = merge(acc.schema, FORMS[key].schema, (x, path) => {
-        if(x && path[0] === 'properties' && path.length > 1){
+        if(x && path[0] === 'properties' && path[path.length-1] !== 'properties' && path.length > 1){
             x.includedIn = [...(x.includedIn || []), code]
             x.includedIn.sort();
             if(x.includedIn.length === Object.keys(FORMS).length -1){
-             //   x.includedIn = ['All forms']
+                x.includedIn = ['All forms']
             }
         }
     });
