@@ -1,7 +1,7 @@
 {
-    "title": "LI01 - Statutory Demand",
-    "description": "LI01 - Statutory Demand",
-    "extends": "Letter Template.json",
+    "title": "LI01: Statutory Demand",
+    "description": "Statutory Demand",
+    "extends": "G01: Letter Template",
     "properties": {
         "recipient": {
             "ignore": true

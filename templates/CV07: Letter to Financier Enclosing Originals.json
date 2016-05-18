@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
+    "extends": "G01: Letter Template",
     "description": "Letter to Fincancier Enclosing Originals",
-    "title": "Letter to Fincancier Enclosing Originals",
+    "title": "CV07: Letter to Fincancier Enclosing Originals",
     "properties": {
         "matter": {
             "type": "object",

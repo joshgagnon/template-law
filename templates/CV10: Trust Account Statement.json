@@ -1,6 +1,8 @@
 {
-    "description": "CV10: Trust Account Statement",
-    "extends": "Letter Template.json",
+    "title": "CV10: Trust Account Statement",
+    "description": "Trust Account Statement",
+    "extends": "G01: Letter Template",
+
     "definitions": {
         "repaymentOfIndebtedness": {
             "type": "object",

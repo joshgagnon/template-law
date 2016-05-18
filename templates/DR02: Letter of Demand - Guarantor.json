@@ -1,7 +1,7 @@
 {
     "title": "DR02: Letter of Demand - Guarantor",
-    "description": "DR02: Letter of Demand - Guarantor",
-    "extends": "Letter Template.json",
+    "description": "Letter of Demand - Guarantor",
+    "extends": "G01: Letter Template",
     "properties": {
         "recipient": {
             "ignore": true

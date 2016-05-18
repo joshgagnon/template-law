@@ -115,21 +115,20 @@ html, body{
         .preview{
             text-align: center;
             @extend .col-md-7;
-            canvas{
-                width:100%;
-                max-width:1000px;
-                border: 1px solid #cdcdcd;
-            }
+
+        }
+    }
+    .preview{
+        text-align: center;
+        canvas{
+            width:100%;
+            max-width:1000px;
+            border: 1px solid #cdcdcd;
         }
     }
 
-
     .fieldset{
        position: relative;
-    }
-    input[type="radio"],
-    input[type="checkbox"] {
-        margin: 10px 0 0;
     }
 
     input[type="text"], select{
@@ -148,7 +147,12 @@ html, body{
         top: 3px;
     }
 
-    form {
+    .controls form {
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin: 10px 0 0;
+        }
+
         p {
             text-align:center;
             .btn{
@@ -264,6 +268,11 @@ html, body{
 
         .add-item{
             padding-bottom:6px;
+            button {
+                @extend .btn;
+                @extend .btn-sm;
+                @extend .btn-default;
+            }
         }
         .read-only{
             margin-bottom: 0;

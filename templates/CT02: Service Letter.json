@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
+    "extends": "G01: Letter Template",
     "description": "Service Letter",
-    "title": "Service Letter",
+    "title": "CT02: Service Letter",
     "properties": {
         "civNumber": {
             "type": "string",

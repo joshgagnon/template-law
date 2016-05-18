@@ -2,14 +2,14 @@ import letterTemplateSchema from '../../templates/G01: Letter Template.json';
 import letterOfEngagementSchema from '../../templates/G02: Letter of Engagement - General.json';
 import fileClosingSchema from '../../templates/G03: File Closing Letter.json';
 import letterOfEngagementConveyancingSchema from '../../templates/CV01: Letter of Engagement - Conveyancing.json';
-import letterOfAdvice from '../../templates/CV02: Letter of Advice to Purchaser.json';
+import CV02Schema from '../../templates/CV02: Letter of Advice to Purchaser.json';
 import CV02Calucate from '../../templates/calculations/CV02.js';
-import settleUnderTakingsSchema from '../../templates/CV03: Settlement Undertakings Letter - Acting for Purchaser.json';
-import settleUnderTakingsVendorSchema from '../../templates/CV04: Settlement Undertakings Letter - Acting for Vendor.json';
-import mortgageDischargeSchema from '../../templates/CV05: Mortgage Discharge Request.json';
-import vendorsSettlementSchema from '../../templates/CV06: Vendors Settlement Letter.json';
-import letterToFinancierSchema from '../../templates/CV07: Letter to Financier Enclosing Originals.json';
-import trustAccountStatementSchema from '../../templates/CV10: Trust Account Statement.json';
+import CV03Schema from '../../templates/CV03: Settlement Undertakings Letter - Acting for Purchaser.json';
+import CV04Schema from '../../templates/CV04: Settlement Undertakings Letter - Acting for Vendor.json';
+import CV05Schema from '../../templates/CV05: Mortgage Discharge Request.json';
+import CV06Schema from '../../templates/CV06: Vendors Settlement Letter.json';
+import CV07Schema from '../../templates/CV07: Letter to Financier Enclosing Originals.json';
+import CV10Schema from '../../templates/CV10: Trust Account Statement.json';
 import CV10Calcuate from '../../templates/calculations/CV10.js';
 import DR01Calculate from '../../templates/calculations/DR01.js';
 import DR02Calculate from '../../templates/calculations/DR02.js';
@@ -23,61 +23,71 @@ import merge from './deepmerge'
 
 
 const FORMS = {
-    'G01: Letter': {
+    'G01: Letter Template': {
         schema: letterTemplateSchema,
     },
     'G02: Letter of Engagement': {
-        schema: merge(letterTemplateSchema, letterOfEngagementSchema)
+        schema: letterOfEngagementSchema,
     },
     'G03: File Closing Letter': {
-        schema: merge(letterTemplateSchema, fileClosingSchema)
+        schema: fileClosingSchema,
     },
     'CV01: Letter of Engagement - Conveyancing': {
-        schema: merge(letterTemplateSchema, letterOfEngagementConveyancingSchema)
+        schema: letterOfEngagementConveyancingSchema
     },
     'CV02: Letter of Advice to Purchaser': {
-        schema: merge(letterTemplateSchema, letterOfAdvice),
+        schema: CV02Schema,
         calculate: CV02Calucate
     },
     'CV03: Settlement Undertakings Letter - Acting for Purchaser':{
-        schema: merge(letterTemplateSchema, settleUnderTakingsSchema)
+        schema: CV03Schema,
     },
     'CV04: Settlement Undertakings Letter - Acting for Vendor':{
-        schema: merge(letterTemplateSchema, settleUnderTakingsVendorSchema)
+        schema: CV04Schema,
     },
     'CV05: Mortgage Discharge Request':{
-        schema: merge(letterTemplateSchema, mortgageDischargeSchema)
+        schema: CV05Schema
     },
     'CV06: Vendors Settlement Letter':{
-        schema: merge(letterTemplateSchema, vendorsSettlementSchema)
+        schema: CV06Schema
     },
     'CV07: Letter to Financier Enclosing Originals':{
-        schema: merge(letterTemplateSchema, letterToFinancierSchema)
+        schema: CV07Schema
     },
     'CV10: Trust Account Statement':{
-        schema: merge(letterTemplateSchema, trustAccountStatementSchema),
+        schema: CV10Schema,
         calculate: CV10Calcuate
     },
     'DR01: Letter of Demand - Debtor':{
-        schema: merge(letterTemplateSchema, DR01Schema),
+        schema: DR01Schema,
         calculate: DR01Calculate
     },
     'DR02: Letter of Demand - Guarantor':{
-        schema: merge(letterTemplateSchema, DR02Schema),
+        schema: DR02Schema,
         calculate: DR02Calculate
     },
     'LI01: Statutory Demand':{
-        schema: merge(letterTemplateSchema, LI01Schema),
+        schema: LI01Schema,
         calculate: LI01Calculate
     },
     'CT01: Filing Letter':{
-        schema: merge(letterTemplateSchema, CT01Schema)
+        schema: CT01Schema,
     },
     'CT02: Service Letter':{
-        schema: merge(letterTemplateSchema, CT02Schema)
+        schema: CT01Schema
     }
 };
 
+// apply extensions
+
+Object.keys(FORMS).map(key => {
+    if(FORMS[key].schema.extends){
+        const extKeys = Array.isArray(FORMS[key].schema.extends) ? FORMS[key].schema.extends : [FORMS[key].schema.extends];
+        extKeys.map(extKey => {
+            FORMS[key].schema = merge(FORMS[key].schema, FORMS[extKey].schema);
+        })
+    }
+});
 
 
 // REMOVE ignored fields, for validation

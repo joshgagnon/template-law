@@ -1,7 +1,7 @@
 {
     "title": "DR01: Letter of Demand",
-    "description": "DR01: Letter of Demand",
-    "extends": "Letter Template.json",
+    "description": "Letter of Demand",
+    "extends": "G01: Letter Template",
     "properties": {
         "recipient": {
             "ignore": true

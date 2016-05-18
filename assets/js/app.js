@@ -4,7 +4,7 @@ import Handlebars from 'handlebars';
 import { render, findDOMNode } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import StateSaver from './components/stateSaver';
-import SaveLoadDialogs from './components/saveLoadDialogs';
+import Modals from './components/modals';
 import configureStore from './configureStore';
 import Preview from './components/preview';
 import Controls from './components/controls';
@@ -100,7 +100,7 @@ function applyAliases(values, aliases={}){
 }
 
 
-class App2 extends React.Component {
+class AppOLDDELETE extends React.Component {
 
     update(data) {
         this.props.dispatch(updateValues(data));
@@ -283,7 +283,7 @@ class Header extends React.Component {
                 <form className="navbar-form">
                     <div className="text-center">
                         <div className="form-group">
-                            <button className="btn btn-warning" onClick={::this.props.reset}>New Matter</button>
+                            <button className="btn btn-warning" onClick={::this.props.createNew}>New Matter</button>
                             </div>
                         <div className="form-group">
                             <button className="btn btn-info" onClick={::this.props.load}>Load Matter</button>
@@ -350,6 +350,9 @@ class CreateTemplates extends React.Component {
         this.props.generate(keys);
     }
 
+    handlePreview(key) {
+        this.props.generatePreview(key);
+    }
 
     validate(key) {
         return validator(FORMS[key].schema, this.props.active.values, FORMS[key].schema);
@@ -364,14 +367,21 @@ class CreateTemplates extends React.Component {
            return <span className="validation-errors">{errors.length} Errors</span>
         }
     }
+
     editButton(key) {
         if(this.props.templates[key]){
             return <a className="edit" href="#" onClick={() => this.handleEdit(key)}>Edit</a>
         }
     }
 
+    previewButton(key) {
+        if(this.props.templates[key] && !this.validate(key).length){
+            return <a className="edit" href="#" onClick={() => this.handlePreview(key)}>Preview</a>
+        }
+    }
+
     renderTemplateSelect() {
-        return <form><SectionWrapper label="select" title="Output Templates">
+        return <form><SectionWrapper label="select">
             { Object.keys(FORMS).map((key, i)=>{
                 if(!FORMS[key].SUPERSET){
                     return <div key={i} className="row"><div className="form-group ">
@@ -380,6 +390,7 @@ class CreateTemplates extends React.Component {
                             onChange={() => this.handleChange(key)} checked={this.props.templates[key]}/>
                             { this.reportValid(key) }
                             { this.editButton(key) }
+                            { this.previewButton(key) }
                         </div>
                     </div>
                     </div>
@@ -407,6 +418,7 @@ class CreateTemplates extends React.Component {
                     <button className="btn btn-primary btn-lg" onClick={this.handleDownload}>Download</button>
                 </div>
                 { this.renderForm() }
+                <Preview data={this.props.preview.preview } />
             </div>
     }
 }
@@ -417,19 +429,19 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.reset = ::this.reset;
+        this.createNew = ::this.createNew;
         this.save = ::this.save;
         this.load = ::this.load;
         this.update = ::this.update;
         this.selectTemplate = ::this.selectTemplate;
         this.generate = ::this.generate;
+        this.generatePreview = ::this.generatePreview;
         this.setForm = ::this.setForm;
     }
 
-    reset(e) {
+    createNew(e) {
         e.preventDefault();
-        const defaults = {...DEFAULT_DATA.active.values, ...(FORMS[this.props.active.form].schema.defaults || {})};
-        this.props.dispatch(updateValues({values: defaults, output: defaults}));
+        this.props.dispatch(openModal('new'))
     }
 
     update(data) {
@@ -456,9 +468,16 @@ class App extends React.Component {
 
     generate(forms) {
         let filename;
+        const filenameParts = [];
+        const date = moment().format('D MMM YYYY');
+        if(this.props.active.output.filename){
+            filenameParts.push(this.props.active.output.filename);
+        }
+        filenameParts.concat(this.props.active.schema.title, this.props.active.output.matterId, date);
         Promise.each(forms, (formKey) => {
             return this.props.dispatch(renderDocument({formName: formKey,
                     values: {...applyAliases(this.props.active.output || {}, FORMS[formKey].schema.aliases || {}),
+                        filename: filenameParts.join(' - '),
                         mappings: FORMS[formKey].schema.mappings }}))
                 .then((response) => {
                     if(response.error){
@@ -475,12 +494,31 @@ class App extends React.Component {
         });
     }
 
+    generatePreview(form) {
+        if(this.props.preview.fetching || this.props.preview.error || this.props.preview.current){
+            return;
+        }
+        this.props.dispatch(renderPreview({formName: this.props.active.form,
+                values: {...applyAliases(this.props.active.output || {}, FORMS[this.props.active.form].schema.aliases),
+                fileType: 'pdf', mappings: FORMS[this.props.active.form].schema.mappings }}))
+            .then((response) => {
+                return response.response.blob()
+            })
+            .then(blob => {
 
+                const fileReader = new FileReader();
+                fileReader.onload = () => {
+                    this.props.dispatch(setPreview(fileReader.result));
+                };
+                fileReader.readAsArrayBuffer(blob);
+            })
+            .catch(() => {});
+    }
 
     render(){
         return <div className="main">
-            <Header reset={this.reset} save={this.save} load={this.load} />
-            <SaveLoadDialogs />
+            <Header createNew={this.createNew} save={this.save} load={this.load} />
+            <Modals />
             { React.Children.map(this.props.children,
                  (child) => React.cloneElement(child, {
                     active: this.props.active,
@@ -488,7 +526,9 @@ class App extends React.Component {
                     selectTemplate: this.selectTemplate,
                     templates: this.props.templates,
                     generate: this.generate,
-                    setForm: this.setForm
+                    generatePreview: this.generatePreview,
+                    setForm: this.setForm,
+                    preview: this.props.preview
                 })) }
             { this.props.status.fetching && <Fetching />  }
         </div>

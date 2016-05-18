@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
+    "extends": "G01: Letter Template",
     "description": "Settlement Undertakings Letter - Acting for Vendor",
-    "title": "Settlement Undertakings Letter - Acting for Vendor",
+    "title": "CV04: Settlement Undertakings Letter - Acting for Vendor",
     "properties": {
         "matter": {
             "type": "object",

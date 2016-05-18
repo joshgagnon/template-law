@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
-    "description": "C05: Mortgage Discharge Request",
-    "title": "C05: Mortgage Discharge Request",
+    "extends": "G01: Letter Template",
+    "description": "Mortgage Discharge Request",
+    "title": "CV05: Mortgage Discharge Request",
     "properties": {
         "matter": {
             "type": "object",

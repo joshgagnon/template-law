@@ -243,10 +243,10 @@
         }
     },
     "description": "Letter Template",
-    "title": "Letter Template",
+    "title": "G01: Letter Template",
     "properties": {
         "filename": {
-            "title": "File Name",
+            "title": "File Name Prefix",
             "type": "string"
         },
         "fileType": {
@@ -410,7 +410,7 @@
         "valediction"
     ],
     "type": "object",
-    "x-ordering": ["filename", "fileType", "dateString", "recipient", "client", "counterPartySolicitors", "existingMortgagee", "newMortgagee", "guarantor", "debtor"],
+    "x-ordering": ["matter", "filename", "fileType", "dateString", "recipient", "client", "counterPartySolicitors", "existingMortgagee", "newMortgagee", "guarantor", "debtor"],
     "x-form": {
         "form":{
             "allowEmpty": true

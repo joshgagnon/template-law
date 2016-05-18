@@ -9,9 +9,9 @@ export default class Preview extends React.Component {
 
     render() {
         return <div className="preview">
-            <p>
+            { this.props.update && <p>
                 <button className="btn btn-info" onClick={this.props.update}>Update</button>
-            </p>
+            </p> }
             <PDF data={this.props.data} />
         </div>
     }

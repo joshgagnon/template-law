@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
+    "extends": "G01: Letter Template",
     "description": "Filing Letter",
-    "title": "Filing Letter",
+    "title": "CT01: Filing Letter",
     "properties": {
         "civNumber": {
             "type": "string",

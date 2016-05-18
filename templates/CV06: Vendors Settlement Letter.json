@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
+    "extends": "G01: Letter Template",
     "description": "Vendors Settlement Letter",
-    "title": "Vendors Settlement Letter",
+    "title": "CV05: Vendors Settlement Letter",
     "properties": {
         "matter": {
             "type": "object",

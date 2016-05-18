@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
+    "extends": "G01: Letter Template",
     "description": "File Closing Letter",
-    "title": "File Closing Letter",
+    "title": "G03: File Closing Letter",
     "properties": {
         "matter": {
             "type": "object",

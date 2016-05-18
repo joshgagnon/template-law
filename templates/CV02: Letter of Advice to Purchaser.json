@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
+    "extends": "G01: Letter Template",
     "description": "Letter of Advice to Purchaser",
-    "title": "Letter of Advice to Purchaser",
+    "title": "CV02: Letter of Advice to Purchaser",
     "properties": {
         "recipient": {
             "ignore": true

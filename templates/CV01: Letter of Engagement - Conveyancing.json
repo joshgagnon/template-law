@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
+    "extends": "G01: Letter Template",
     "description": "Letter of Engagment - Conveyancing",
-    "title": "Letter of Engagment - Conveyancing",
+    "title": "CV01: Letter of Engagment - Conveyancing",
     "properties": {
         "isNewClient": {
             "type": "boolean",

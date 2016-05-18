@@ -1,7 +1,7 @@
 {
-    "extends": "Letter Template.json",
+    "extends": "G01: Letter Template",
     "description": "Letter of Engagment",
-    "title": "Letter of Engagment",
+    "title": "G02: Letter of Engagment",
     "properties": {
         "matter": {
             "type": "object",
