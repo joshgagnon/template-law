@@ -147,12 +147,20 @@ html, body{
         top: 3px;
     }
 
-    .controls form {
-        input[type="radio"],
-        input[type="checkbox"] {
-            margin: 10px 0 0;
-        }
+    .with-controls{
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 8px;
+    }
 
+    .controls form {
+        .form-group{
+            input[type="radio"],
+            input[type="checkbox"] {
+                margin: 10px 0 0;
+            }
+        }
         p {
             text-align:center;
             .btn{
@@ -160,8 +168,9 @@ html, body{
             }
         }
         hr{
-            clear: both;
-            width: 50%;
+           /* margin: 8px auto;
+            border-top: 1px solid #fff;
+            width: 100%; */
         }
         .list-controls{
             text-align: left;

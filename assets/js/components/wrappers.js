@@ -40,25 +40,35 @@ export class FieldWrapper extends React.Component {
     render() {
         const hints = (this.props.schema && this.props.schema['x-hints'] &&
             this.props.schema['x-hints'].form && this.props.schema['x-hints'].form || {})
-        const width = hints.width;
+        //const width = hints.width;
         const invisible = hints.inputComponent === 'invisible';
-        if(invisible) return false;
-        if(width && false){
+        const inline = hints.inline;
+        const ignore = this.props.schema && this.props.schema.ignore
+        if(invisible || ignore){
+            return false;
+        }
+        if(inline){
+            return this.renderInline();
+        }
+        /*if(width && false){
             const classes = 'col-sm-' + (12/width);
             return <div className={classes}>
                 { this.renderField() }
                 </div>
-        }
+        }*/
         return this.renderField();
+    }
+
+    renderInline() {
+        return <label className="checkbox-inline">
+                {this.props.children } {this.props.title}
+        </label>
     }
 
     renderField() {
         let classes = 'form-group ';
         if(this.props.errors){
             classes += 'has-error has-feedback ';
-        }
-        if(this.props.schema && this.props.schema.ignore){
-            return false;
         }
         if(this.props.children.props.isArrayItem){
             return this.renderControlledField(classes, this.props)

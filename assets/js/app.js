@@ -25,7 +25,7 @@ const DEFAULT_DATA = {
         values: {
         },
         errors: {},
-        form: 'Super Set'
+        form: 'Conveyancing Superset'
     }
 };
 
@@ -214,7 +214,7 @@ class AppOLDDELETE extends React.Component {
         return <div className="container">
             <SectionWrapper label="select" title="Output Templates">
             { Object.keys(FORMS).map((key, i)=>{
-                if(!FORMS[key].SUPERSET){
+                if(!FORMS[key].schema.SUPERSET){
                     return <div key={i} className="row"><div className="form-group ">
                         <label className="col-sm-4 control-label text-right">{ key }</label>
                         <div className="col-sm-1"><input  type="checkbox" /></div>
@@ -319,7 +319,7 @@ class FullForm extends React.Component {
                 <Navs />
 
                     <Controls
-                        active={{...this.props.active, form: 'Super Set'}}
+                        active={{...this.props.active, form: 'Conveyancing Superset'}}
                         update={::this.props.update} />
             </div>
     }
@@ -402,7 +402,7 @@ class CreateTemplates extends React.Component {
     }
 
     renderForm() {
-        if(!FORMS[this.props.active.form].SUPERSET){
+        if(!FORMS[this.props.active.form].schema.SUPERSET){
             return <Controls
                         active={this.props.active}
                         update={::this.props.update} />
@@ -473,7 +473,7 @@ class App extends React.Component {
         if(this.props.active.output.filename){
             filenameParts.push(this.props.active.output.filename);
         }
-        filenameParts.concat(this.props.active.schema.title, this.props.active.output.matterId, date);
+        filenameParts.concat(this.props.active.schema.description, this.props.active.output.matterId, date);
         Promise.each(forms, (formKey) => {
             return this.props.dispatch(renderDocument({formName: formKey,
                     values: {...applyAliases(this.props.active.output || {}, FORMS[formKey].schema.aliases || {}),

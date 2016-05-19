@@ -410,7 +410,7 @@
         "valediction"
     ],
     "type": "object",
-    "x-ordering": ["matter", "filename", "fileType", "dateString", "recipient", "client", "counterPartySolicitors", "existingMortgagee", "newMortgagee", "guarantor", "debtor"],
+    "x-ordering": ["filename", "fileType", "dateString", "recipient", "matter"],
     "x-form": {
         "form":{
             "allowEmpty": true

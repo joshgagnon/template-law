@@ -14,3 +14,11 @@ CREATE TABLE saved_data (
     data json,
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 )
+
+
+
+TODO
+   force matterID,
+
+
+   File names -  ${name without code} - ${matterId} - ${DD MMM YYYY}.ext
