@@ -1,8 +1,10 @@
 
-export default function deepmerge(target, src, sentinal, path=[]) {
+export default function deepmerge(target, src, options={sentinal: null, path: []}) {
     var array = Array.isArray(src);
     var dst = array && [] || {};
-
+    if(!options.path){
+        options.path = [];
+    }
     if (array) {
         target = target || [];
         dst = dst.concat(target);
@@ -10,14 +12,14 @@ export default function deepmerge(target, src, sentinal, path=[]) {
             if (typeof dst[i] === 'undefined') {
                 dst[i] = e;
             } else if (typeof e === 'object') {
-                dst[i] = deepmerge(target[i], e, sentinal, path);
+                dst[i] = deepmerge(target[i], e, options);
             } else {
                 if (target.indexOf(e) === -1) {
                     dst.push(e);
                 }
             }
-            if(sentinal){
-                sentinal(dst, path)
+            if(options.sentinal){
+                options.sentinal(dst, options.path);
             }
 
         });
@@ -35,10 +37,11 @@ export default function deepmerge(target, src, sentinal, path=[]) {
                 if (!target[key]) {
                     dst[key] = src[key];
                 } else {
-                    dst[key] = deepmerge(target[key], src[key], sentinal, path.concat([key]));
+                    options.path = options.path.concat([key]);
+                    dst[key] = deepmerge(target[key], src[key], options);
                 }
-                if(sentinal){
-                    sentinal(dst[key], path.concat([key]))
+                if(options.sentinal){
+                    options.sentinal(dst[key], options.path.concat([key]))
                 }
             }
         });

@@ -110,10 +110,10 @@ export class SectionWrapper extends React.Component {
         return <div  className={ classes }>
             <div>
             {/*<label htmlFor={this.props.label} className="col-sm-2 col-xs-12 control-label">{this.props.title}</label> */}
-            <div className="col-sm-9 col-xs-7">
+            <div className="controlled-section">
                 { this.props.children }
             </div>
-            { <div className="col-sm-3 col-xs-5 list-controls">
+            { <div className="list-controls">
                 <div className="btn-group  btn-group-xs" role="group">
                     <button className="btn btn-default" onClick={this.props.moveUp}>
                         <span className="glyphicon glyphicon-arrow-up" aria-hidden="true" ></span>
@@ -126,7 +126,7 @@ export class SectionWrapper extends React.Component {
                     </button>
                     </div>
             </div> }
-            <div className="row"><hr/></div>
+
         </div>
         </div>
     }
@@ -136,8 +136,8 @@ export class SectionWrapper extends React.Component {
             return this.renderControlledSection()
         }
         return <div className="fieldset form-section form-subsection">
-            { this.props.title && <legend>{ this.props.title } { this.props.errors && this.errors() }</legend>}
-            { (!this.props.title && this.props.errors) &&  <legend>{ this.errors() }</legend>}
+            { this.props.title && <legend>{ this.props.title }</legend>}
+            { this.props.errors && this.errors() }
             { this.description() }
             { this.includedIn() }
             <div>

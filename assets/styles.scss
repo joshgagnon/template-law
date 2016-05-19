@@ -105,9 +105,6 @@ html, body{
 }
 
 .main{
-    hr{
-        margin: 0;
-    }
     .has-preview {
         .form-controls{
             @extend .col-md-5;
@@ -149,9 +146,21 @@ html, body{
 
     .with-controls{
         padding: 4px;
-        border: 1px solid #ccc;
+        background-color:rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         margin-bottom: 8px;
+        float: left;
+        width:100%;
+        .controlled-section{
+            width: calc(100% - 100px);
+            float:left;
+        }
+
+        .list-controls{
+            text-align: right;
+            width: 100px;
+            float: left;
+        }
     }
 
     .controls form {
@@ -167,14 +176,7 @@ html, body{
                 margin:4px;
             }
         }
-        hr{
-           /* margin: 8px auto;
-            border-top: 1px solid #fff;
-            width: 100%; */
-        }
-        .list-controls{
-            text-align: left;
-        }
+
         .form-group{
             margin-bottom:4px;
             text-align: left;

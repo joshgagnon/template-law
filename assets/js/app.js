@@ -313,6 +313,10 @@ class Navs extends React.Component {
 
 
 class FullForm extends React.Component {
+    componentDidMount() {
+        this.props.update({})
+    }
+
     render() {
         const classes = "container";
         return <div className={classes}>
