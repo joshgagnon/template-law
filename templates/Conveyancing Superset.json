@@ -233,7 +233,8 @@
                             "$ref": "#/definitions/otherPartyRoles"
                         }
                     },
-                    "required": ["individuals", "contactMethod", "roles"]
+                    "required": ["individuals", "contactMethod", "roles"],
+                    "x-ordering": ["roles"]
                 },
                 {
                     "type": "object",
@@ -258,7 +259,8 @@
                              "$ref": "#/definitions/otherPartyRoles"
                         }
                     },
-                    "required": ["companyName", "contact", "contactMethod", "roles"]
+                    "required": ["companyName", "contact", "contactMethod", "roles"],
+                    "x-ordering": ["roles"]
                 }
             ],
             "x-hints": {
@@ -269,6 +271,25 @@
         }
     },
     "properties": {
+        "matterMatterId": {
+            "type": "object",
+            "title": "Matter",
+            "properties": {
+                "matterId": {
+                    "title": "Matter ID",
+                    "type" : "string"
+                }
+            },
+            "required": ["matterId"]
+        },
+        "matter": {
+            "title": "Conveyance Details",
+            "properties": {
+                "matterId": {
+                    "ignore": true
+                }
+            }
+        },
         "clientsWithRoles": {
             "items": {
                 "$ref":  "#/definitions/recipientWithRoles",
@@ -311,5 +332,16 @@
             "ignore": true
         }
     },
-    "x-ordering": ["matter", "clientsWithRoles", "otherPartiesWithRoles"]
+    "x-ordering": ["matterMatterId", "", "clientsWithRoles", "otherPartiesWithRoles"],
+    "mappings": {
+        "lender": {
+            "ASB Bank Limited": {
+                "recipientType": "company",
+                "companyName": "ASB Bank Limited",
+                "contactMethod": "post",
+                "contact": {
+                }
+            }
+        }
+    }
 }

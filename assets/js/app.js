@@ -387,7 +387,7 @@ class CreateTemplates extends React.Component {
     renderTemplateSelect() {
         return <form><SectionWrapper label="select">
             { Object.keys(FORMS).map((key, i)=>{
-                if(!FORMS[key].SUPERSET){
+                if(!FORMS[key].schema.SUPERSET){
                     return <div key={i} className="row"><div className="form-group ">
                         <label className="col-sm-6 control-label text-right">{ key }</label>
                         <div className="col-sm-3"><input  ref={key} type="checkbox"

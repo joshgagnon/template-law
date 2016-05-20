@@ -7,29 +7,21 @@ export default function deepmerge(target, src, options={sentinal: null, path: []
     }
     if (array) {
         target = target || [];
-        if(options.prepend){
-            if(!Array.isArray(target)){
-                target = [target];
-            }
-            dst = target.concat(dst);
-        }
-        else{
-            dst = dst.concat(target);
-        }
+        dst = dst.concat(target);
         src.forEach(function(e, i) {
             if (typeof dst[i] === 'undefined') {
                 dst[i] = e;
             } else if (typeof e === 'object') {
                 dst[i] = deepmerge(target[i], e, options);
             } else {
-                if (target.indexOf(e) === -1) {
-                    dst.push(e);
+                const index = target.indexOf(e);
+                if (index === -1) {
+                    dst.splice(i, 0, e);
                 }
             }
             if(options.sentinal){
                 options.sentinal(dst, options.path);
             }
-
         });
     } else {
         if (target && typeof target === 'object') {

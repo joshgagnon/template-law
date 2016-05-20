@@ -15,10 +15,16 @@ function getFirstName(recipient){
 
 export default function calculate(values){
     var results = {matter: {}};
+
+    results.matter = values.matterMatterId;
+
+
     results.purchaserNames = [];
     (values.clientsWithRoles || []).map(client => {
         const roles = client.roles || {};
+        values.client = client;
         if(roles.purchaser){
+            results.matter = {matterType: 'purchase' }
             if(client.recipientType === 'individuals'){
                 (client.individuals || []).map(individual => {
                     results.purchaserNames.push(individual.firstName + ' ' + individual.lastName)
@@ -30,6 +36,7 @@ export default function calculate(values){
         }
 
          if(roles.vendor){
+            results.matter = {matterType: 'sale' }
             results.vendorNames = [];
             if(client.recipientType === 'individuals'){
                 (client.individuals || []).map(individual => {
@@ -41,6 +48,12 @@ export default function calculate(values){
             }
         }
 
+        if(roles.mortgagor){
+            results.matter = {matterType: 'refinance' };
+        }
+        if(roles.borrower){
+            results.matter = {matterType: 'refinance' };
+        }
         if(roles.guarantor){
             results.guarantor = client;
         }
@@ -92,8 +105,14 @@ export default function calculate(values){
             results.counterPartySolicitor = client;
         }
 
-    })
+    });
 
+    if(values.settlementDate && !((values.matter||{}).loanAdvance||{}).date){
+        results.matter = results.matter || {};
+        results.matter.loanAdvance = {date: values.settlementDate};
+    }
 
+    console.log(values)
+    console.log(results)
     return results;
 }
