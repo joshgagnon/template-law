@@ -90,11 +90,11 @@ export class FieldWrapper extends React.Component {
 export class SectionWrapper extends React.Component {
 
     errors() {
-        return <div className="form-group has-error has-feedback">
-            { this.props.errors.map((e, i) => {
+        return <span className="has-error has-feedback">
+           { this.props.errors.map((e, i) => {
                 return <label key={i} className="control-label">{ e }</label>
             }) }
-        </div>
+        </span>
     }
 
     description() {
@@ -136,8 +136,8 @@ export class SectionWrapper extends React.Component {
             return this.renderControlledSection()
         }
         return <div className="fieldset form-section form-subsection">
-            { this.props.title && <legend>{ this.props.title }</legend>}
-            { this.props.errors && this.errors() }
+            { this.props.title && <legend>{ this.props.title }   { this.props.errors && this.errors() }</legend>}
+
             { this.description() }
             { this.includedIn() }
             <div>

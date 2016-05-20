@@ -20,6 +20,7 @@ import LI01Schema from '../../templates/LI01: Statutory Demand.json';
 import CT01Schema from '../../templates/CT01: Filing Letter.json';
 import CT02Schema from '../../templates/CT02: Service Letter.json';
 import ConveyancingSuperset from '../../templates/Conveyancing Superset.json';
+import ConveyancingSupersetCalculate from '../../templates/calculations/Conveyancing Superset.js';
 import merge from './deepmerge'
 
 
@@ -78,7 +79,8 @@ const FORMS = {
         schema: CT01Schema
     },
     'Conveyancing Superset': {
-        schema: ConveyancingSuperset
+        schema: ConveyancingSuperset,
+        calculate: ConveyancingSupersetCalculate,
     }
 };
 
@@ -88,11 +90,13 @@ Object.keys(FORMS).map(key => {
     if(FORMS[key].schema.extends){
         const extKeys = Array.isArray(FORMS[key].schema.extends) ? FORMS[key].schema.extends : [FORMS[key].schema.extends];
         extKeys.map(extKey => {
-            FORMS[key].schema = merge(FORMS[extKey].schema, FORMS[key].schema, {sentinal: (x, path) => {
-                if(FORMS[key].schema.showIncluded && x && path[0] === 'properties' && path[path.length-1] !== 'properties' && path.length > 1){
-                    x.includedIn = [...(x.includedIn || []), code]
-                    x.includedIn.sort();
-                }
+            FORMS[key].schema = merge(FORMS[extKey].schema, FORMS[key].schema, {
+                prepend: true,
+                sentinal: (x, path) => {
+                    if(FORMS[key].schema.showIncluded && x && path[0] === 'properties' && path[path.length-1] !== 'properties' && path.length > 1){
+                        x.includedIn = [...(x.includedIn || []), code]
+                        x.includedIn.sort();
+                    }
             }});
         })
     }

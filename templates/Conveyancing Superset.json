@@ -1,0 +1,315 @@
+
+
+{
+    "extends": ["G01: Letter Template",
+    "G02: Letter of Engagement", "G03: File Closing Letter",
+    "CV01: Letter of Engagement - Conveyancing",
+    "CV02: Letter of Advice to Purchaser",
+    "CV03: Settlement Undertakings Letter - Acting for Purchaser",
+    "CV04: Settlement Undertakings Letter - Acting for Vendor", "CV05: Mortgage Discharge Request",
+    "CV06: Vendors Settlement Letter", "CV07: Letter to Financier Enclosing Originals",
+    "CV10: Trust Account Statement"],
+    "title": "Conveyancing Superset",
+    "SUPERSET": true,
+    "definitions": {
+        "roles": {
+            "type": "object",
+            "title": "Roles",
+            "properties": {
+                "purchaser": {
+                    "type": "boolean",
+                    "title": "Purchaser",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "vendor": {
+                    "type": "boolean",
+                    "title": "Vendor",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "trustee": {
+                    "type": "boolean",
+                    "title": "Trustee",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "borrower": {
+                    "type": "boolean",
+                    "title": "Borrower",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "mortgagor": {
+                    "type": "boolean",
+                    "title": "Mortgagor",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "nominator": {
+                    "type": "boolean",
+                    "title": "Nominator",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "guarantor": {
+                    "type": "boolean",
+                    "title": "Guarantor",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "kiwisaver": {
+                    "type": "boolean",
+                    "title": "Kiwisaver",
+                    "x-hints": { "form": { "inline": true } }
+                }
+            },
+            "x-hints": {
+                "form": {
+                    "inline": true
+                }
+            }
+        },
+        "otherPartyRoles": {
+            "type": "object",
+            "title": "Roles",
+            "properties": {
+                "purchaser": {
+                    "type": "boolean",
+                    "title": "Purchaser",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "vendor": {
+                    "type": "boolean",
+                    "title": "Vendor",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "trustee": {
+                    "type": "boolean",
+                    "title": "Trustee",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "lender": {
+                    "type": "boolean",
+                    "title": "Borrower",
+                    "x-hints": { "form": { "inline": true } }
+                },
+
+                "borrower": {
+                    "type": "boolean",
+                    "title": "Borrower",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "mortgagor": {
+                    "type": "boolean",
+                    "title": "Mortgagor",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "existingMortgagee": {
+                    "type": "boolean",
+                    "title": "Current Mortgagee",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "newMortgagee": {
+                    "type": "boolean",
+                    "title": "New Mortgagee",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "realEstateAgent": {
+                    "type": "boolean",
+                    "title": "Real Estate Agent",
+                    "x-hints": { "form": { "inline": true } }
+                },
+                "solicitor": {
+                    "type": "boolean",
+                    "title": "Solicitor",
+                    "x-hints": { "form": { "inline": true } }
+                }
+            },
+            "x-hints": {
+                "form": {
+                    "inline": true
+                }
+            }
+        },
+
+
+        "recipientWithRoles": {
+            "title": "Recipient Details",
+            "type": "object",
+            "properties": {
+                "recipientType": {
+                    "title": "Recipient Type",
+                    "enumNames": [
+                        "Individual(s)",
+                        "Company"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "individuals"
+                            ]
+                        },
+                        "individuals": {
+                            "minItems": 1,
+                            "title": "Individual(s)",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/individual"
+                            }
+                        },
+                        "contactMethod": {
+                            "$ref": "#/definitions/contactMethod"
+                        },
+                        "roles": {
+                            "$ref": "#/definitions/roles"
+                        }
+                    },
+                    "required": ["individuals", "contactMethod", "roles"]
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "company"
+                            ]
+                        },
+                        "companyName": {
+                            "title": "Company Name",
+                            "type": "string"
+                        },
+                        "contact": {
+                            "title": "Contact",
+                            "type": "string"
+                        },
+                        "contactMethod": {
+                            "$ref": "#/definitions/contactMethod"
+                        },
+                        "roles": {
+                             "$ref": "#/definitions/roles"
+                        }
+                    },
+                    "required": ["companyName", "contact", "contactMethod", "roles"]
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "recipientType"
+                }
+            }
+        },
+        "otherPartiesWithRoles": {
+            "title": "Other Parties Details",
+            "type": "object",
+            "properties": {
+                "recipientType": {
+                    "title": "Recipient Type",
+                    "enumNames": [
+                        "Individual(s)",
+                        "Company"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "individuals"
+                            ]
+                        },
+                        "individuals": {
+                            "minItems": 1,
+                            "title": "Individual(s)",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/individual"
+                            }
+                        },
+                        "contactMethod": {
+                            "$ref": "#/definitions/contactMethod"
+                        },
+                        "roles": {
+                            "$ref": "#/definitions/otherPartyRoles"
+                        }
+                    },
+                    "required": ["individuals", "contactMethod", "roles"]
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "recipientType": {
+                            "enum": [
+                                "company"
+                            ]
+                        },
+                        "companyName": {
+                            "title": "Company Name",
+                            "type": "string"
+                        },
+                        "contact": {
+                            "title": "Contact",
+                            "type": "string"
+                        },
+                        "contactMethod": {
+                            "$ref": "#/definitions/contactMethod"
+                        },
+                        "roles": {
+                             "$ref": "#/definitions/otherPartyRoles"
+                        }
+                    },
+                    "required": ["companyName", "contact", "contactMethod", "roles"]
+                }
+            ],
+            "x-hints": {
+                "form": {
+                    "selector": "recipientType"
+                }
+            }
+        }
+    },
+    "properties": {
+        "clientsWithRoles": {
+            "items": {
+                "$ref":  "#/definitions/recipientWithRoles",
+                "minLength": 1
+            },
+            "minItems": 1,
+            "title": "Clients",
+            "type": "array"
+        },
+        "otherPartiesWithRoles": {
+            "items": {
+                "$ref":  "#/definitions/otherPartiesWithRoles",
+                "minLength": 1
+            },
+            "title": "Other Parties",
+            "type": "array"
+        },
+        "subject": {
+            "ignore": false
+        },
+        "recipient": {
+             "ignore": true
+        },
+        "client": {
+            "ignore": true
+        },
+        "counterPartySolicitors": {
+            "ignore": true
+        },
+        "existingMortgagee": {
+            "ignore": true
+        },
+        "newMortgagee": {
+            "ignore": true
+        },
+        "guarantor": {
+            "ignore": true
+        },
+        "debtor": {
+            "ignore": true
+        }
+    },
+    "x-ordering": ["matter", "clientsWithRoles", "otherPartiesWithRoles"]
+}

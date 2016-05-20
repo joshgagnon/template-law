@@ -43,15 +43,15 @@ function active(state = {form: 'Letter of Engagement', values: {}, errors: {}}, 
         case SET_ACTIVE_STATE:
             calculated = calculate(action.data.form, action.data.output)
             schema = FORMS[action.data.form].schema;
-            return {...action.data, values: merge(action.data.values, calculated),  output: merge(action.data.output, calculated), errors: validate(schema, action.data.output, schema)};
+            return {...action.data, values: merge(action.data.values|| {}, calculated),  output: merge(action.data.output|| {}, calculated), errors: validate(schema, action.data.output, schema)};
         case UPDATE_VALUES:
             calculated = calculate(state.form, action.data.output)
             schema = FORMS[state.form].schema;
-            return {...state, values: merge(action.data.values, calculated), output: merge(action.data.output, calculated), errors: validate(schema, action.data.output, schema)};
+            return {...state, values: merge(action.data.values|| {}, calculated), output: merge(action.data.output|| {}, calculated), errors: validate(schema, action.data.output, schema)};
         case SET_FORM:
             calculated = calculate(action.data.form, state.output)
             schema = FORMS[action.data.form].schema;
-            const values = merge(state.values, calculate(action.data.form, state.output))
+            const values = merge(state.values|| {}, calculate(action.data.output, state.output))
             return {...state, values: values, output: merge(state.output || {}, calculated), form: action.data.form, errors: validate(schema, state.output, schema)};
     }
     return state;

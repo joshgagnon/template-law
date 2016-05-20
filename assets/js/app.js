@@ -283,7 +283,7 @@ class Header extends React.Component {
                 <form className="navbar-form">
                     <div className="text-center">
                         <div className="form-group">
-                            <button className="btn btn-warning" onClick={::this.props.createNew}>New Matter</button>
+                        <button className="btn btn-warning" onClick={::this.props.createNew}>New Matter</button>
                             </div>
                         <div className="form-group">
                             <button className="btn btn-info" onClick={::this.props.load}>Load Matter</button>
@@ -314,7 +314,7 @@ class Navs extends React.Component {
 
 class FullForm extends React.Component {
     componentDidMount() {
-        this.props.update({})
+        //this.props.update()
     }
 
     render() {
