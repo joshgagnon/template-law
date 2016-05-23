@@ -92,7 +92,7 @@ Object.keys(FORMS).map(key => {
         const extKeys = Array.isArray(FORMS[key].schema.extends) ? FORMS[key].schema.extends : [FORMS[key].schema.extends];
         extKeys.map(extKey => {
             FORMS[key].schema = merge(FORMS[extKey].schema, FORMS[key].schema, {
-                prepend: true,
+                replaceArray: true,
                 sentinal: (x, path) => {
                     if(FORMS[key].schema.showIncluded && x && path[0] === 'properties' && path[path.length-1] !== 'properties' && path.length > 1){
                         x.includedIn = [...(x.includedIn || []), code]

@@ -104,7 +104,7 @@
                 },
                 "required": ["documentName", "documentDate"]
             },
-            "title": "Other Documents",
+            "title": "Documents to be sent to Mortgagee",
             "type": "array"
         },
         "subject": {

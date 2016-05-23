@@ -100,6 +100,7 @@ export default class Controls extends React.Component {
             </p>
     }
     render() {
+        console.log(this.props.active.output)
         return <div className="controls">
                 <Form ref="form" className="form-horizontal form-controls"
                 buttons={() => false}

@@ -19,18 +19,42 @@ function splitAliases(values, schema){
     }, {})
 }
 
+function getIn(obj, path){
+    for(let i=0;i<path.length && obj;i++){
+        obj = obj[path[i]];
+    }
+    return obj;
+}
+
+function setIn(obj, src, path){
+    for(let i=0;i<path.length -1 && obj;i++){
+        if(!obj[path[i]]){
+            obj[path[i]] = Number.isInteger(path[i]) ? [] : {}
+        }
+        obj = obj[path[i]];
+    }
+    obj[path[path.length-1]] = src;
+}
+
 
 export default function calculate(values, schema, merge){
-    var results = {matter: {}};
+    let results = {matter: {}};
 
     results.matter = {conveyancing: {}, };
 
     results.purchaserNames = [];
     (values.clientsWithRoles || []).map(client => {
         const roles = client.roles || {};
-        values.client = client;
 
-        values.isNewClient = client.isNewClient;
+
+        if(client){
+            results.recipient = client;
+             values.client = client;
+        }
+        if(client.isNewClient){
+            values.isNewClient = client.isNewClient;
+        }
+
 
         if(roles.purchaser){
             results.matter.conveyancing = {matterType: 'purchase' }
@@ -120,7 +144,11 @@ export default function calculate(values, schema, merge){
         results.matter = results.matter || {};
         results.matter.loanAdvance = {date: values.settlementDate};
     }
+    //schema translates
 
-
-    return merge(results, values);
+    const translates = schema['x-translate'] || {};
+    Object.keys(translates).map(source => {
+        setIn(results, getIn(values, source.split('.')), translates[source].split('.'));
+    })
+    return results;
 }

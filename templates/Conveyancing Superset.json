@@ -2,8 +2,6 @@
 
 {
     "extends": [
-        "G01: Letter Template",
-        "G02: Letter of Engagement",
         "G03: File Closing Letter",
         "CV01: Letter of Engagement - Conveyancing",
         "CV02: Letter of Advice to Purchaser",
@@ -300,6 +298,20 @@
         }
     },
     "properties": {
+        "matterId": {
+            "type": "object",
+            "title": "Matter",
+            "properties": {
+                "matterId": {
+                    "title": "Matter ID",
+                    "type" : "string"
+                }
+            },
+            "required": ["matterId"]
+        },
+        "isNewClient": {
+            "ignore": true
+        },
         "clientsWithRoles": {
             "items": {
                 "$ref":  "#/definitions/recipientWithRoles",
@@ -318,7 +330,7 @@
             "type": "array"
         },
         "subject": {
-            "ignore": false
+            "ignore": true
         },
         "recipient": {
              "ignore": true
@@ -342,26 +354,78 @@
             "ignore": true
         },
         "matter": {
-            "ignore": false
+            "ignore": false,
+            "properties": {
+                "matterId": {
+                    "ignore": true
+                },
+                "settlementDate": {
+                    "title": "Settlement Date",
+                    "type": "string",
+                    "x-hints" : {
+                        "form": {
+                          "inputComponent": "date"
+                        }
+                    }
+                }
+            },
+            "x-ordering": ["assets", "settlementDate", "conveyancing"]
+        },
+        "settlementDate": {
+            "ignore": true
+        },
+        "status": {
+            "ignore": true
         }
     },
 
-    "x-ordering": ["fileType", "filename", "clientsWithRoles", "otherPartiesWithRoles", "matter"],
+    "x-ordering": ["matterId",
+     "fileType",
+     "filename",
+     "dateString",
+     "clientsWithRoles",
+     "otherPartiesWithRoles",
+     "matter",
+     "agreementDate",
+     "purchaseAmount",
+     "depositAmount",
+     "includeGST",
+     "conditions",
+     "conditionCount",
+     "penaltyInterestRate",
+     "payable",
+     "payableTo",
+     "payableToRecipient",
+     "settlementDate",
+     "title",
+     "encumbrances",
+     "chattels",
+     "debits",
+     "totalDebits",
+     "credits",
+     "totalCredits",
+     "paidByTrust",
+     "purchaserNames",
+     "vendorNames",
+     "ownerNames",
+     "documents",
+     "facilityAgreementDate",
+     "solicitorCertDate",
+     "accountNumber",
+     "settlementAmount",
+     "time",
+     "ampm",
+     "paymentType",
+     "copyTo"
 
-    "x-split-ordering":[
-        "matter.matterId",
-        "fileType",
-        "filename",
-        "clientsWithRoles",
-        "otherPartiesWithRoles",
-        "matter.assets",
-        "matter.uniqueIdentifier",
-        "matter.landRegistry",
-        "matter.matterType",
-        "fee",
-        "settlementDate",
-        "agreementDate"
     ],
+
+
+    "x-translate": {
+        "matterId.matterId": "matter.matterId",
+        "matter.settlementDate": "settlementDate"
+    },
+
     "mappings": {
     }
 }

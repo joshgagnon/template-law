@@ -314,7 +314,7 @@ class Navs extends React.Component {
 
 class FullForm extends React.Component {
     componentDidMount() {
-        //this.props.update()
+        this.props.setForm({form: DEFAULT_DATA.active.form});
     }
 
     render() {
@@ -359,7 +359,7 @@ class CreateTemplates extends React.Component {
     }
 
     validate(key) {
-        return validator(FORMS[key].schema, this.props.active.values, FORMS[key].schema);
+        return validator(FORMS[key].schema, this.props.active.output, FORMS[key].schema);
     }
 
     reportValid(key) {
@@ -387,7 +387,7 @@ class CreateTemplates extends React.Component {
     renderTemplateSelect() {
         return <form><SectionWrapper label="select">
             { Object.keys(FORMS).map((key, i)=>{
-                if(!FORMS[key].scheSUPERSET){
+                if(!FORMS[key].schema.SUPERSET){
                     return <div key={i} className="row"><div className="form-group ">
                         <label className="col-sm-6 control-label text-right">{ key }</label>
                         <div className="col-sm-3"><input  ref={key} type="checkbox"
@@ -477,11 +477,11 @@ class App extends React.Component {
         if(this.props.active.output.filename){
             filenameParts.push(this.props.active.output.filename);
         }
-        filenameParts.concat(this.props.active.schema.description, this.props.active.output.matterId, date);
         Promise.each(forms, (formKey) => {
+            filename = filenameParts.concat([FORMS[formKey].schema.description, this.props.active.output.matter.matterId, date]).join(' - ');
             return this.props.dispatch(renderDocument({formName: formKey,
                     values: {...applyAliases(this.props.active.output || {}, FORMS[formKey].schema.aliases || {}),
-                        filename: filenameParts.join(' - '),
+                        filename: filename,
                         mappings: FORMS[formKey].schema.mappings }}))
                 .then((response) => {
                     if(response.error){
@@ -494,7 +494,7 @@ class App extends React.Component {
                 .then(blob => {
                     saveAs(blob, filename);
                 })
-                .catch(() => {});
+                .catch((e) => {console.log(e)});
         });
     }
 
@@ -502,9 +502,9 @@ class App extends React.Component {
         if(this.props.preview.fetching || this.props.preview.error || this.props.preview.current){
             return;
         }
-        this.props.dispatch(renderPreview({formName: this.props.active.form,
-                values: {...applyAliases(this.props.active.output || {}, FORMS[this.props.active.form].schema.aliases),
-                fileType: 'pdf', mappings: FORMS[this.props.active.form].schema.mappings }}))
+        this.props.dispatch(renderPreview({formName: form,
+                values: {...applyAliases(this.props.active.output || {}, FORMS[form].schema.aliases),
+                fileType: 'pdf', mappings: FORMS[form].schema.mappings }}))
             .then((response) => {
                 return response.response.blob()
             })

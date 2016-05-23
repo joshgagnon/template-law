@@ -180,7 +180,7 @@
                                             "maximum": 100000000
                                         },
                                         "date": {
-                                            "title": "Date",
+                                            "title": "PaymentDate",
                                             "type": "string",
                                             "x-hints": {
                                                 "form": {

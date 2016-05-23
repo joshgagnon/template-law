@@ -108,7 +108,7 @@ class Modals extends React.Component {
     }
 
     load(data) {
-        this.props.dispatch(setActiveState(data));
+        this.props.dispatch(setActiveState({...data, form: this.props.active.form}));
         this.props.dispatch(closeModal('load'));
     }
 
