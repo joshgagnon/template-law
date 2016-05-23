@@ -5,6 +5,7 @@ export default function deepmerge(target, src, options={sentinal: null, path: []
     if(!options.path){
         options.path = [];
     }
+    options = {...options};
     if (array) {
         target = target || [];
         dst = dst.concat(target);
@@ -13,6 +14,8 @@ export default function deepmerge(target, src, options={sentinal: null, path: []
                 dst[i] = e;
             } else if (typeof e === 'object') {
                 dst[i] = deepmerge(target[i], e, options);
+            } else if (options.replaceArray){
+                dst[i] = e;
             } else {
                 const index = target.indexOf(e);
                 if (index === -1) {

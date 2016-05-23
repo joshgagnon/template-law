@@ -60,9 +60,9 @@ class Populate extends React.Component {
                 let newData = Number.isInteger(p) ? [] : {}
                 newData[p] = data;
                 data = newData;
-            })
-            console.log(data);
-            this.props.dispatch(mergeValues({values: data, output: data}));
+            });
+
+            this.props.dispatch(mergeValues({values: data, output: data, mergeOptions: {replaceArray: true}}));
         }
     }
 

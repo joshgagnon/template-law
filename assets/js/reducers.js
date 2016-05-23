@@ -8,7 +8,7 @@ import { UPDATE_VALUES, MERGE_VALUES, SET_FORM, RENDER_REQUEST , RENDER_SUCCESS,
     } from './actions';
 import validator from 'react-json-editor/lib/validate';
 import FORMS from './schemas';
-import merge from 'deepmerge'
+import merge from './deepmerge'
 import { routerReducer } from 'react-router-redux'
 
 function hashedErrors(errors) {
@@ -54,9 +54,9 @@ function active(state = {form: 'Letter of Engagement', values: {}, errors: {}}, 
             values = merge(state.values|| {}, calculate(action.data.output, state.output))
             return {...state, values: values, output: merge(state.output || {}, calculated), form: action.data.form, errors: validate(schema, state.output, schema)};
         case MERGE_VALUES:
-            values = merge(state.values, action.data.values);
-            output = merge(state.output, action.data.output);
-            calculated = calculate(state.form, state.output);
+            values = merge(state.values, action.data.values, action.data.mergeOptions);
+            output = merge(state.output, action.data.output, action.data.mergeOptions);
+            calculated = calculate(state.form, output);
             schema = FORMS[state.form].schema;
             return {...state, values: merge(values, calculated), output: merge(output, calculated),  errors: validate(schema, output, schema)};
 
