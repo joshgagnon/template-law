@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 
 
 export const UPDATE_VALUES = 'UPDATE_VALUES';
+export const MERGE_VALUES = 'MERGE_VALUES';
 export const RENDER_REQUEST = 'RENDER_REQUEST';
 export const RENDER_SUCCESS = 'RENDER_SUCCESS';
 export const RENDER_FAILURE = 'RENDER_FAILURE';
@@ -44,6 +45,12 @@ export function selectTemplate(data){
 export function updateValues(data){
     return {
         type: UPDATE_VALUES, data
+    }
+}
+
+export function mergeValues(data){
+    return {
+        type: MERGE_VALUES, data
     }
 }
 

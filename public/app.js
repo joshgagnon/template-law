@@ -33171,9 +33171,10 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.SELECT_TEMPLATE = exports.SET_PREVIEW = exports.SET_FORM_VIEW = exports.SET_PAGE_VIEW = exports.SET_ACTIVE_STATE = exports.CLOSE_MODAL = exports.OPEN_MODAL = exports.SET_FORM = exports.HIDE_ERROR = exports.LOAD_FAILURE = exports.LOAD_SUCCESS = exports.LOAD_REQUEST = exports.SAVE_FAILURE = exports.SAVE_SUCCESS = exports.SAVE_REQUEST = exports.PREVIEW_FAILURE = exports.PREVIEW_SUCCESS = exports.PREVIEW_REQUEST = exports.RENDER_FAILURE = exports.RENDER_SUCCESS = exports.RENDER_REQUEST = exports.UPDATE_VALUES = undefined;
+	exports.SELECT_TEMPLATE = exports.SET_PREVIEW = exports.SET_FORM_VIEW = exports.SET_PAGE_VIEW = exports.SET_ACTIVE_STATE = exports.CLOSE_MODAL = exports.OPEN_MODAL = exports.SET_FORM = exports.HIDE_ERROR = exports.LOAD_FAILURE = exports.LOAD_SUCCESS = exports.LOAD_REQUEST = exports.SAVE_FAILURE = exports.SAVE_SUCCESS = exports.SAVE_REQUEST = exports.PREVIEW_FAILURE = exports.PREVIEW_SUCCESS = exports.PREVIEW_REQUEST = exports.RENDER_FAILURE = exports.RENDER_SUCCESS = exports.RENDER_REQUEST = exports.MERGE_VALUES = exports.UPDATE_VALUES = undefined;
 	exports.selectTemplate = selectTemplate;
 	exports.updateValues = updateValues;
+	exports.mergeValues = mergeValues;
 	exports.setFormView = setFormView;
 	exports.setPageView = setPageView;
 	exports.setPreview = setPreview;
@@ -33194,6 +33195,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var UPDATE_VALUES = exports.UPDATE_VALUES = 'UPDATE_VALUES';
+	var MERGE_VALUES = exports.MERGE_VALUES = 'MERGE_VALUES';
 	var RENDER_REQUEST = exports.RENDER_REQUEST = 'RENDER_REQUEST';
 	var RENDER_SUCCESS = exports.RENDER_SUCCESS = 'RENDER_SUCCESS';
 	var RENDER_FAILURE = exports.RENDER_FAILURE = 'RENDER_FAILURE';
@@ -33235,6 +33237,12 @@
 	function updateValues(data) {
 	    return {
 	        type: UPDATE_VALUES, data: data
+	    };
+	}
+	
+	function mergeValues(data) {
+	    return {
+	        type: MERGE_VALUES, data: data
 	    };
 	}
 	
@@ -33958,7 +33966,9 @@
 	    var action = arguments[1];
 	
 	    var schema = undefined,
-	        calculated = undefined;
+	        calculated = undefined,
+	        values = undefined,
+	        output = undefined;
 	    switch (action.type) {
 	        case _actions.SET_ACTIVE_STATE:
 	            calculated = calculate(action.data.form, action.data.output);
@@ -33971,8 +33981,15 @@
 	        case _actions.SET_FORM:
 	            calculated = calculate(action.data.form, state.output);
 	            schema = _schemas2.default[action.data.form].schema;
-	            var values = (0, _deepmerge2.default)(state.values || {}, calculate(action.data.output, state.output));
+	            values = (0, _deepmerge2.default)(state.values || {}, calculate(action.data.output, state.output));
 	            return _extends({}, state, { values: values, output: (0, _deepmerge2.default)(state.output || {}, calculated), form: action.data.form, errors: validate(schema, state.output, schema) });
+	        case _actions.MERGE_VALUES:
+	            values = (0, _deepmerge2.default)(state.values, action.data.values);
+	            output = (0, _deepmerge2.default)(state.output, action.data.output);
+	            calculated = calculate(state.form, state.output);
+	            schema = _schemas2.default[state.form].schema;
+	            return _extends({}, state, { values: (0, _deepmerge2.default)(values, calculated), output: (0, _deepmerge2.default)(output, calculated), errors: validate(schema, output, schema) });
+	
 	    }
 	    return state;
 	}
@@ -34598,6 +34615,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.PARTIES = undefined;
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
@@ -34688,6 +34706,10 @@
 	var _ConveyancingSuperset = __webpack_require__(531);
 	
 	var _ConveyancingSuperset2 = _interopRequireDefault(_ConveyancingSuperset);
+	
+	var _parties = __webpack_require__(712);
+	
+	var _parties2 = _interopRequireDefault(_parties);
 	
 	var _ConveyancingSuperset3 = __webpack_require__(532);
 	
@@ -34843,6 +34865,7 @@
 	console.log(FORMS);
 	
 	exports.default = FORMS;
+	var PARTIES = exports.PARTIES = _parties2.default;
 
 /***/ },
 /* 510 */
@@ -34945,7 +34968,7 @@
 						}
 					}
 				},
-				"minItems": 1
+				"minItems": 2
 			},
 			"assets": {
 				"items": {
@@ -35489,11 +35512,11 @@
 									"Refinance"
 								]
 							}
-						}
-					},
-					"required": [
-						"matterType"
-					]
+						},
+						"required": [
+							"matterType"
+						]
+					}
 				},
 				"required": [
 					"conveyancing",
@@ -36433,7 +36456,7 @@
 						"type": "object",
 						"properties": {
 							"matterType": {
-								"title": "Matter Type",
+								"title": "Discharge Request Type",
 								"enum": [
 									"entered into an agreement to sell",
 									"refinancing"
@@ -36601,7 +36624,7 @@
 						"type": "object",
 						"properties": {
 							"matterType": {
-								"title": "Matter Type",
+								"title": "Letter To Financier Type",
 								"enum": [
 									"purchase",
 									"refinance"
@@ -36922,6 +36945,11 @@
 							},
 							{
 								"properties": {
+									"matterType": {
+										"enum": [
+											"sale"
+										]
+									},
 									"balancePurchasePrice": {
 										"type": "object",
 										"title": "Balance of Purchase Price",
@@ -36983,6 +37011,11 @@
 							},
 							{
 								"properties": {
+									"matterType": {
+										"enum": [
+											"refinance"
+										]
+									},
 									"loadAdvance": {
 										"$ref": "#/definitions/loadAdvance"
 									},
@@ -37178,7 +37211,7 @@
 	function calculate(values) {
 	    var credits = 0,
 	        debits = 0;
-	    if (values.matter) {
+	    if (values.matter && values.matter.conveyancing) {
 	        if (values.matter.conveyancing.matterType === 'purchase') {
 	            if (values.matter.conveyancing.loanAdvance) credits += values.matter.conveyancing.loanAdvance.credit || 0;
 	            credits += (values.matter.conveyancing.clients || []).reduce(function (acc, client) {
@@ -38294,6 +38327,9 @@
 							},
 							"roles": {
 								"$ref": "#/definitions/otherPartyRoles"
+							},
+							"partyLookup": {
+								"$ref": "#/definitions/partyLookup"
 							}
 						},
 						"required": [
@@ -38302,7 +38338,8 @@
 							"roles"
 						],
 						"x-ordering": [
-							"roles"
+							"roles",
+							"partyLookup"
 						]
 					},
 					{
@@ -38326,6 +38363,9 @@
 							},
 							"roles": {
 								"$ref": "#/definitions/otherPartyRoles"
+							},
+							"partyLookup": {
+								"$ref": "#/definitions/partyLookup"
 							}
 						},
 						"required": [
@@ -38335,13 +38375,24 @@
 							"roles"
 						],
 						"x-ordering": [
-							"roles"
+							"roles",
+							"partyLookup"
 						]
 					}
 				],
 				"x-hints": {
 					"form": {
 						"selector": "recipientType"
+					}
+				}
+			},
+			"partyLookup": {
+				"title": "Party Lookup",
+				"enum": [],
+				"srcData": "parties",
+				"x-hints": {
+					"form": {
+						"inputComponent": "populate"
 					}
 				}
 			}
@@ -38387,8 +38438,18 @@
 			},
 			"debtor": {
 				"ignore": true
+			},
+			"matter": {
+				"ignore": false
 			}
 		},
+		"x-ordering": [
+			"fileType",
+			"filename",
+			"clientsWithRoles",
+			"otherPartiesWithRoles",
+			"matter"
+		],
 		"x-split-ordering": [
 			"matter.matterId",
 			"fileType",
@@ -38403,16 +38464,7 @@
 			"settlementDate",
 			"agreementDate"
 		],
-		"mappings": {
-			"lender": {
-				"ASB Bank Limited": {
-					"recipientType": "company",
-					"companyName": "ASB Bank Limited",
-					"contactMethod": "post",
-					"contact": {}
-				}
-			}
-		}
+		"mappings": {}
 	};
 
 /***/ },
@@ -38448,7 +38500,7 @@
 	function calculate(values, schema, merge) {
 	    var results = { matter: {} };
 	
-	    results.matter = values.matterMatterId;
+	    results.matter = { conveyancing: {} };
 	
 	    results.purchaserNames = [];
 	    (values.clientsWithRoles || []).map(function (client) {
@@ -38458,7 +38510,7 @@
 	        values.isNewClient = client.isNewClient;
 	
 	        if (roles.purchaser) {
-	            results.matter = { matterType: 'purchase' };
+	            results.matter.conveyancing = { matterType: 'purchase' };
 	            if (client.recipientType === 'individuals') {
 	                (client.individuals || []).map(function (individual) {
 	                    results.purchaserNames.push(individual.firstName + ' ' + individual.lastName);
@@ -38470,7 +38522,7 @@
 	        }
 	
 	        if (roles.vendor) {
-	            results.matter = { matterType: 'sale' };
+	            results.matter.conveyancing = { matterType: 'sale' };
 	            results.vendorNames = [];
 	            if (client.recipientType === 'individuals') {
 	                (client.individuals || []).map(function (individual) {
@@ -38483,10 +38535,10 @@
 	        }
 	
 	        if (roles.mortgagor) {
-	            results.matter = { matterType: 'refinance' };
+	            results.matter.conveyancing = { matterType: 'refinance' };
 	        }
 	        if (roles.borrower) {
-	            results.matter = { matterType: 'refinance' };
+	            results.matter.conveyancing = { matterType: 'refinance' };
 	        }
 	        if (roles.guarantor) {
 	            results.guarantor = client;
@@ -57078,6 +57130,10 @@
 	
 	var _schemas2 = _interopRequireDefault(_schemas);
 	
+	var _actions = __webpack_require__(500);
+	
+	var _reactRedux = __webpack_require__(367);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -57186,16 +57242,78 @@
 	    return Invisible;
 	}(_react2.default.Component);
 	
+	var Populate = function (_React$Component5) {
+	    _inherits(Populate, _React$Component5);
+	
+	    function Populate(props) {
+	        _classCallCheck(this, Populate);
+	
+	        var _this6 = _possibleConstructorReturn(this, Object.getPrototypeOf(Populate).call(this, props));
+	
+	        _this6.change = _this6.change.bind(_this6);
+	        return _this6;
+	    }
+	
+	    _createClass(Populate, [{
+	        key: 'change',
+	        value: function change(e) {
+	            var _this7 = this;
+	
+	            var path = this.props.path.slice(0);
+	            path.pop();
+	            var value = e.target.value;
+	            if (value) {
+	                (function () {
+	                    var data = _schemas.PARTIES[value];
+	                    path.reverse();
+	                    path.map(function (p) {
+	                        var newData = Number.isInteger(p) ? [] : {};
+	                        newData[p] = data;
+	                        data = newData;
+	                    });
+	                    console.log(data);
+	                    _this7.props.dispatch((0, _actions.mergeValues)({ values: data, output: data }));
+	                })();
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var target = this.props.schema.srcData === 'parties' ? _schemas.PARTIES : {};
+	            var keys = Object.keys(target);
+	            return _react2.default.createElement(
+	                'select',
+	                { onChange: this.change },
+	                _react2.default.createElement('option', null),
+	                keys.map(function (k, i) {
+	                    return _react2.default.createElement(
+	                        'option',
+	                        { key: i, value: k },
+	                        k
+	                    );
+	                })
+	            );
+	        }
+	    }]);
+	
+	    return Populate;
+	}(_react2.default.Component);
+	
+	var ConnectedPopulate = (0, _reactRedux.connect)(function (state) {
+	    return {};
+	})(Populate);
+	
 	var handlers = {
 	    'textarea': TextArea,
 	    'date': _datePicker2.default,
 	    "readOnly": ReadOnly,
 	    "readOnlyCurrency": ReadOnlyCurrency,
-	    'invisible': Invisible
+	    'invisible': Invisible,
+	    "populate": ConnectedPopulate
 	};
 	
-	var Controls = function (_React$Component5) {
-	    _inherits(Controls, _React$Component5);
+	var Controls = function (_React$Component6) {
+	    _inherits(Controls, _React$Component6);
 	
 	    function Controls() {
 	        _classCallCheck(this, Controls);
@@ -67086,7 +67204,9 @@
 	      schema    : this.props.schema,
 	      value     : this.props.value || '',
 	      onKeyPress: this.handleKeyPress,
-	      onChange  : this.handleChange
+	      onChange  : this.handleChange,
+	      path      : this.props.path,
+	      update    : this.props.update
 	    });
 	  }
 	});
@@ -73441,6 +73561,72 @@
 	
 	exports['default'] = _common.createChainableTypeChecker(validate);
 	module.exports = exports['default'];
+
+/***/ },
+/* 712 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"ANZ": {
+			"recipientType": "company",
+			"companyName": "ANZ Bank New Zealand Limited",
+			"contactMethod": {
+				"method": "post",
+				"address": [
+					"Private Bag 92210",
+					"Victoria Street West",
+					"Auckland 1142"
+				]
+			}
+		},
+		"ASB": {
+			"recipientType": "company",
+			"companyName": "ASB Bank Limited",
+			"contactMethod": {
+				"method": "post",
+				"address": [
+					"PO Box 35",
+					"Shortland Street",
+					"Auckland 1140"
+				]
+			}
+		},
+		"BNZ": {
+			"recipientType": "company",
+			"companyName": "Bank of New Zealand",
+			"contactMethod": {
+				"method": "post",
+				"address": [
+					"Private Bag 92089",
+					"Victoria Street West",
+					"Auckland 1142"
+				]
+			}
+		},
+		"Sovereign": {
+			"recipientType": "company",
+			"companyName": "Mortgage Holding Trust Company Limited",
+			"contactMethod": {
+				"method": "post",
+				"address": [
+					"PO Box 35",
+					"Shortland Street",
+					"Auckland 1140"
+				]
+			}
+		},
+		"Westpac": {
+			"recipientType": "company",
+			"companyName": "Westpac New Zealand Limited",
+			"contactMethod": {
+				"method": "post",
+				"address": [
+					"PO Box 203",
+					"Christchurch"
+				]
+			}
+		}
+	};
 
 /***/ }
 /******/ ])));

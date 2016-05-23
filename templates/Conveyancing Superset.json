@@ -1,14 +1,19 @@
 
 
 {
-    "extends": ["G01: Letter Template",
-    "G02: Letter of Engagement", "G03: File Closing Letter",
-    "CV01: Letter of Engagement - Conveyancing",
-    "CV02: Letter of Advice to Purchaser",
-    "CV03: Settlement Undertakings Letter - Acting for Purchaser",
-    "CV04: Settlement Undertakings Letter - Acting for Vendor", "CV05: Mortgage Discharge Request",
-    "CV06: Vendors Settlement Letter", "CV07: Letter to Financier Enclosing Originals",
-    "CV10: Trust Account Statement"],
+    "extends": [
+        "G01: Letter Template",
+        "G02: Letter of Engagement",
+        "G03: File Closing Letter",
+        "CV01: Letter of Engagement - Conveyancing",
+        "CV02: Letter of Advice to Purchaser",
+        "CV03: Settlement Undertakings Letter - Acting for Purchaser",
+        "CV04: Settlement Undertakings Letter - Acting for Vendor",
+        "CV05: Mortgage Discharge Request",
+        "CV06: Vendors Settlement Letter",
+        "CV07: Letter to Financier Enclosing Originals",
+        "CV10: Trust Account Statement"
+    ],
     "title": "Conveyancing Superset",
     "SUPERSET": true,
     "definitions": {
@@ -239,10 +244,13 @@
                         },
                         "roles": {
                             "$ref": "#/definitions/otherPartyRoles"
+                        },
+                        "partyLookup": {
+                             "$ref": "#/definitions/partyLookup"
                         }
                     },
                     "required": ["individuals", "contactMethod", "roles"],
-                    "x-ordering": ["roles"]
+                    "x-ordering": ["roles", "partyLookup"]
                 },
                 {
                     "type": "object",
@@ -265,15 +273,28 @@
                         },
                         "roles": {
                              "$ref": "#/definitions/otherPartyRoles"
+                        },
+                        "partyLookup": {
+                             "$ref": "#/definitions/partyLookup"
                         }
                     },
                     "required": ["companyName", "contact", "contactMethod", "roles"],
-                    "x-ordering": ["roles"]
+                    "x-ordering": ["roles", "partyLookup"]
                 }
             ],
             "x-hints": {
                 "form": {
                     "selector": "recipientType"
+                }
+            }
+        },
+        "partyLookup": {
+            "title": "Party Lookup",
+            "enum": [],
+            "srcData": "parties",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "populate"
                 }
             }
         }
@@ -319,8 +340,14 @@
         },
         "debtor": {
             "ignore": true
+        },
+        "matter": {
+            "ignore": false
         }
     },
+
+    "x-ordering": ["fileType", "filename", "clientsWithRoles", "otherPartiesWithRoles", "matter"],
+
     "x-split-ordering":[
         "matter.matterId",
         "fileType",
@@ -334,18 +361,7 @@
         "fee",
         "settlementDate",
         "agreementDate"
-
-
     ],
     "mappings": {
-        "lender": {
-            "ASB Bank Limited": {
-                "recipientType": "company",
-                "companyName": "ASB Bank Limited",
-                "contactMethod": "post",
-                "contact": {
-                }
-            }
-        }
     }
 }

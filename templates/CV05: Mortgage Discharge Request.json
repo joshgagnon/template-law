@@ -18,7 +18,7 @@
                     "type": "object",
                         "properties": {
                             "matterType": {
-                                "title": "Matter Type",
+                                "title": "Discharge Request Type",
                                 "enum": [
                                     "entered into an agreement to sell",
                                     "refinancing"

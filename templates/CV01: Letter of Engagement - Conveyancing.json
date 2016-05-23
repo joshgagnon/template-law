@@ -37,9 +37,9 @@
                                 "Refinance"
                             ]
                         }
-                    }
-                },
-                "required": ["matterType"]
+                    },
+                    "required": ["matterType"]
+                }
 
             },
             "required": ["conveyancing", "assets"]

@@ -13,7 +13,7 @@
                     "type": "object",
                     "properties": {
                         "matterType": {
-                            "title": "Matter Type",
+                            "title": "Letter To Financier Type",
                             "enum": [
                                 "purchase",
                                 "refinance"

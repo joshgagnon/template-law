@@ -3,7 +3,9 @@ import { findDOMNode } from 'react-dom';
 import DateInput from './datePicker';
 import Form from 'react-json-editor/lib';
 import { FieldWrapper, SectionWrapper } from './wrappers';
-import FORMS from '../schemas';
+import FORMS, { PARTIES } from '../schemas';
+import { mergeValues } from '../actions';
+import { connect } from 'react-redux';
 
 function numberWithCommas(x) {
     if(!x.toFixed){
@@ -40,12 +42,50 @@ class Invisible extends React.Component {
     }
 }
 
+
+class Populate extends React.Component {
+    constructor(props) {
+        super(props);
+        this.change= ::this.change;
+    }
+
+    change(e) {
+        const path = this.props.path.slice(0);
+        path.pop();
+        const value = e.target.value;
+        if(value){
+            let data = PARTIES[value];
+            path.reverse();
+            path.map(p => {
+                let newData = Number.isInteger(p) ? [] : {}
+                newData[p] = data;
+                data = newData;
+            })
+            console.log(data);
+            this.props.dispatch(mergeValues({values: data, output: data}));
+        }
+    }
+
+    render() {
+        const target = this.props.schema.srcData === 'parties' ? PARTIES : {};
+        const keys = Object.keys(target);
+        return <select onChange={this.change}>
+            <option></option>
+            { keys.map((k, i) => <option key={i} value={k}>{k}</option>)}
+        </select>
+    }
+}
+
+
+const ConnectedPopulate = connect(state => ({}))(Populate);
+
 const handlers = {
     'textarea': TextArea,
     'date': DateInput,
     "readOnly": ReadOnly,
     "readOnlyCurrency": ReadOnlyCurrency,
-    'invisible': Invisible
+    'invisible': Invisible,
+    "populate": ConnectedPopulate
 }
 
 

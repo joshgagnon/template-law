@@ -20,6 +20,7 @@ import LI01Schema from '../../templates/LI01: Statutory Demand.json';
 import CT01Schema from '../../templates/CT01: Filing Letter.json';
 import CT02Schema from '../../templates/CT02: Service Letter.json';
 import ConveyancingSuperset from '../../templates/Conveyancing Superset.json';
+import Parties from '../../templates/parties.json';
 import ConveyancingSupersetCalculate from '../../templates/calculations/Conveyancing Superset.js';
 import merge from './deepmerge'
 import ObjectUtils from 'react-json-editor/lib/objectUtils';
@@ -166,3 +167,4 @@ console.log(FORMS)
 
 
 export default FORMS;
+export const PARTIES = Parties ;

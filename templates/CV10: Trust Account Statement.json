@@ -198,6 +198,11 @@
 
                         {
                             "properties": {
+                                "matterType": {
+                                    "enum": [
+                                        "sale"
+                                    ]
+                                },
                                 "balancePurchasePrice": {
                                     "type": "object",
                                     "title": "Balance of Purchase Price",
@@ -258,6 +263,11 @@
 
                         {
                             "properties": {
+                                "matterType": {
+                                    "enum": [
+                                        "refinance"
+                                    ]
+                                },
                                 "loadAdvance": {
                                     "$ref": "#/definitions/loadAdvance"
                                 },

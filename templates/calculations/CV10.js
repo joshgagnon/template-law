@@ -2,7 +2,7 @@
 
 export default function calculate(values){
     let credits = 0, debits = 0;
-    if(values.matter){
+    if(values.matter && values.matter.conveyancing){
         if(values.matter.conveyancing.matterType === 'purchase'){
             if(values.matter.conveyancing.loanAdvance) credits += values.matter.conveyancing.loanAdvance.credit || 0;
             credits += (values.matter.conveyancing.clients || []).reduce((acc, client) => {

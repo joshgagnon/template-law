@@ -23,8 +23,7 @@ function splitAliases(values, schema){
 export default function calculate(values, schema, merge){
     var results = {matter: {}};
 
-    results.matter = values.matterMatterId;
-
+    results.matter = {conveyancing: {}, };
 
     results.purchaserNames = [];
     (values.clientsWithRoles || []).map(client => {
@@ -34,7 +33,7 @@ export default function calculate(values, schema, merge){
         values.isNewClient = client.isNewClient;
 
         if(roles.purchaser){
-            results.matter = {matterType: 'purchase' }
+            results.matter.conveyancing = {matterType: 'purchase' }
             if(client.recipientType === 'individuals'){
                 (client.individuals || []).map(individual => {
                     results.purchaserNames.push(individual.firstName + ' ' + individual.lastName)
@@ -46,7 +45,7 @@ export default function calculate(values, schema, merge){
         }
 
          if(roles.vendor){
-            results.matter = {matterType: 'sale' }
+            results.matter.conveyancing = {matterType: 'sale' }
             results.vendorNames = [];
             if(client.recipientType === 'individuals'){
                 (client.individuals || []).map(individual => {
@@ -59,10 +58,10 @@ export default function calculate(values, schema, merge){
         }
 
         if(roles.mortgagor){
-            results.matter = {matterType: 'refinance' };
+            results.matter.conveyancing = {matterType: 'refinance' };
         }
         if(roles.borrower){
-            results.matter = {matterType: 'refinance' };
+            results.matter.conveyancing = {matterType: 'refinance' };
         }
         if(roles.guarantor){
             results.guarantor = client;
