@@ -69,23 +69,46 @@
             "title": "Address",
             "items": {
                 "properties": {
-                    "minItems": 1,
-                    "title": "Address Line",
-                    "type": "array",
                     "items": {
+                        "title": "Address Line",
                         "type": "string"
                     }
                 }
             },
             "minItems": 0
         },
-        "assets": {
+        "addressRequired": {
+            "type": "array",
+            "title": "Address",
             "items": {
                 "properties": {
-                    "address": {
-                        "title": "Address",
+                    "items": {
+                        "title": "Address Line",
                         "type": "string"
                     }
+                }
+            },
+            "minItems": 1
+        },
+        "assets": {
+            "items": {
+                "title": "Property",
+                    "properties": {
+                        "address": {
+                            "title": "Address",
+                            "type": "string"
+                        },
+                        "uniqueIdentifier": {
+                            "type": "string",
+                            "title": "Unique Identifier",
+                            "minLength": 1
+                        },
+                        "registry": {
+                            "type": "string",
+                            "title": "Registry",
+                            "minLength": 1,
+                            "description": "e.g. North Auckland"
+                        }
                 },
                 "required": [
                     "address"
@@ -96,21 +119,6 @@
             "minItems": 1,
             "title": "Properties",
             "type": "array"
-        },
-        "addressRequired": {
-            "type": "array",
-            "title": "Address",
-            "items": {
-                "properties": {
-                    "minItems": 1,
-                    "title": "Address Line",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            },
-            "minItems": 2
         },
         "individual": {
             "type": "object",

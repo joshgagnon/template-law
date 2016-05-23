@@ -6,131 +6,93 @@
         "matter": {
             "type": "object",
             "properties": {
-                "matterType": {
-                    "title": "Matter Type",
-                    "enum": [
-                        "discharge of mortgage and transfer instruments",
-                        "transfer instrument"
-                    ]
+                "eDealingNumber": {
+                    "type": "string",
+                    "title": "E-dealing Number"
+                },
+                "transferInstrumentNumber": {
+                    "type": "string",
+                    "title": "Transfer Instrument Number"
+                },
+                "assets": {
+                    "$ref": "#/definitions/assets"
+                },
+
+                "settlement": {
+                    "type": "object",
+                    "properties": {
+                        "matterType": {
+                            "title": "Settlement Type",
+                            "enum": [
+                                "discharge of mortgage and transfer instruments",
+                                "transfer instrument"
+                            ]
+                        }
+                    },
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "matterType": {
+                                    "enum": ["discharge of mortgage and transfer instruments"]
+                                },
+                                "mortgageInstrumentNumber": {
+                                    "type": "string",
+                                    "title": "Mortgage Instrument Number"
+                                }
+                            },
+                            "required":["mortgageInstrumentNumber"]
+                        },
+                        {
+                            "properties": {
+                                "matterType": {
+                                    "enum": ["transfer instrument"]
+                                }
+                            }
+                        }
+                    ],
+                    "x-hints": {
+                        "form": {
+                            "selector": "matterType"
+                        }
+                    }
                 }
             },
-            "oneOf": [
-                {
-                    "properties": {
-                        "matterId": {
-                            "title": "Matter ID",
-                            "type" : "string"
-                        },
-                        "matterType": {
-                            "enum": ["discharge of mortgage and transfer instruments"]
-                        },
-                        "mortgageInstrumentNumber": {
-                            "type": "string",
-                            "title": "Mortgage Instrument Number"
-                        },
-                        "transferInstrumentNumber": {
-                            "type": "string",
-                            "title": "Transfer Instrument Number"
-                        },
-                         "assets": {
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "address": {
-                                        "title": "Address",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": ["address"]
-                            },
-                            "minItems": 1,
-                            "title": "Properties",
-                            "type": "array"
-                        },
-                        "eDealingNumber": {
-                            "type": "string",
-                            "title": "E-dealing Number"
-                        }
-                    },
-                    "required":["matterId", "mortgageInstrumentNumber", "transferInstrumentNumber", "assets", "eDealingNumber"]
-                },
-                {
-                    "properties": {
-                        "matterId": {
-                            "title": "Matter ID",
-                            "type" : "string"
-                        },
-                        "matterType": {
-                            "enum": ["transfer instrument"]
-                        },
-                        "transferInstrumentNumber": {
-                            "type": "string",
-                            "title": "Transfer Instrument Number"
-                        },
-                         "assets": {
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "address": {
-                                        "title": "Address",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": ["address"]
-                            },
-                            "minItems": 1,
-                            "title": "Properties",
-                            "type": "array"
-                        },
-                        "eDealingNumber": {
-                            "type": "string",
-                            "title": "E-dealing Number"
-                        }
-                    },
-                    "required":["matterId", "transferInstrumentNumber", "assets", "eDealingNumber"]
-
-                }
-            ],
-            "x-hints": {
-                "form": {
-                    "selector": "matterType"
-                }
-            }
+            "required":["transferInstrumentNumber", "assets", "eDealingNumber", "settlement"]
 
         },
         "recipient": {
             "ignore": true
         },
         "counterPartySolicitors": {
-             "$ref": "#/definitions/recipient",
-             "title": "Counterparty Solicitors (recipient)"
+           "$ref": "#/definitions/recipient",
+           "title": "Counterparty Solicitors (recipient)"
+       },
+       "vendorNames": {
+        "items": {
+            "type": "string",
+            "title": "Vendor Name",
+            "minLength": 1
         },
-        "vendorNames": {
-            "items": {
-                "type": "string",
-                "title": "Vendor Name",
-                "minLength": 1
-            },
-            "minItems": 1,
-            "title": "Vendor Names",
-            "type": "array"
-        },
-        "purchaserNames": {
-            "items": {
-                "type": "string",
-                "title": "Purchaser Name",
-                "minLength": 1
-            },
-            "minItems": 1,
-            "title": "Purchaser Names",
-            "type": "array"
-        },
-        "subject": {
-            "ignore": true
-        }
+        "minItems": 1,
+        "title": "Vendor Names",
+        "type": "array"
     },
-    "required": ["counterPartySolicitors", "vendorNames", "purchaserNames"],
-    "aliases": {
-        "counterPartySolicitors": "recipient"
+    "purchaserNames": {
+        "items": {
+            "type": "string",
+            "title": "Purchaser Name",
+            "minLength": 1
+        },
+        "minItems": 1,
+        "title": "Purchaser Names",
+        "type": "array"
+    },
+    "subject": {
+        "ignore": true
     }
+},
+"required": ["counterPartySolicitors", "vendorNames", "purchaserNames"],
+"aliases": {
+    "counterPartySolicitors": "recipient"
+}
 }

@@ -63,245 +63,223 @@
              "$ref": "#/definitions/recipient",
              "title": "Client (recipient)"
         },
+
         "matter": {
-            "title": "Matter",
             "type": "object",
             "properties": {
-                "matterType": {
-                    "enum": [
-                        "purchase",
-                        "sale",
-                        "refinance"
+                "assets": {
+                    "$ref": "#/definitions/assets"
+                },
+                "conveyancing": {
+                    "type": "object",
+                    "properties": {
+                        "matterType": {
+                            "title": "Conveyancing Type",
+                            "enum": [
+                                "purchase",
+                                "sale",
+                                "refinance"
+                            ],
+                            "enumNames": [
+                                "Purchase",
+                                "Sale",
+                                "Refinance"
+                            ]
+                        }
+                    },
+                    "required": ["matterType"],
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "matterType": {
+                                    "enum": [
+                                        "purchase"
+                                    ]
+                                },
+                                "loanAdvance": {
+                                    "$ref": "#/definitions/loanAdvance"
+                                },
+                                "clients": {
+                                    "items": {
+                                        "properties": {
+                                            "clientName": {
+                                                "title": "Client Name",
+                                                "type": "string"
+                                            },
+                                            "kiwiSaverWithdrawal": {
+                                                "type": "object",
+                                                "title": "Kiwi Saver First Home Buyer Widthdrawal",
+                                                "properties": {
+                                                    "credit": {
+                                                        "title": "Credit",
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 100000000
+                                                    },
+                                                    "date": {
+                                                        "title": "Date",
+                                                        "type": "string",
+                                                        "x-hints": {
+                                                            "form": {
+                                                                "inputComponent": "date"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "required": [
+                                                    "credit", "date"
+                                                ]
+                                            },
+                                            "kiwiSaverHomeStart": {
+                                                "type": "object",
+                                                "title": "Kiwi Saver Home Start",
+                                                "properties": {
+                                                    "credit": {
+                                                        "title": "Credit",
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 100000000,
+                                                        "x-hints": {
+                                                            "form": {
+                                                                "width": 2
+                                                            }
+                                                        }
+                                                    },
+                                                    "date": {
+                                                        "title": "Date",
+                                                        "type": "string",
+                                                        "x-hints": {
+                                                            "form": {
+                                                                "inputComponent": "date"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "required": [
+                                                    "credit", "date"
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "clientName"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "minItems": 1,
+                                    "title": "Clients",
+                                    "type": "array"
+                                },
+                                "balancePurchasePrice": {
+                                    "type": "object",
+                                    "title": "Payment of Balance of Purchase Price",
+                                    "properties": {
+                                        "debit": {
+                                            "title": "Debit",
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 100000000
+                                        },
+                                        "date": {
+                                            "title": "Date",
+                                            "type": "string",
+                                            "x-hints": {
+                                                "form": {
+                                                    "inputComponent": "date"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "debit", "date"
+                                    ]
+                                }
+                            }
+                        },
+
+                        {
+                            "properties": {
+                                "balancePurchasePrice": {
+                                    "type": "object",
+                                    "title": "Balance of Purchase Price",
+                                    "properties": {
+                                        "credit": {
+                                            "title": "Credit",
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 100000000
+                                        },
+                                        "date": {
+                                            "title": "Date",
+                                            "type": "string",
+                                            "x-hints": {
+                                                "form": {
+                                                    "inputComponent": "date"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "credit", "date"
+                                    ]
+                                },
+                                "deposit": {
+                                    "type": "object",
+                                    "title": "Payment of deposit",
+                                    "properties": {
+                                        "credit": {
+                                            "title": "Credit",
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 100000000
+                                        },
+                                       "lessCommission": {
+                                            "title": "Less real estate agent's commission",
+                                            "type": "boolean"
+                                        },
+                                        "date": {
+                                            "title": "Date",
+                                            "type": "string",
+                                            "x-hints": {
+                                                "form": {
+                                                    "inputComponent": "date"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "credit", "date"
+                                    ]
+                                },
+                                "repaymentOfIndebtedness": {
+                                    "$ref": "#/definitions/repaymentOfIndebtedness"
+                                }
+                            }
+                        },
+
+                        {
+                            "properties": {
+                                "loadAdvance": {
+                                    "$ref": "#/definitions/loadAdvance"
+                                },
+                                "repaymentOfIndebtedness": {
+                                    "$ref": "#/definitions/repaymentOfIndebtedness"
+                                }
+                            }
+                        }
+
                     ],
-                    "enumNames": [
-                        "Purchase",
-                        "Sale",
-                        "Refinance"
-                    ],
-                    "title": "Matter Type"
+                    "x-hints": {
+                        "form": {
+                            "selector": "matterType"
+                        }
+                    }
                 }
             },
-            "oneOf": [
-                {
-                    "properties": {
-                        "matterId": {
-                            "title": "Matter ID",
-                            "type" : "string"
-                        },
-                        "assets": {
-                            "$ref": "#/definitions/assets"
-                        },
-                        "loanAdvance": {
-                            "$ref": "#/definitions/loanAdvance"
-                        },
-                        "clients": {
-                            "items": {
-                                "properties": {
-                                    "clientName": {
-                                        "title": "Client Name",
-                                        "type": "string"
-                                    },
-                                    "kiwiSaverWithdrawal": {
-                                        "type": "object",
-                                        "title": "Kiwi Saver First Home Buyer Widthdrawal",
-                                        "properties": {
-                                            "credit": {
-                                                "title": "Credit",
-                                                "type": "number",
-                                                "minimum": 0,
-                                                "maximum": 100000000
-                                            },
-                                            "date": {
-                                                "title": "Date",
-                                                "type": "string",
-                                                "x-hints": {
-                                                    "form": {
-                                                        "inputComponent": "date"
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "required": [
-                                            "credit", "date"
-                                        ]
-                                    },
-                                    "kiwiSaverHomeStart": {
-                                        "type": "object",
-                                        "title": "Kiwi Saver Home Start",
-                                        "properties": {
-                                            "credit": {
-                                                "title": "Credit",
-                                                "type": "number",
-                                                "minimum": 0,
-                                                "maximum": 100000000,
-                                                "x-hints": {
-                                                    "form": {
-                                                        "width": 2
-                                                    }
-                                                }
-                                            },
-                                            "date": {
-                                                "title": "Date",
-                                                "type": "string",
-                                                "x-hints": {
-                                                    "form": {
-                                                        "inputComponent": "date"
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "required": [
-                                            "credit", "date"
-                                        ]
-                                    }
-                                },
-                                "required": [
-                                    "clientName"
-                                ],
-                                "type": "object"
-                            },
-                            "minItems": 1,
-                            "title": "Clients",
-                            "type": "array"
-                        },
-                        "balancePurchasePrice": {
-                            "type": "object",
-                            "title": "Payment of Balance of Purchase Price",
-                            "properties": {
-                                "debit": {
-                                    "title": "Debit",
-                                    "type": "number",
-                                    "minimum": 0,
-                                    "maximum": 100000000
-                                },
-                                "date": {
-                                    "title": "Date",
-                                    "type": "string",
-                                    "x-hints": {
-                                        "form": {
-                                            "inputComponent": "date"
-                                        }
-                                    }
-                                }
-                            },
-                            "required": [
-                                "debit", "date"
-                            ]
-                        },
-                        "matterType": {
-                            "enum": [
-                                "purchase"
-                            ]
-                        }
-                    },
-                    "required": ["matterType", "matterId", "assets"],
-                    "x-ordering": ["matterId", "matterType", "assets", "loadAdvance", "clients"]
-                },
-                {
-                    "properties": {
-                        "matterType": {
-                            "enum": [
-                                "sale"
-                            ]
-                        },
-                        "matterId": {
-                            "title": "Matter ID",
-                            "type" : "string"
-                        },
-                        "assets": {
-                            "$ref": "#/definitions/assets"
-                        },
-                        "balancePurchasePrice": {
-                            "type": "object",
-                            "title": "Balance of Purchase Price",
-                            "properties": {
-                                "credit": {
-                                    "title": "Credit",
-                                    "type": "number",
-                                    "minimum": 0,
-                                    "maximum": 100000000
-                                },
-                                "date": {
-                                    "title": "Date",
-                                    "type": "string",
-                                    "x-hints": {
-                                        "form": {
-                                            "inputComponent": "date"
-                                        }
-                                    }
-                                }
-                            },
-                            "required": [
-                                "credit", "date"
-                            ]
-                        },
-                        "deposit": {
-                            "type": "object",
-                            "title": "Payment of deposit",
-                            "properties": {
-                                "credit": {
-                                    "title": "Credit",
-                                    "type": "number",
-                                    "minimum": 0,
-                                    "maximum": 100000000
-                                },
-                               "lessCommission": {
-                                    "title": "Less real estate agent's commission",
-                                    "type": "boolean"
-                                },
-                                "date": {
-                                    "title": "Date",
-                                    "type": "string",
-                                    "x-hints": {
-                                        "form": {
-                                            "inputComponent": "date"
-                                        }
-                                    }
-                                }
-                            },
-                            "required": [
-                                "credit", "date"
-                            ]
-                        },
-                        "repaymentOfIndebtedness": {
-                            "$ref": "#/definitions/repaymentOfIndebtedness"
-                        }
-                    },
-                    "required": ["matterType", "matterId", "assets"],
-                    "x-ordering": ["matterId", "matterType", "assets", "balancePurchasePrice", "deposit", "repaymentOfIndebtedness"]
-                },
-                {
-                    "properties": {
-                        "matterType": {
-                            "enum": [
-                                "refinance"
-                            ]
-                        },
-                        "matterId": {
-                            "title": "Matter ID",
-                            "type" : "string"
-                        },
-                        "assets": {
-                            "$ref": "#/definitions/assets"
-                        },
-                        "loadAdvance": {
-                            "$ref": "#/definitions/loadAdvance"
-                        },
-                        "repaymentOfIndebtedness": {
-                            "$ref": "#/definitions/repaymentOfIndebtedness"
-                        }
-                    },
-                    "required": ["matterId", "matterType", "matterId", "assets"],
-                    "x-ordering": ["matterId", "matterType", "assets"]
-                }
-            ],
-            "required": ["matterType"],
-            "x-hints": {
-                "form": {
-                    "selector": "matterType"
-                }
-            }
+            "required": ["conveyancing", "assets"]
         },
+
+
+
         "debits": {
             "type": "array",
             "title": "Debitable Items",
@@ -446,7 +424,6 @@
     "required": [
         "client", "matter", "settlementDate", "paidByTrust"
     ],
-    "title": "CV10: Trust Account Statement",
     "aliases": {
         "client": "recipient"
     }

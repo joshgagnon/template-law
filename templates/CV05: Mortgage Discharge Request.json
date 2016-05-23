@@ -6,84 +6,51 @@
         "matter": {
             "type": "object",
             "properties": {
-                "matterType": {
-                    "title": "Matter Type",
-                    "enum": [
-                        "entered into an agreement to sell",
-                        "refinancing"
-                    ]
+
+                "mortgageInstrumentNumber": {
+                    "type": "string",
+                    "title": "Mortgage Instrument Number"
+                },
+                "assets": {
+                    "$ref": "#/definitions/assets"
+                },
+                "discharge": {
+                    "type": "object",
+                        "properties": {
+                            "matterType": {
+                                "title": "Matter Type",
+                                "enum": [
+                                    "entered into an agreement to sell",
+                                    "refinancing"
+                                ]
+                        }
+                    },
+
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "matterType": {
+                                    "enum": ["entered into an agreement to sell"]
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "matterType": {
+                                    "enum": ["refinancing"]
+                                }
+                            }
+
+                        }
+                    ],
+                    "x-hints": {
+                        "form": {
+                            "selector": "matterType"
+                        }
+                    }
                 }
             },
-            "oneOf": [
-                {
-                    "properties": {
-                        "matterId": {
-                            "title": "Matter ID",
-                            "type" : "string"
-                        },
-                        "matterType": {
-                            "enum": ["entered into an agreement to sell"]
-                        },
-                        "mortgageInstrumentNumber": {
-                            "type": "string",
-                            "title": "Mortgage Instrument Number"
-                        },
-                         "assets": {
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "address": {
-                                        "title": "Address",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": ["address"]
-                            },
-                            "minItems": 1,
-                            "title": "Properties",
-                            "type": "array"
-                        }
-                    },
-                    "required":["matterId", "mortgageInstrumentNumber", "assets"]
-                },
-                {
-                    "properties": {
-                        "matterId": {
-                            "title": "Matter ID",
-                            "type" : "string"
-                        },
-                        "matterType": {
-                            "enum": ["refinancing"]
-                        },
-                        "mortgageInstrumentNumber": {
-                            "type": "string",
-                            "title": "Mortgage Instrument Number"
-                        },
-                         "assets": {
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "address": {
-                                        "title": "Address",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": ["address"]
-                            },
-                            "minItems": 1,
-                            "title": "Properties",
-                            "type": "array"
-                        }
-                    },
-                    "required":["matterId", "transferInstrumentNumber", "assets"]
-
-                }
-            ],
-            "x-hints": {
-                "form": {
-                    "selector": "matterType"
-                }
-            }
+            "required":["mortgageInstrumentNumber", "discharge"]
 
         },
         "recipient": {
@@ -112,14 +79,6 @@
                   "inputComponent": "date"
                 }
             }
-        },
-        "identifierNumber": {
-            "type": "string",
-            "title": "Identifier Number"
-        },
-        "registryLocation": {
-            "type": "string",
-            "title": "Location of Registry"
         },
         "subject": {
             "ignore": true

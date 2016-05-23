@@ -15,19 +15,7 @@
             "type": "object",
             "properties": {
                 "assets": {
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "address": {
-                                "title": "Address",
-                                "type": "string"
-                            }
-                        },
-                        "required": ["address"]
-                    },
-                    "minItems": 1,
-                    "title": "Properties",
-                    "type": "array"
+                    "$ref": "#/definitions/assets"
                 }
             }
         },
@@ -502,17 +490,6 @@
                             "selector": "exist"
                         }
                     }
-                },
-                "uniqueIdentifier": {
-                    "type": "string",
-                    "title": "Unique Identifier",
-                    "minLength": 1
-                },
-                "registry": {
-                    "type": "string",
-                    "title": "Registry",
-                    "minLength": 1,
-                    "description": "e.g. North Auckland"
                 },
                 "errors": {
                     "type": "object",

@@ -101,7 +101,7 @@ Object.keys(FORMS).map(key => {
         })
     }
 });
-
+/*
 function extract(root, path){
     const result = {};
     let acc = result;
@@ -139,13 +139,13 @@ Object.keys(FORMS).map(key => {
             FORMS[key].schema['x-split-aliases'] = FORMS[key].schema['x-split-aliases'] || {};
             FORMS[key].schema['x-split-aliases'][name] = path[0];
             FORMS[key].schema['x-ordering'].unshift(name)
-        }catch(e){};
+        }catch(e){}
        // TODO, ignore original
     });
 
 });
 
-
+*/
 
 // REMOVE ignored fields, for validation
 (function removeIgnored(obj){

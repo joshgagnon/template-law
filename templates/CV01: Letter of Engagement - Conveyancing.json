@@ -5,7 +5,7 @@
     "properties": {
         "isNewClient": {
             "type": "boolean",
-            "title": "Is new client"
+            "title": "Is New Client"
         },
         "recipient": {
             "ignore": true
@@ -17,36 +17,32 @@
         "matter": {
             "type": "object",
             "properties": {
-               "matterType": {
-                    "title": "Matter Type",
-                    "enum": [
-                        "purchase",
-                        "sale",
-                        "refinance"
-                    ],
-                    "enumNames": [
-                        "Purchase",
-                        "Sale",
-                        "Refinance"
-                    ]
-                },
+
                 "assets": {
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "address": {
-                                "title": "Address",
-                                "type": "string"
-                            }
-                        },
-                        "required": ["address"]
-                    },
-                    "minItems": 1,
-                    "title": "Properties",
-                    "type": "array"
-                }
+                    "$ref": "#/definitions/assets"
+                },
+                "conveyancing": {
+                    "type": "object",
+                    "properties": {
+                        "matterType": {
+                            "title": "Conveyancing Type",
+                            "enum": [
+                                "purchase",
+                                "sale",
+                                "refinance"
+                            ],
+                            "enumNames": [
+                                "Purchase",
+                                "Sale",
+                                "Refinance"
+                            ]
+                        }
+                    }
+                },
+                "required": ["matterType"]
+
             },
-            "required": ["matterType"]
+            "required": ["conveyancing", "assets"]
         },
         "disclosure": {
             "type": "string",

@@ -30,6 +30,9 @@ export default function calculate(values, schema, merge){
     (values.clientsWithRoles || []).map(client => {
         const roles = client.roles || {};
         values.client = client;
+
+        values.isNewClient = client.isNewClient;
+
         if(roles.purchaser){
             results.matter = {matterType: 'purchase' }
             if(client.recipientType === 'individuals'){
@@ -120,5 +123,5 @@ export default function calculate(values, schema, merge){
     }
 
 
-    return merge(results, splitAliases(values, schema));
+    return merge(results, values);
 }

@@ -7,19 +7,7 @@
             "type": "object",
             "properties": {
                 "assets": {
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "address": {
-                                "title": "Address",
-                                "type": "string"
-                            }
-                        },
-                        "required": ["address"]
-                    },
-                    "minItems": 1,
-                    "title": "Properties",
-                    "type": "array"
+                    "$ref": "#/definitions/assets"
                 }
             }
         },

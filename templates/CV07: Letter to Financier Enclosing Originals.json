@@ -6,57 +6,49 @@
         "matter": {
             "type": "object",
             "properties": {
-                "matterType": {
-                    "title": "Matter Type",
-                    "enum": [
-                        "purchase",
-                        "refinance"
-                    ],
-                    "enumNames": [
-                        "Purchase",
-                        "Refinance"
-                    ]
-
-                }
-            },
-            "oneOf": [
-                {
-                    "properties": {
-                        "matterId": {
-                            "title": "Matter ID",
-                            "type" : "string"
-                        },
-                        "matterType": {
-                            "enum": ["purchase"]
-                        },
-                        "assets": {
-                            "$ref": "#/definitions/assets"
-                        }
-                    },
-                    "required":["matterId", "assets"]
+                "assets": {
+                    "$ref": "#/definitions/assets"
                 },
-                {
+                "letterFinancier": {
+                    "type": "object",
                     "properties": {
-                        "matterId": {
-                            "title": "Matter ID",
-                            "type" : "string"
-                        },
                         "matterType": {
-                            "enum": ["refinance"]
-                        },
-                        "assets": {
-                            "$ref": "#/definitions/assets"
+                            "title": "Matter Type",
+                            "enum": [
+                                "purchase",
+                                "refinance"
+                            ],
+                            "enumNames": [
+                                "Purchase",
+                                "Refinance"
+                            ]
                         }
                     },
-                    "required":["matterId", "assets"]
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "matterType": {
+                                    "enum": ["purchase"]
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "matterType": {
+                                    "enum": ["refinance"]
+                                }
+                            }
+                        }
+                    ],
+                    "x-hints": {
+                        "form": {
+                            "selector": "matterType"
+                        }
+                    }
                 }
-            ],
-            "x-hints": {
-                "form": {
-                    "selector": "matterType"
-                }
+
             }
-         },
+        },
         "recipient": {
             "ignore": true
         },

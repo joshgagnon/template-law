@@ -148,6 +148,10 @@
                                 "individuals"
                             ]
                         },
+                        "isNewClient": {
+                            "type": "boolean",
+                            "title": "Is New Client"
+                        },
                         "individuals": {
                             "minItems": 1,
                             "title": "Individual(s)",
@@ -172,6 +176,10 @@
                             "enum": [
                                 "company"
                             ]
+                        },
+                        "isNewClient": {
+                            "type": "boolean",
+                            "title": "Is New Client"
                         },
                         "companyName": {
                             "title": "Company Name",

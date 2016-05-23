@@ -34781,45 +34781,51 @@
 	        });
 	    }
 	});
-	
-	function extract(root, path) {
-	    var result = {};
-	    var acc = result;
-	    path.map(function (p) {
-	        acc[p] = _objectUtils2.default.without((0, _deepmerge2.default)({}, root[p]), 'oneOf', 'x-hints');
-	        if (root[p].properties) acc[p].properties = {};
+	/*
+	function extract(root, path){
+	    const result = {};
+	    let acc = result;
+	    path.map(p => {
+	        acc[p] = ObjectUtils.without(merge({}, root[p]), 'oneOf', 'x-hints');
+	        if(root[p].properties) acc[p].properties = {};
 	        root = root[p].properties;
 	        acc = acc[p].properties;
 	    });
 	    return result[path[0]];
 	}
 	
+	
+	
 	// split ordering
-	Object.keys(FORMS).map(function (key) {
-	    var ordering = (FORMS[key].schema['x-split-ordering'] || []).slice(0);
+	Object.keys(FORMS).map(key => {
+	    const ordering = (FORMS[key].schema['x-split-ordering'] || []).slice(0);
 	    ordering.reverse();
-	    ordering.map(function (entry, i) {
-	        try {
-	            var path = entry.split('.');
-	            var name = undefined;
-	            if (path.length > 1) {
-	                var aliasObject = extract(FORMS[key].schema.properties, path);
+	    ordering.map((entry, i) => {
+	        try{
+	            const path = entry.split('.');
+	            let name;
+	            if(path.length > 1){
+	                const aliasObject = extract(FORMS[key].schema.properties, path);
 	                name = '___alias_' + i;
 	                FORMS[key].schema.properties[name] = aliasObject;
-	            } else {
+	            }
+	            else{
 	                name = path[0];
 	            }
-	            var index = FORMS[key].schema['x-ordering'].indexOf(name);
-	            if (index > -1) {
+	            const index = FORMS[key].schema['x-ordering'].indexOf(name);
+	            if(index > -1){
 	                FORMS[key].schema['x-ordering'].splice(index, 1);
 	            }
 	            FORMS[key].schema['x-split-aliases'] = FORMS[key].schema['x-split-aliases'] || {};
 	            FORMS[key].schema['x-split-aliases'][name] = path[0];
-	            FORMS[key].schema['x-ordering'].unshift(name);
-	        } catch (e) {};
-	        // TODO, ignore original
+	            FORMS[key].schema['x-ordering'].unshift(name)
+	        }catch(e){}
+	       // TODO, ignore original
 	    });
+	
 	});
+	
+	*/
 	
 	// REMOVE ignored fields, for validation
 	(function removeIgnored(obj) {
@@ -34920,22 +34926,45 @@
 				"title": "Address",
 				"items": {
 					"properties": {
-						"minItems": 1,
-						"title": "Address Line",
-						"type": "array",
 						"items": {
+							"title": "Address Line",
 							"type": "string"
 						}
 					}
 				},
 				"minItems": 0
 			},
+			"addressRequired": {
+				"type": "array",
+				"title": "Address",
+				"items": {
+					"properties": {
+						"items": {
+							"title": "Address Line",
+							"type": "string"
+						}
+					}
+				},
+				"minItems": 1
+			},
 			"assets": {
 				"items": {
+					"title": "Property",
 					"properties": {
 						"address": {
 							"title": "Address",
 							"type": "string"
+						},
+						"uniqueIdentifier": {
+							"type": "string",
+							"title": "Unique Identifier",
+							"minLength": 1
+						},
+						"registry": {
+							"type": "string",
+							"title": "Registry",
+							"minLength": 1,
+							"description": "e.g. North Auckland"
 						}
 					},
 					"required": [
@@ -34947,21 +34976,6 @@
 				"minItems": 1,
 				"title": "Properties",
 				"type": "array"
-			},
-			"addressRequired": {
-				"type": "array",
-				"title": "Address",
-				"items": {
-					"properties": {
-						"minItems": 1,
-						"title": "Address Line",
-						"type": "array",
-						"items": {
-							"type": "string"
-						}
-					}
-				},
-				"minItems": 2
 			},
 			"individual": {
 				"type": "object",
@@ -35444,7 +35458,7 @@
 		"properties": {
 			"isNewClient": {
 				"type": "boolean",
-				"title": "Is new client"
+				"title": "Is New Client"
 			},
 			"recipient": {
 				"ignore": true
@@ -35456,39 +35470,34 @@
 			"matter": {
 				"type": "object",
 				"properties": {
-					"matterType": {
-						"title": "Matter Type",
-						"enum": [
-							"purchase",
-							"sale",
-							"refinance"
-						],
-						"enumNames": [
-							"Purchase",
-							"Sale",
-							"Refinance"
-						]
-					},
 					"assets": {
-						"items": {
-							"type": "object",
-							"properties": {
-								"address": {
-									"title": "Address",
-									"type": "string"
-								}
-							},
-							"required": [
-								"address"
-							]
-						},
-						"minItems": 1,
-						"title": "Properties",
-						"type": "array"
-					}
+						"$ref": "#/definitions/assets"
+					},
+					"conveyancing": {
+						"type": "object",
+						"properties": {
+							"matterType": {
+								"title": "Conveyancing Type",
+								"enum": [
+									"purchase",
+									"sale",
+									"refinance"
+								],
+								"enumNames": [
+									"Purchase",
+									"Sale",
+									"Refinance"
+								]
+							}
+						}
+					},
+					"required": [
+						"matterType"
+					]
 				},
 				"required": [
-					"matterType"
+					"conveyancing",
+					"assets"
 				]
 			},
 			"disclosure": {
@@ -35535,21 +35544,7 @@
 				"type": "object",
 				"properties": {
 					"assets": {
-						"items": {
-							"type": "object",
-							"properties": {
-								"address": {
-									"title": "Address",
-									"type": "string"
-								}
-							},
-							"required": [
-								"address"
-							]
-						},
-						"minItems": 1,
-						"title": "Properties",
-						"type": "array"
+						"$ref": "#/definitions/assets"
 					}
 				}
 			},
@@ -36088,17 +36083,6 @@
 							}
 						}
 					},
-					"uniqueIdentifier": {
-						"type": "string",
-						"title": "Unique Identifier",
-						"minLength": 1
-					},
-					"registry": {
-						"type": "string",
-						"title": "Registry",
-						"minLength": 1,
-						"description": "e.g. North Auckland"
-					},
 					"errors": {
 						"type": "object",
 						"properties": {
@@ -36239,21 +36223,7 @@
 				"type": "object",
 				"properties": {
 					"assets": {
-						"items": {
-							"type": "object",
-							"properties": {
-								"address": {
-									"title": "Address",
-									"type": "string"
-								}
-							},
-							"required": [
-								"address"
-							]
-						},
-						"minItems": 1,
-						"title": "Properties",
-						"type": "array"
+						"$ref": "#/definitions/assets"
 					}
 				}
 			},
@@ -36336,114 +36306,68 @@
 			"matter": {
 				"type": "object",
 				"properties": {
-					"matterType": {
-						"title": "Matter Type",
-						"enum": [
-							"discharge of mortgage and transfer instruments",
-							"transfer instrument"
-						]
-					}
-				},
-				"oneOf": [
-					{
-						"properties": {
-							"matterId": {
-								"title": "Matter ID",
-								"type": "string"
-							},
-							"matterType": {
-								"enum": [
-									"discharge of mortgage and transfer instruments"
-								]
-							},
-							"mortgageInstrumentNumber": {
-								"type": "string",
-								"title": "Mortgage Instrument Number"
-							},
-							"transferInstrumentNumber": {
-								"type": "string",
-								"title": "Transfer Instrument Number"
-							},
-							"assets": {
-								"items": {
-									"type": "object",
-									"properties": {
-										"address": {
-											"title": "Address",
-											"type": "string"
-										}
-									},
-									"required": [
-										"address"
-									]
-								},
-								"minItems": 1,
-								"title": "Properties",
-								"type": "array"
-							},
-							"eDealingNumber": {
-								"type": "string",
-								"title": "E-dealing Number"
-							}
-						},
-						"required": [
-							"matterId",
-							"mortgageInstrumentNumber",
-							"transferInstrumentNumber",
-							"assets",
-							"eDealingNumber"
-						]
+					"eDealingNumber": {
+						"type": "string",
+						"title": "E-dealing Number"
 					},
-					{
+					"transferInstrumentNumber": {
+						"type": "string",
+						"title": "Transfer Instrument Number"
+					},
+					"assets": {
+						"$ref": "#/definitions/assets"
+					},
+					"settlement": {
+						"type": "object",
 						"properties": {
-							"matterId": {
-								"title": "Matter ID",
-								"type": "string"
-							},
 							"matterType": {
+								"title": "Settlement Type",
 								"enum": [
+									"discharge of mortgage and transfer instruments",
 									"transfer instrument"
 								]
-							},
-							"transferInstrumentNumber": {
-								"type": "string",
-								"title": "Transfer Instrument Number"
-							},
-							"assets": {
-								"items": {
-									"type": "object",
-									"properties": {
-										"address": {
-											"title": "Address",
-											"type": "string"
-										}
-									},
-									"required": [
-										"address"
-									]
-								},
-								"minItems": 1,
-								"title": "Properties",
-								"type": "array"
-							},
-							"eDealingNumber": {
-								"type": "string",
-								"title": "E-dealing Number"
 							}
 						},
-						"required": [
-							"matterId",
-							"transferInstrumentNumber",
-							"assets",
-							"eDealingNumber"
-						]
+						"oneOf": [
+							{
+								"properties": {
+									"matterType": {
+										"enum": [
+											"discharge of mortgage and transfer instruments"
+										]
+									},
+									"mortgageInstrumentNumber": {
+										"type": "string",
+										"title": "Mortgage Instrument Number"
+									}
+								},
+								"required": [
+									"mortgageInstrumentNumber"
+								]
+							},
+							{
+								"properties": {
+									"matterType": {
+										"enum": [
+											"transfer instrument"
+										]
+									}
+								}
+							}
+						],
+						"x-hints": {
+							"form": {
+								"selector": "matterType"
+							}
+						}
 					}
-				],
-				"x-hints": {
-					"form": {
-						"selector": "matterType"
-					}
-				}
+				},
+				"required": [
+					"transferInstrumentNumber",
+					"assets",
+					"eDealingNumber",
+					"settlement"
+				]
 			},
 			"recipient": {
 				"ignore": true
@@ -36498,99 +36422,55 @@
 			"matter": {
 				"type": "object",
 				"properties": {
-					"matterType": {
-						"title": "Matter Type",
-						"enum": [
-							"entered into an agreement to sell",
-							"refinancing"
-						]
-					}
-				},
-				"oneOf": [
-					{
-						"properties": {
-							"matterId": {
-								"title": "Matter ID",
-								"type": "string"
-							},
-							"matterType": {
-								"enum": [
-									"entered into an agreement to sell"
-								]
-							},
-							"mortgageInstrumentNumber": {
-								"type": "string",
-								"title": "Mortgage Instrument Number"
-							},
-							"assets": {
-								"items": {
-									"type": "object",
-									"properties": {
-										"address": {
-											"title": "Address",
-											"type": "string"
-										}
-									},
-									"required": [
-										"address"
-									]
-								},
-								"minItems": 1,
-								"title": "Properties",
-								"type": "array"
-							}
-						},
-						"required": [
-							"matterId",
-							"mortgageInstrumentNumber",
-							"assets"
-						]
+					"mortgageInstrumentNumber": {
+						"type": "string",
+						"title": "Mortgage Instrument Number"
 					},
-					{
+					"assets": {
+						"$ref": "#/definitions/assets"
+					},
+					"discharge": {
+						"type": "object",
 						"properties": {
-							"matterId": {
-								"title": "Matter ID",
-								"type": "string"
-							},
 							"matterType": {
+								"title": "Matter Type",
 								"enum": [
+									"entered into an agreement to sell",
 									"refinancing"
 								]
-							},
-							"mortgageInstrumentNumber": {
-								"type": "string",
-								"title": "Mortgage Instrument Number"
-							},
-							"assets": {
-								"items": {
-									"type": "object",
-									"properties": {
-										"address": {
-											"title": "Address",
-											"type": "string"
-										}
-									},
-									"required": [
-										"address"
-									]
-								},
-								"minItems": 1,
-								"title": "Properties",
-								"type": "array"
 							}
 						},
-						"required": [
-							"matterId",
-							"transferInstrumentNumber",
-							"assets"
-						]
+						"oneOf": [
+							{
+								"properties": {
+									"matterType": {
+										"enum": [
+											"entered into an agreement to sell"
+										]
+									}
+								}
+							},
+							{
+								"properties": {
+									"matterType": {
+										"enum": [
+											"refinancing"
+										]
+									}
+								}
+							}
+						],
+						"x-hints": {
+							"form": {
+								"selector": "matterType"
+							}
+						}
 					}
-				],
-				"x-hints": {
-					"form": {
-						"selector": "matterType"
-					}
-				}
+				},
+				"required": [
+					"mortgageInstrumentNumber",
+					"discharge"
+				]
 			},
 			"recipient": {
 				"ignore": true
@@ -36617,14 +36497,6 @@
 						"inputComponent": "date"
 					}
 				}
-			},
-			"identifierNumber": {
-				"type": "string",
-				"title": "Identifier Number"
-			},
-			"registryLocation": {
-				"type": "string",
-				"title": "Location of Registry"
 			},
 			"subject": {
 				"ignore": true
@@ -36655,21 +36527,7 @@
 				"type": "object",
 				"properties": {
 					"assets": {
-						"items": {
-							"type": "object",
-							"properties": {
-								"address": {
-									"title": "Address",
-									"type": "string"
-								}
-							},
-							"required": [
-								"address"
-							]
-						},
-						"minItems": 1,
-						"title": "Properties",
-						"type": "array"
+						"$ref": "#/definitions/assets"
 					}
 				}
 			},
@@ -36736,63 +36594,49 @@
 			"matter": {
 				"type": "object",
 				"properties": {
-					"matterType": {
-						"title": "Matter Type",
-						"enum": [
-							"purchase",
-							"refinance"
-						],
-						"enumNames": [
-							"Purchase",
-							"Refinance"
-						]
-					}
-				},
-				"oneOf": [
-					{
-						"properties": {
-							"matterId": {
-								"title": "Matter ID",
-								"type": "string"
-							},
-							"matterType": {
-								"enum": [
-									"purchase"
-								]
-							},
-							"assets": {
-								"$ref": "#/definitions/assets"
-							}
-						},
-						"required": [
-							"matterId",
-							"assets"
-						]
+					"assets": {
+						"$ref": "#/definitions/assets"
 					},
-					{
+					"letterFinancier": {
+						"type": "object",
 						"properties": {
-							"matterId": {
-								"title": "Matter ID",
-								"type": "string"
-							},
 							"matterType": {
+								"title": "Matter Type",
 								"enum": [
+									"purchase",
 									"refinance"
+								],
+								"enumNames": [
+									"Purchase",
+									"Refinance"
 								]
-							},
-							"assets": {
-								"$ref": "#/definitions/assets"
 							}
 						},
-						"required": [
-							"matterId",
-							"assets"
-						]
-					}
-				],
-				"x-hints": {
-					"form": {
-						"selector": "matterType"
+						"oneOf": [
+							{
+								"properties": {
+									"matterType": {
+										"enum": [
+											"purchase"
+										]
+									}
+								}
+							},
+							{
+								"properties": {
+									"matterType": {
+										"enum": [
+											"refinance"
+										]
+									}
+								}
+							}
+						],
+						"x-hints": {
+							"form": {
+								"selector": "matterType"
+							}
+						}
 					}
 				}
 			},
@@ -36941,280 +36785,224 @@
 				"title": "Client (recipient)"
 			},
 			"matter": {
-				"title": "Matter",
 				"type": "object",
 				"properties": {
-					"matterType": {
-						"enum": [
-							"purchase",
-							"sale",
-							"refinance"
+					"assets": {
+						"$ref": "#/definitions/assets"
+					},
+					"conveyancing": {
+						"type": "object",
+						"properties": {
+							"matterType": {
+								"title": "Conveyancing Type",
+								"enum": [
+									"purchase",
+									"sale",
+									"refinance"
+								],
+								"enumNames": [
+									"Purchase",
+									"Sale",
+									"Refinance"
+								]
+							}
+						},
+						"required": [
+							"matterType"
 						],
-						"enumNames": [
-							"Purchase",
-							"Sale",
-							"Refinance"
+						"oneOf": [
+							{
+								"properties": {
+									"matterType": {
+										"enum": [
+											"purchase"
+										]
+									},
+									"loanAdvance": {
+										"$ref": "#/definitions/loanAdvance"
+									},
+									"clients": {
+										"items": {
+											"properties": {
+												"clientName": {
+													"title": "Client Name",
+													"type": "string"
+												},
+												"kiwiSaverWithdrawal": {
+													"type": "object",
+													"title": "Kiwi Saver First Home Buyer Widthdrawal",
+													"properties": {
+														"credit": {
+															"title": "Credit",
+															"type": "number",
+															"minimum": 0,
+															"maximum": 100000000
+														},
+														"date": {
+															"title": "Date",
+															"type": "string",
+															"x-hints": {
+																"form": {
+																	"inputComponent": "date"
+																}
+															}
+														}
+													},
+													"required": [
+														"credit",
+														"date"
+													]
+												},
+												"kiwiSaverHomeStart": {
+													"type": "object",
+													"title": "Kiwi Saver Home Start",
+													"properties": {
+														"credit": {
+															"title": "Credit",
+															"type": "number",
+															"minimum": 0,
+															"maximum": 100000000,
+															"x-hints": {
+																"form": {
+																	"width": 2
+																}
+															}
+														},
+														"date": {
+															"title": "Date",
+															"type": "string",
+															"x-hints": {
+																"form": {
+																	"inputComponent": "date"
+																}
+															}
+														}
+													},
+													"required": [
+														"credit",
+														"date"
+													]
+												}
+											},
+											"required": [
+												"clientName"
+											],
+											"type": "object"
+										},
+										"minItems": 1,
+										"title": "Clients",
+										"type": "array"
+									},
+									"balancePurchasePrice": {
+										"type": "object",
+										"title": "Payment of Balance of Purchase Price",
+										"properties": {
+											"debit": {
+												"title": "Debit",
+												"type": "number",
+												"minimum": 0,
+												"maximum": 100000000
+											},
+											"date": {
+												"title": "Date",
+												"type": "string",
+												"x-hints": {
+													"form": {
+														"inputComponent": "date"
+													}
+												}
+											}
+										},
+										"required": [
+											"debit",
+											"date"
+										]
+									}
+								}
+							},
+							{
+								"properties": {
+									"balancePurchasePrice": {
+										"type": "object",
+										"title": "Balance of Purchase Price",
+										"properties": {
+											"credit": {
+												"title": "Credit",
+												"type": "number",
+												"minimum": 0,
+												"maximum": 100000000
+											},
+											"date": {
+												"title": "Date",
+												"type": "string",
+												"x-hints": {
+													"form": {
+														"inputComponent": "date"
+													}
+												}
+											}
+										},
+										"required": [
+											"credit",
+											"date"
+										]
+									},
+									"deposit": {
+										"type": "object",
+										"title": "Payment of deposit",
+										"properties": {
+											"credit": {
+												"title": "Credit",
+												"type": "number",
+												"minimum": 0,
+												"maximum": 100000000
+											},
+											"lessCommission": {
+												"title": "Less real estate agent's commission",
+												"type": "boolean"
+											},
+											"date": {
+												"title": "Date",
+												"type": "string",
+												"x-hints": {
+													"form": {
+														"inputComponent": "date"
+													}
+												}
+											}
+										},
+										"required": [
+											"credit",
+											"date"
+										]
+									},
+									"repaymentOfIndebtedness": {
+										"$ref": "#/definitions/repaymentOfIndebtedness"
+									}
+								}
+							},
+							{
+								"properties": {
+									"loadAdvance": {
+										"$ref": "#/definitions/loadAdvance"
+									},
+									"repaymentOfIndebtedness": {
+										"$ref": "#/definitions/repaymentOfIndebtedness"
+									}
+								}
+							}
 						],
-						"title": "Matter Type"
+						"x-hints": {
+							"form": {
+								"selector": "matterType"
+							}
+						}
 					}
 				},
-				"oneOf": [
-					{
-						"properties": {
-							"matterId": {
-								"title": "Matter ID",
-								"type": "string"
-							},
-							"assets": {
-								"$ref": "#/definitions/assets"
-							},
-							"loanAdvance": {
-								"$ref": "#/definitions/loanAdvance"
-							},
-							"clients": {
-								"items": {
-									"properties": {
-										"clientName": {
-											"title": "Client Name",
-											"type": "string"
-										},
-										"kiwiSaverWithdrawal": {
-											"type": "object",
-											"title": "Kiwi Saver First Home Buyer Widthdrawal",
-											"properties": {
-												"credit": {
-													"title": "Credit",
-													"type": "number",
-													"minimum": 0,
-													"maximum": 100000000
-												},
-												"date": {
-													"title": "Date",
-													"type": "string",
-													"x-hints": {
-														"form": {
-															"inputComponent": "date"
-														}
-													}
-												}
-											},
-											"required": [
-												"credit",
-												"date"
-											]
-										},
-										"kiwiSaverHomeStart": {
-											"type": "object",
-											"title": "Kiwi Saver Home Start",
-											"properties": {
-												"credit": {
-													"title": "Credit",
-													"type": "number",
-													"minimum": 0,
-													"maximum": 100000000,
-													"x-hints": {
-														"form": {
-															"width": 2
-														}
-													}
-												},
-												"date": {
-													"title": "Date",
-													"type": "string",
-													"x-hints": {
-														"form": {
-															"inputComponent": "date"
-														}
-													}
-												}
-											},
-											"required": [
-												"credit",
-												"date"
-											]
-										}
-									},
-									"required": [
-										"clientName"
-									],
-									"type": "object"
-								},
-								"minItems": 1,
-								"title": "Clients",
-								"type": "array"
-							},
-							"balancePurchasePrice": {
-								"type": "object",
-								"title": "Payment of Balance of Purchase Price",
-								"properties": {
-									"debit": {
-										"title": "Debit",
-										"type": "number",
-										"minimum": 0,
-										"maximum": 100000000
-									},
-									"date": {
-										"title": "Date",
-										"type": "string",
-										"x-hints": {
-											"form": {
-												"inputComponent": "date"
-											}
-										}
-									}
-								},
-								"required": [
-									"debit",
-									"date"
-								]
-							},
-							"matterType": {
-								"enum": [
-									"purchase"
-								]
-							}
-						},
-						"required": [
-							"matterType",
-							"matterId",
-							"assets"
-						],
-						"x-ordering": [
-							"matterId",
-							"matterType",
-							"assets",
-							"loadAdvance",
-							"clients"
-						]
-					},
-					{
-						"properties": {
-							"matterType": {
-								"enum": [
-									"sale"
-								]
-							},
-							"matterId": {
-								"title": "Matter ID",
-								"type": "string"
-							},
-							"assets": {
-								"$ref": "#/definitions/assets"
-							},
-							"balancePurchasePrice": {
-								"type": "object",
-								"title": "Balance of Purchase Price",
-								"properties": {
-									"credit": {
-										"title": "Credit",
-										"type": "number",
-										"minimum": 0,
-										"maximum": 100000000
-									},
-									"date": {
-										"title": "Date",
-										"type": "string",
-										"x-hints": {
-											"form": {
-												"inputComponent": "date"
-											}
-										}
-									}
-								},
-								"required": [
-									"credit",
-									"date"
-								]
-							},
-							"deposit": {
-								"type": "object",
-								"title": "Payment of deposit",
-								"properties": {
-									"credit": {
-										"title": "Credit",
-										"type": "number",
-										"minimum": 0,
-										"maximum": 100000000
-									},
-									"lessCommission": {
-										"title": "Less real estate agent's commission",
-										"type": "boolean"
-									},
-									"date": {
-										"title": "Date",
-										"type": "string",
-										"x-hints": {
-											"form": {
-												"inputComponent": "date"
-											}
-										}
-									}
-								},
-								"required": [
-									"credit",
-									"date"
-								]
-							},
-							"repaymentOfIndebtedness": {
-								"$ref": "#/definitions/repaymentOfIndebtedness"
-							}
-						},
-						"required": [
-							"matterType",
-							"matterId",
-							"assets"
-						],
-						"x-ordering": [
-							"matterId",
-							"matterType",
-							"assets",
-							"balancePurchasePrice",
-							"deposit",
-							"repaymentOfIndebtedness"
-						]
-					},
-					{
-						"properties": {
-							"matterType": {
-								"enum": [
-									"refinance"
-								]
-							},
-							"matterId": {
-								"title": "Matter ID",
-								"type": "string"
-							},
-							"assets": {
-								"$ref": "#/definitions/assets"
-							},
-							"loadAdvance": {
-								"$ref": "#/definitions/loadAdvance"
-							},
-							"repaymentOfIndebtedness": {
-								"$ref": "#/definitions/repaymentOfIndebtedness"
-							}
-						},
-						"required": [
-							"matterId",
-							"matterType",
-							"matterId",
-							"assets"
-						],
-						"x-ordering": [
-							"matterId",
-							"matterType",
-							"assets"
-						]
-					}
-				],
 				"required": [
-					"matterType"
-				],
-				"x-hints": {
-					"form": {
-						"selector": "matterType"
-					}
-				}
+					"conveyancing",
+					"assets"
+				]
 			},
 			"debits": {
 				"type": "array",
@@ -37391,18 +37179,18 @@
 	    var credits = 0,
 	        debits = 0;
 	    if (values.matter) {
-	        if (values.matter.matterType === 'purchase') {
-	            if (values.matter.loanAdvance) credits += values.matter.loanAdvance.credit || 0;
-	            credits += (values.matter.clients || []).reduce(function (acc, client) {
+	        if (values.matter.conveyancing.matterType === 'purchase') {
+	            if (values.matter.conveyancing.loanAdvance) credits += values.matter.conveyancing.loanAdvance.credit || 0;
+	            credits += (values.matter.conveyancing.clients || []).reduce(function (acc, client) {
 	                if (client.kiwiSaverWithdrawal) acc += client.kiwiSaverWithdrawal.credit || 0;
 	                if (client.kiwiSaverHomeStart) acc += client.kiwiSaverHomeStart.credit || 0;
 	                return acc;
 	            }, 0);
-	            if (values.matter.balancePurchasePrice) debits += values.matter.balancePurchasePrice.debits || 0;
-	        } else if (values.matter.matterType === 'sale') {
-	            if (values.matter.balancePurchasePrice) credits += values.matter.balancePurchasePrice.credit || 0;
-	            if (values.matter.deposit) credits += values.matter.deposit.credit || 0;
-	            if (values.repaymentOfIndebtedness) debits += values.matter.repaymentOfIndebtedness.debit || 0;
+	            if (values.matter.conveyancing.balancePurchasePrice) debits += values.matter.conveyancing.balancePurchasePrice.debits || 0;
+	        } else if (values.matter.conveyancing.matterType === 'sale') {
+	            if (values.matter.conveyancing.balancePurchasePrice) credits += values.matter.conveyancing.balancePurchasePrice.credit || 0;
+	            if (values.matter.conveyancing.deposit) credits += values.matter.conveyancing.deposit.credit || 0;
+	            if (values.conveyancing.repaymentOfIndebtedness) debits += values.conveyancing.matter.repaymentOfIndebtedness.debit || 0;
 	        } else {
 	            if (values.matter.loanAdvance) credits += values.matter.loanAdvance.credit || 0;
 	            if (values.matter.repaymentOfIndebtedness) debits += values.matter.repaymentOfIndebtedness.debit || 0;
@@ -38406,6 +38194,10 @@
 									"individuals"
 								]
 							},
+							"isNewClient": {
+								"type": "boolean",
+								"title": "Is New Client"
+							},
 							"individuals": {
 								"minItems": 1,
 								"title": "Individual(s)",
@@ -38434,6 +38226,10 @@
 								"enum": [
 									"company"
 								]
+							},
+							"isNewClient": {
+								"type": "boolean",
+								"title": "Is New Client"
 							},
 							"companyName": {
 								"title": "Company Name",
@@ -38658,6 +38454,9 @@
 	    (values.clientsWithRoles || []).map(function (client) {
 	        var roles = client.roles || {};
 	        values.client = client;
+	
+	        values.isNewClient = client.isNewClient;
+	
 	        if (roles.purchaser) {
 	            results.matter = { matterType: 'purchase' };
 	            if (client.recipientType === 'individuals') {
@@ -38745,7 +38544,7 @@
 	        results.matter.loanAdvance = { date: values.settlementDate };
 	    }
 	
-	    return merge(results, splitAliases(values, schema));
+	    return merge(results, values);
 	}
 
 /***/ },
