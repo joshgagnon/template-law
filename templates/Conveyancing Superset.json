@@ -271,25 +271,6 @@
         }
     },
     "properties": {
-        "matterMatterId": {
-            "type": "object",
-            "title": "Matter",
-            "properties": {
-                "matterId": {
-                    "title": "Matter ID",
-                    "type" : "string"
-                }
-            },
-            "required": ["matterId"]
-        },
-        "matter": {
-            "title": "Conveyance Details",
-            "properties": {
-                "matterId": {
-                    "ignore": true
-                }
-            }
-        },
         "clientsWithRoles": {
             "items": {
                 "$ref":  "#/definitions/recipientWithRoles",
@@ -332,7 +313,22 @@
             "ignore": true
         }
     },
-    "x-ordering": ["matterMatterId", "", "clientsWithRoles", "otherPartiesWithRoles"],
+    "x-split-ordering":[
+        "matter.matterId",
+        "fileType",
+        "filename",
+        "clientsWithRoles",
+        "otherPartiesWithRoles",
+        "matter.assets",
+        "matter.uniqueIdentifier",
+        "matter.landRegistry",
+        "matter.matterType",
+        "fee",
+        "settlementDate",
+        "agreementDate"
+
+
+    ],
     "mappings": {
         "lender": {
             "ASB Bank Limited": {

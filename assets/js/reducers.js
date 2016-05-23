@@ -31,7 +31,7 @@ function validate(schema, values, ctx){
 
 function calculate(form, values = {}){
     if(FORMS[form] && FORMS[form].calculate){
-        return FORMS[form].calculate(values)
+        return FORMS[form].calculate(values, FORMS[form].schema, merge)
     }
     return {};
 }

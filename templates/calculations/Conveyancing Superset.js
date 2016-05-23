@@ -1,7 +1,6 @@
 /** Conveyancing Superset.js */
 
 
-
 function getFirstName(recipient){
     if(recipient.recipientType === 'individuals' && recipient.individuals.length){
         const individual = recipient.individuals[0];
@@ -12,8 +11,16 @@ function getFirstName(recipient){
     }
 }
 
+function splitAliases(values, schema){
+    var aliases = (schema['x-split-aliases'] || {})
+    return Object.keys(aliases).reduce((acc, x) => {
+        acc[aliases[x]] = values[x];
+        return acc;
+    }, {})
+}
 
-export default function calculate(values){
+
+export default function calculate(values, schema, merge){
     var results = {matter: {}};
 
     results.matter = values.matterMatterId;
@@ -112,7 +119,6 @@ export default function calculate(values){
         results.matter.loanAdvance = {date: values.settlementDate};
     }
 
-    console.log(values)
-    console.log(results)
-    return results;
+
+    return merge(results, splitAliases(values, schema));
 }

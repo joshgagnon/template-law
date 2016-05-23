@@ -37,9 +37,9 @@
                             "address": {
                                 "title": "Address",
                                 "type": "string"
-                            },
-                            "required": ["address"]
-                        }
+                            }
+                        },
+                        "required": ["address"]
                     },
                     "minItems": 1,
                     "title": "Properties",

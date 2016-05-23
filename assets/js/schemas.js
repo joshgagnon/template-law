@@ -22,17 +22,18 @@ import CT02Schema from '../../templates/CT02: Service Letter.json';
 import ConveyancingSuperset from '../../templates/Conveyancing Superset.json';
 import ConveyancingSupersetCalculate from '../../templates/calculations/Conveyancing Superset.js';
 import merge from './deepmerge'
+import ObjectUtils from 'react-json-editor/lib/objectUtils';
 
 
 const FORMS = {
     'G01: Letter Template': {
-        schema: letterTemplateSchema,
+        schema: letterTemplateSchema
     },
     'G02: Letter of Engagement': {
-        schema: letterOfEngagementSchema,
+        schema: letterOfEngagementSchema
     },
     'G03: File Closing Letter': {
-        schema: fileClosingSchema,
+        schema: fileClosingSchema
     },
     'CV01: Letter of Engagement - Conveyancing': {
         schema: letterOfEngagementConveyancingSchema
@@ -42,10 +43,10 @@ const FORMS = {
         calculate: CV02Calucate
     },
     'CV03: Settlement Undertakings Letter - Acting for Purchaser':{
-        schema: CV03Schema,
+        schema: CV03Schema
     },
     'CV04: Settlement Undertakings Letter - Acting for Vendor':{
-        schema: CV04Schema,
+        schema: CV04Schema
     },
     'CV05: Mortgage Discharge Request':{
         schema: CV05Schema
@@ -73,19 +74,18 @@ const FORMS = {
         calculate: LI01Calculate
     },
     'CT01: Filing Letter':{
-        schema: CT01Schema,
+        schema: CT01Schema
     },
     'CT02: Service Letter':{
         schema: CT01Schema
     },
     'Conveyancing Superset': {
         schema: ConveyancingSuperset,
-        calculate: ConveyancingSupersetCalculate,
+        calculate: ConveyancingSupersetCalculate
     }
 };
 
 // apply extensions
-
 Object.keys(FORMS).map(key => {
     if(FORMS[key].schema.extends){
         const extKeys = Array.isArray(FORMS[key].schema.extends) ? FORMS[key].schema.extends : [FORMS[key].schema.extends];
@@ -101,6 +101,50 @@ Object.keys(FORMS).map(key => {
         })
     }
 });
+
+function extract(root, path){
+    const result = {};
+    let acc = result;
+    path.map(p => {
+        acc[p] = ObjectUtils.without(merge({}, root[p]), 'oneOf', 'x-hints');
+        if(root[p].properties) acc[p].properties = {};
+        root = root[p].properties;
+        acc = acc[p].properties;
+    });
+    return result[path[0]];
+}
+
+
+
+// split ordering
+Object.keys(FORMS).map(key => {
+    const ordering = (FORMS[key].schema['x-split-ordering'] || []).slice(0);
+    ordering.reverse();
+    ordering.map((entry, i) => {
+        try{
+            const path = entry.split('.');
+            let name;
+            if(path.length > 1){
+                const aliasObject = extract(FORMS[key].schema.properties, path);
+                name = '___alias_' + i;
+                FORMS[key].schema.properties[name] = aliasObject;
+            }
+            else{
+                name = path[0];
+            }
+            const index = FORMS[key].schema['x-ordering'].indexOf(name);
+            if(index > -1){
+                FORMS[key].schema['x-ordering'].splice(index, 1);
+            }
+            FORMS[key].schema['x-split-aliases'] = FORMS[key].schema['x-split-aliases'] || {};
+            FORMS[key].schema['x-split-aliases'][name] = path[0];
+            FORMS[key].schema['x-ordering'].unshift(name)
+        }catch(e){};
+       // TODO, ignore original
+    });
+
+});
+
 
 
 // REMOVE ignored fields, for validation

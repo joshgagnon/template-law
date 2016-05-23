@@ -65,29 +65,19 @@
             }
         },
         "address": {
-            "type": "object",
-            "properties": {
-                "street": {
-                    "title": "Street address",
-                    "type": "string"
-                },
-                "suburb": {
-                    "title": "Suburb",
-                    "type": "string"
-                },
-                "postcode": {
-                    "title": "Post or area code",
-                    "type": "string"
-                },
-                "city": {
-                    "title": "City",
-                    "type": "string"
-                },
-                "country": {
-                    "title": "Country",
-                    "type": "string"
+            "type": "array",
+            "title": "Address",
+            "items": {
+                "properties": {
+                    "minItems": 1,
+                    "title": "Address Line",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
-            }
+            },
+            "minItems": 0
         },
         "assets": {
             "items": {
@@ -108,30 +98,19 @@
             "type": "array"
         },
         "addressRequired": {
-            "type": "object",
-            "properties": {
-                "street": {
-                    "title": "Street address",
-                    "type": "string"
-                },
-                "suburb": {
-                    "title": "Suburb",
-                    "type": "string"
-                },
-                "postcode": {
-                    "title": "Post or area code",
-                    "type": "string"
-                },
-                "city": {
-                    "title": "City",
-                    "type": "string"
-                },
-                "country": {
-                    "title": "Country",
-                    "type": "string"
+            "type": "array",
+            "title": "Address",
+            "items": {
+                "properties": {
+                    "minItems": 1,
+                    "title": "Address Line",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
-            "required": ["street", "city"]
+            "minItems": 2
         },
         "individual": {
             "type": "object",
