@@ -1,0 +1,61 @@
+{
+    "ANZ": {
+        "recipientType": "company",
+        "companyName": "ANZ Bank New Zealand Limited",
+        "contactMethod": {
+            "method": "post",
+            "address": [
+                "Private Bag 92210",
+                "Victoria Street West",
+                "Auckland 1142"
+            ]
+        }
+    },
+    "ASB": {
+        "recipientType": "company",
+        "companyName": "ASB Bank Limited",
+        "contactMethod": {
+            "method": "post",
+            "address": [
+                "PO Box 35",
+                "Shortland Street",
+                "Auckland 1140"
+            ]
+        }
+    },
+    "BNZ": {
+        "recipientType": "company",
+        "companyName": "Bank of New Zealand",
+        "contactMethod": {
+            "method": "post",
+            "address": [
+                "Private Bag 92089",
+                "Victoria Street West",
+                "Auckland 1142"
+            ]
+        }
+    },
+    "Sovereign": {
+        "recipientType": "company",
+        "companyName": "Mortgage Holding Trust Company Limited",
+        "contactMethod": {
+            "method": "post",
+            "address": [
+                "PO Box 35",
+                "Shortland Street",
+                "Auckland 1140"
+            ]
+        }
+    },
+    "Westpac": {
+        "recipientType": "company",
+        "companyName": "Westpac New Zealand Limited",
+        "contactMethod": {
+            "method": "post",
+            "address": [
+                "PO Box 203",
+                "Christchurch"
+            ]
+        }
+    }
+}

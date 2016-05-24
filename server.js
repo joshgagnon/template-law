@@ -4,14 +4,20 @@ import Promise from 'bluebird';
 import _fs from 'fs';
 import proxy from 'express-http-proxy';
 import bodyParser from 'body-parser'
+let config;
+try{
+    config = require('./config.json');
+}catch(e){
+    config = {};
+}
 const pgp = require('pg-promise')();
 
 const cn = {
     host: 'localhost', // server name or IP address;
     port: 5432,
     database: 'template-law',
-    //user: 'user_name',
-    //password: 'user_password'
+    user: config.user,
+    password: config.password
 };
 const db = pgp(cn);
 const fs = Promise.promisifyAll(_fs);
@@ -19,7 +25,7 @@ const app = express();
 
 const DEV = process.env.NODE_ENV !== 'production'
 const PORT = DEV ? 3000 : 5667;
-const CONVERT = DEV || true ? 'localhost:5668' : 'https://convert.catalex.nz'
+const CONVERT = DEV ? 'localhost:5668' : 'https://convert.catalex.nz'
 
 let base, assetNames = {js: 'app.js', css: 'app.css'};
 
