@@ -13,12 +13,12 @@ try{
 const pgp = require('pg-promise')();
 
 const cn = {
-    host: 'localhost', // server name or IP address;
-    port: 5432,
+    host: '127.0.0.1',
     database: 'template-law',
     user: config.user,
     password: config.password
 };
+console.log('using', config)
 const db = pgp(cn);
 const fs = Promise.promisifyAll(_fs);
 const app = express();
