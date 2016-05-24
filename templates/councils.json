@@ -1,0 +1,237 @@
+{
+    "Ashburton District Council": {
+        "localAuthourity": "Ashburton District Council",
+        "waterCharges": true
+    },
+    "Auckland Council": {
+        "localAuthourity": "Auckland Council"
+    },
+    "Bay of Plenty Regional Council": {
+        "localAuthourity": "Bay of Plenty Regional Council"
+    },
+    "Buller District Council": {
+        "localAuthourity": "Buller District Council"
+    },
+    "Canterbury Regional Council": {
+        "localAuthourity": "Canterbury Regional Council"
+    },
+    "Carterton District Council": {
+        "localAuthourity": "Carterton District Council"
+    },
+    "Central Hawke's Bay District Council": {
+        "localAuthourity": "Central Hawke's Bay District Council"
+    },
+    "Central Otago District Council": {
+        "localAuthourity": "Central Otago District Council"
+    },
+    "Chatham Islands Council": {
+        "localAuthourity": "Chatham Islands Council"
+    },
+    "Christchurch City Council": {
+        "localAuthourity": "Christchurch City Council"
+    },
+    "Clutha District Council": {
+        "localAuthourity": "Clutha District Council"
+    },
+    "Dunedin City Council": {
+        "localAuthourity": "Dunedin City Council"
+    },
+    "Far North District Council": {
+        "localAuthourity": "Far North District Council"
+    },
+    "Gisborne District Council": {
+        "localAuthourity": "Gisborne District Council"
+    },
+    "Gore District Council": {
+        "localAuthourity": "Gore District Council"
+    },
+    "Grey District Council": {
+        "localAuthourity": "Grey District Council"
+    },
+    "Hamilton City Council": {
+        "localAuthourity": "Hamilton City Council"
+    },
+    "Hastings District Council": {
+        "localAuthourity": "Hastings District Council"
+    },
+    "Hauraki District Council": {
+        "localAuthourity": "Hauraki District Council"
+    },
+    "Hawke's Bay Regional Council": {
+        "localAuthourity": "Hawke's Bay Regional Council"
+    },
+    "Horowhenua District Council": {
+        "localAuthourity": "Horowhenua District Council"
+    },
+    "Hurunui District Council": {
+        "localAuthourity": "Hurunui District Council"
+    },
+    "Hutt City Council": {
+        "localAuthourity": "Hutt City Council"
+    },
+    "Invercargill City Council": {
+        "localAuthourity": "Invercargill City Council"
+    },
+    "Kaikoura District Council": {
+        "localAuthourity": "Kaikoura District Council"
+    },
+    "Kaipara District Council": {
+        "localAuthourity": "Kaipara District Council"
+    },
+    "Kapiti Coast District Council": {
+        "localAuthourity": "Kapiti Coast District Council"
+    },
+    "Kawerau District Council": {
+        "localAuthourity": "Kawerau District Council"
+    },
+    "Mackenzie District Council": {
+        "localAuthourity": "Mackenzie District Council"
+    },
+    "Manawatu District Council": {
+        "localAuthourity": "Manawatu District Council"
+    },
+    "Manawatu-Wanganui Regional Council": {
+        "localAuthourity": "Manawatu-Wanganui Regional Council"
+    },
+    "Marlborough District Council": {
+        "localAuthourity": "Marlborough District Council"
+    },
+    "Masterton District Council": {
+        "localAuthourity": "Masterton District Council"
+    },
+    "Matamata-Piako District Council": {
+        "localAuthourity": "Matamata-Piako District Council"
+    },
+    "Napier City Council": {
+        "localAuthourity": "Napier City Council"
+    },
+    "Nelson City Council": {
+        "localAuthourity": "Nelson City Council"
+    },
+    "New Plymouth District Council": {
+        "localAuthourity": "New Plymouth District Council"
+    },
+    "Northland Regional Council": {
+        "localAuthourity": "Northland Regional Council"
+    },
+    "Opotiki District Council": {
+        "localAuthourity": "Opotiki District Council"
+    },
+    "Otago Regional Council": {
+        "localAuthourity": "Otago Regional Council"
+    },
+    "Otorohanga District Council": {
+        "localAuthourity": "Otorohanga District Council"
+    },
+    "Palmerston North City Council": {
+        "localAuthourity": "Palmerston North City Council"
+    },
+    "Porirua City Council": {
+        "localAuthourity": "Porirua City Council"
+    },
+    "Queenstown-Lakes District Council": {
+        "localAuthourity": "Queenstown-Lakes District Council"
+    },
+    "Rangitikei District Council": {
+        "localAuthourity": "Rangitikei District Council"
+    },
+    "Rotorua District Council": {
+        "localAuthourity": "Rotorua District Council"
+    },
+    "Ruapehu District Council": {
+        "localAuthourity": "Ruapehu District Council"
+    },
+    "Selwyn District Council": {
+        "localAuthourity": "Selwyn District Council"
+    },
+    "South Taranaki District Council": {
+        "localAuthourity": "South Taranaki District Council"
+    },
+    "South Waikato District Council": {
+        "localAuthourity": "South Waikato District Council"
+    },
+    "South Wairarapa District Council": {
+        "localAuthourity": "South Wairarapa District Council"
+    },
+    "Southland District Council": {
+        "localAuthourity": "Southland District Council"
+    },
+    "Southland Regional Council": {
+        "localAuthourity": "Southland Regional Council"
+    },
+    "Stratford District Council": {
+        "localAuthourity": "Stratford District Council"
+    },
+    "Taranaki Regional Council": {
+        "localAuthourity": "Taranaki Regional Council"
+    },
+    "Tararua District Council": {
+        "localAuthourity": "Tararua District Council"
+    },
+    "Tasman District Council": {
+        "localAuthourity": "Tasman District Council"
+    },
+    "Taupo District Council": {
+        "localAuthourity": "Taupo District Council"
+    },
+    "Tauranga City Council": {
+        "localAuthourity": "Tauranga City Council"
+    },
+    "Thames-Coromandel District Council": {
+        "localAuthourity": "Thames-Coromandel District Council"
+    },
+    "Timaru District Council": {
+        "localAuthourity": "Timaru District Council"
+    },
+    "Upper Hutt City Council": {
+        "localAuthourity": "Upper Hutt City Council"
+    },
+    "Waikato District Council": {
+        "localAuthourity": "Waikato District Council"
+    },
+    "Waikato Regional Council": {
+        "localAuthourity": "Waikato Regional Council"
+    },
+    "Waimakariri District Council": {
+        "localAuthourity": "Waimakariri District Council"
+    },
+    "Waimate District Council": {
+        "localAuthourity": "Waimate District Council"
+    },
+    "Waipa District Council": {
+        "localAuthourity": "Waipa District Council"
+    },
+    "Wairoa District Council": {
+        "localAuthourity": "Wairoa District Council"
+    },
+    "Waitaki District Council": {
+        "localAuthourity": "Waitaki District Council"
+    },
+    "Waitomo District Council": {
+        "localAuthourity": "Waitomo District Council"
+    },
+    "Wellington City Council": {
+        "localAuthourity": "Wellington City Council"
+    },
+    "Wellington Regional Council": {
+        "localAuthourity": "Wellington Regional Council"
+    },
+    "West Coast Regional Council": {
+        "localAuthourity": "West Coast Regional Council"
+    },
+    "Western Bay of Plenty District Council": {
+        "localAuthourity": "Western Bay of Plenty District Council"
+    },
+    "Westland District Council": {
+        "localAuthourity": "Westland District Council"
+    },
+    "Whakatane District Council": {
+        "localAuthourity": "Whakatane District Council"
+    },
+    "Whanganui District Council": {
+        "localAuthourity": "Whanganui District Council"
+    },
+    "Whangarei District Council": {
+        "localAuthourity": "Whangarei District Council"
+    }
+}

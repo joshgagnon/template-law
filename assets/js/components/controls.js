@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import DateInput from './datePicker';
 import Form from 'react-json-editor/lib';
 import { FieldWrapper, SectionWrapper } from './wrappers';
-import FORMS, { PARTIES } from '../schemas';
+import FORMS, { PARTIES, COUNCILS } from '../schemas';
 import { mergeValues } from '../actions';
 import { connect } from 'react-redux';
 
@@ -49,25 +49,34 @@ class Populate extends React.Component {
         this.change= ::this.change;
     }
 
+    getSource(srcData){
+        if(srcData === 'parties'){
+            return PARTIES;
+        }
+        else if(srcData === 'councils'){
+            return COUNCILS;
+        }
+        return {};
+    }
+
     change(e) {
         const path = this.props.path.slice(0);
         path.pop();
         const value = e.target.value;
         if(value){
-            let data = PARTIES[value];
+            let data = this.getSource(this.props.schema.srcData)[value];
             path.reverse();
             path.map(p => {
                 let newData = Number.isInteger(p) ? [] : {}
                 newData[p] = data;
                 data = newData;
             });
-
             this.props.dispatch(mergeValues({values: data, output: data, mergeOptions: {replaceArray: true}}));
         }
     }
 
     render() {
-        const target = this.props.schema.srcData === 'parties' ? PARTIES : {};
+        const target = this.getSource(this.props.schema.srcData);
         const keys = Object.keys(target);
         return <select onChange={this.change}>
             <option></option>
@@ -100,7 +109,6 @@ export default class Controls extends React.Component {
             </p>
     }
     render() {
-        console.log(this.props.active.output)
         return <div className="controls">
                 <Form ref="form" className="form-horizontal form-controls"
                 buttons={() => false}

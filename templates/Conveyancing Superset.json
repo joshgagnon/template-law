@@ -11,6 +11,7 @@
         "CV06: Vendors Settlement Letter",
         "CV07: Letter to Financier Enclosing Originals",
         "CV08: Fax Cover with Loan Docs",
+        "CV09: Vendor's Settlement Statement",
         "CV10: Trust Account Statement"
     ],
     "title": "Conveyancing Superset",

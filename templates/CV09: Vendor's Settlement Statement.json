@@ -1,0 +1,297 @@
+{
+    "extends": "G01: Letter Template",
+    "description": "Vendor's Settlement Statement",
+    "title": "CV09: Vendor's Settlement Statement",
+    "properties": {
+        "subject": {
+            "ignore": true
+        },
+        "vendorNames": {
+            "items": {
+                "type": "string",
+                "title": "Vendor Name",
+                "minLength": 1
+            },
+            "minItems": 1,
+            "title": "Vendor Names",
+            "type": "array"
+        },
+        "settlementDate": {
+            "title": "Settlement Date",
+            "type": "string",
+            "x-hints" : {
+                "form": {
+                  "inputComponent": "date"
+                }
+            }
+        },
+        "purchaserNames": {
+            "items": {
+                "type": "string",
+                "title": "Purchaser Name",
+                "minLength": 1
+            },
+            "minItems": 1,
+            "title": "Purchaser Names",
+            "type": "array"
+        },
+
+        "purchaseAmount": {
+            "title": "Purchase Amount",
+            "type": "number"
+        },
+        "depositAmount": {
+            "title": "Deposit Amount",
+            "type": "number"
+        },
+        "matter": {
+            "type": "object",
+            "properties": {
+                "assets": {
+                    "$ref": "#/definitions/assets"
+                }
+            }
+        },
+        "settlementStatement": {
+            "type": "object",
+            "title": "Settlement Statement",
+            "properties": {
+                "rates": {
+                    "type": "object",
+                    "title": "Rates",
+                    "properties": {
+
+
+                        "councilLookup": {
+                            "title": "Council Lookup",
+                            "srcData": "councils",
+                            "x-hints" : {
+                                "form": {
+                                  "inputComponent": "populate"
+                                }
+                            }
+                        },
+                        "localAuthourity": {
+                            "type": "string",
+                            "title": "Local Authourity"
+                        },
+                        "annumRate": {
+                            "title": "Rates Amount per annum",
+                            "type": "number"
+                        },
+                        "startOfYear": {
+                            "title": "Start of Rates Year",
+                            "type": "string",
+                            "x-hints" : {
+                                "form": {
+                                  "inputComponent": "date"
+                                }
+                            }
+                        },
+                        "days": {
+                            "type": "number",
+                            "title": "Days owed",
+                            "x-hints": {
+                                "form": {
+                                    "inputComponent": "readOnly"
+                                }
+                            }
+                        },
+                        "amount": {
+                            "type": "number",
+                            "title": "Number of Rates Instalments Paid",
+                            "x-hints": {
+                                "form": {
+                                    "inputComponent": "readOnlyCurrency"
+                                }
+                            }
+                        },
+
+                        "instalmentsPaid": {
+                            "type": "object",
+                            "properties": {
+                                "paid": {
+                                    "type": "boolean",
+                                    "title": "All Rates Instalments Paid"
+                                }
+                            },
+                            "oneOf":[
+                                {
+                                    "properties": {
+                                        "paid": {
+                                            "enum": [false]
+                                        },
+                                        "numberOfInstalmentsPaid": {
+                                            "title": "Number of Rate Instalments Paid by Vendor",
+                                            "type": "number"
+                                        },
+                                        "totalAmountInstalments": {
+                                            "title": "Total Amount of Rates Instalments Paid By Vendor",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": ["localAuthourity", "ratesPA", "startOfRatesYear"]
+                                },
+                                {
+                                    "properties": {
+                                        "paid": {
+                                            "enum": [true]
+                                        }
+                                    }
+                                }
+
+                            ],
+                            "x-hints": {
+                                "form": {
+                                    "selector": "paid"
+                                }
+                            }
+                        }
+                    }
+                },
+
+                "levies": {
+                    "type": "object",
+                    "properties": {
+                        "include": {
+                            "type": "boolean",
+                            "title": "Is Unit Title"
+                        }
+                    },
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "include": {
+                                        "enum": [false]
+                                }
+                            }
+                        },
+                        {
+
+                                "type": "object",
+                                "title": "Levies",
+                                "properties": {
+                                    "include": {
+                                            "enum": [true]
+                                    },
+                                    "annumRate": {
+                                        "title": "Levy Amount per annum",
+                                        "type": "number"
+                                    },
+                                    "startOfYear": {
+                                        "title": "Start of Levy Year",
+                                        "type": "string",
+                                        "x-hints" : {
+                                            "form": {
+                                              "inputComponent": "date"
+                                            }
+                                        }
+                                    },
+                                    "days": {
+                                        "type": "number",
+                                        "title": "Days owed",
+                                        "x-hints": {
+                                            "form": {
+                                                "inputComponent": "readOnly"
+                                            }
+                                        }
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "title": "Number of Levy Instalments Paid",
+                                        "x-hints": {
+                                            "form": {
+                                                "inputComponent": "readOnlyCurrency"
+                                            }
+                                        }
+                                    },
+
+                                    "instalmentsPaid": {
+                                        "type": "object",
+                                        "properties": {
+                                            "paid": {
+                                                "type": "boolean",
+                                                "title": "All Levy Instalments Paid"
+                                            }
+                                        },
+                                        "oneOf":[
+                                            {
+                                                "properties": {
+                                                    "paid": {
+                                                        "enum": [false]
+                                                    },
+                                                    "numberOfInstalmentsPaid": {
+                                                        "title": "Number of Levy Instalments paid by Vendor",
+                                                        "type": "number"
+                                                    },
+                                                    "totalAmountInstalments": {
+                                                        "title": "Total Amount of Levy Instalments Paid by Vendor",
+                                                        "type": "number"
+                                                    }
+                                                },
+                                                "required": ["localAuthourity", "ratesPA", "startOfRatesYear"]
+                                            },
+                                            {
+                                                "properties": {
+                                                    "paid": {
+                                                        "enum": [true]
+                                                    }
+                                                }
+                                            }
+
+                                        ],
+                                        "x-hints": {
+                                            "form": {
+                                                "selector": "paid"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                    ],
+                    "x-hints": {
+                        "form": {
+                            "selector": "include"
+                        }
+                    }
+
+                },
+
+                "totalDebits": {
+                    "type": "number",
+                    "title": "Debits",
+                    "x-hints": {
+                        "form": {
+                            "inputComponent": "readOnlyCurrency"
+                        }
+                    }
+                },
+
+                "totalCredits": {
+                    "type": "number",
+                    "title": "Credits",
+                    "x-hints": {
+                        "form": {
+                            "inputComponent": "readOnlyCurrency"
+                        }
+                    }
+                },
+
+                "totalAmount": {
+                    "type": "number",
+                    "title": "Total Owing",
+                    "x-hints": {
+                        "form": {
+                            "inputComponent": "readOnlyCurrency"
+                        }
+                    }
+                }
+            }
+        }
+
+
+    },
+    "required": []
+}

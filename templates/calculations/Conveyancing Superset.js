@@ -27,13 +27,15 @@ function getIn(obj, path){
 }
 
 function setIn(obj, src, path){
-    for(let i=0;i<path.length -1 && obj;i++){
-        if(!obj[path[i]]){
-            obj[path[i]] = Number.isInteger(path[i]) ? [] : {}
+    if(src){
+        for(let i=0;i<path.length -1 && obj;i++){
+            if(!obj[path[i]]){
+                obj[path[i]] = Number.isInteger(path[i]) ? [] : {}
+            }
+            obj = obj[path[i]];
         }
-        obj = obj[path[i]];
+        obj[path[path.length-1]] = src;
     }
-    obj[path[path.length-1]] = src;
 }
 
 

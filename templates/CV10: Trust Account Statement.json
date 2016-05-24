@@ -4,56 +4,7 @@
     "extends": "G01: Letter Template",
 
     "definitions": {
-        "repaymentOfIndebtedness": {
-            "type": "object",
-            "title": "Repayment of indebtedness to discharge Mortgage",
-            "properties": {
-                 "debit": {
-                    "title": "Debit",
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100000000
-                },
-               "mortgagee": {
-                    "title": "Mortgagee",
-                    "type": "string"
-                },
-                "date": {
-                    "title": "Date",
-                    "type": "string",
-                    "x-hints": {
-                        "form": {
-                            "inputComponent": "date"
-                        }
-                    }
-                }
-            }
-        },
-        "loanAdvance": {
-            "type": "object",
-            "title": "Loan advance",
-            "properties": {
-                 "credit": {
-                    "title": "Credit",
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100000000
-                },
-               "financier": {
-                    "title": "Financier",
-                    "type": "string"
-                },
-                "date": {
-                    "title": "Date",
-                    "type": "string",
-                    "x-hints": {
-                        "form": {
-                            "inputComponent": "date"
-                        }
-                    }
-                }
-            }
-        }
+
     },
     "properties": {
         "recipient": {
@@ -180,7 +131,7 @@
                                             "maximum": 100000000
                                         },
                                         "date": {
-                                            "title": "PaymentDate",
+                                            "title": "Payment Date",
                                             "type": "string",
                                             "x-hints": {
                                                 "form": {

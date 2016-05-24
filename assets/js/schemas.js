@@ -10,11 +10,13 @@ import CV05Schema from '../../templates/CV05: Mortgage Discharge Request.json';
 import CV06Schema from '../../templates/CV06: Vendors Settlement Letter.json';
 import CV07Schema from '../../templates/CV07: Letter to Financier Enclosing Originals.json';
 import CV08Schema from '../../templates/CV08: Fax Cover with Loan Docs.json';
+import CV09Schema from '../../templates/CV09: Vendor\'s Settlement Statement.json';
 import CV10Schema from '../../templates/CV10: Trust Account Statement.json';
 import CV10Calcuate from '../../templates/calculations/CV10.js';
 import DR01Calculate from '../../templates/calculations/DR01.js';
 import DR02Calculate from '../../templates/calculations/DR02.js';
 import LI01Calculate from '../../templates/calculations/LI01.js';
+import CV09Calculate from '../../templates/calculations/CV09.js';
 import DR01Schema from '../../templates/DR01: Letter of Demand - Debtor.json';
 import DR02Schema from '../../templates/DR02: Letter of Demand - Guarantor.json';
 import LI01Schema from '../../templates/LI01: Statutory Demand.json';
@@ -22,6 +24,7 @@ import CT01Schema from '../../templates/CT01: Filing Letter.json';
 import CT02Schema from '../../templates/CT02: Service Letter.json';
 import ConveyancingSuperset from '../../templates/Conveyancing Superset.json';
 import Parties from '../../templates/parties.json';
+import Councils from '../../templates/councils.json';
 import ConveyancingSupersetCalculate from '../../templates/calculations/Conveyancing Superset.js';
 import merge from './deepmerge'
 import ObjectUtils from 'react-json-editor/lib/objectUtils';
@@ -61,6 +64,10 @@ const FORMS = {
     },
     'CV08: Fax Cover with Loan Docs': {
         schema: CV08Schema
+    },
+    'CV09: Vendor\'s Settlement Statement': {
+        schema: CV09Schema,
+        calculate: CV09Calculate
     },
     'CV10: Trust Account Statement':{
         schema: CV10Schema,
@@ -172,3 +179,4 @@ console.log(FORMS)
 
 export default FORMS;
 export const PARTIES = Parties ;
+export const COUNCILS = Councils ;
