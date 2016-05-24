@@ -18,7 +18,7 @@ const cn = {
     user: config.user,
     password: config.password
 };
-console.log('using', config)
+
 const db = pgp(cn);
 const fs = Promise.promisifyAll(_fs);
 const app = express();

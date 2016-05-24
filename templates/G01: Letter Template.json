@@ -144,7 +144,8 @@
                         "By email",
                         "By courier",
                         "By hand",
-                        "By post"
+                        "By post",
+                        "By fax"
                     ]
                 }
             },
@@ -158,6 +159,10 @@
                         },
                         "email": {
                             "title": "Email",
+                            "type": "string"
+                        },
+                        "fax": {
+                            "title": "Fax",
                             "type": "string"
                         },
                         "address": {
@@ -178,6 +183,10 @@
                             "title": "Email",
                             "type": "string"
                         },
+                        "fax": {
+                            "title": "Fax",
+                            "type": "string"
+                        },
                         "address": {
                             "title": "Contact Address",
                             "$ref": "#/definitions/addressRequired"
@@ -194,6 +203,10 @@
                         },
                         "email": {
                             "title": "Email",
+                            "type": "string"
+                        },
+                        "fax": {
+                            "title": "Fax",
                             "type": "string"
                         },
                         "address": {
@@ -214,12 +227,38 @@
                             "title": "Email",
                             "type": "string"
                         },
+                        "fax": {
+                            "title": "Fax",
+                            "type": "string"
+                        },
                         "address": {
                             "title": "Contact Address",
                             "$ref": "#/definitions/addressRequired"
                         }
                     },
                     "required": ["address"]
+                },
+                {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "fax"
+                            ]
+                        },
+                        "email": {
+                            "title": "Email",
+                            "type": "string"
+                        },
+                        "fax": {
+                            "title": "Fax",
+                            "type": "string"
+                        },
+                        "address": {
+                            "title": "Contact Address",
+                            "$ref": "#/definitions/address"
+                        }
+                    },
+                    "required": ["fax"]
                 }
             ],
             "x-hints": {

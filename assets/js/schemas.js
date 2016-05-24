@@ -9,6 +9,7 @@ import CV04Schema from '../../templates/CV04: Settlement Undertakings Letter - A
 import CV05Schema from '../../templates/CV05: Mortgage Discharge Request.json';
 import CV06Schema from '../../templates/CV06: Vendors Settlement Letter.json';
 import CV07Schema from '../../templates/CV07: Letter to Financier Enclosing Originals.json';
+import CV08Schema from '../../templates/CV08: Fax Cover with Loan Docs.json';
 import CV10Schema from '../../templates/CV10: Trust Account Statement.json';
 import CV10Calcuate from '../../templates/calculations/CV10.js';
 import DR01Calculate from '../../templates/calculations/DR01.js';
@@ -57,6 +58,9 @@ const FORMS = {
     },
     'CV07: Letter to Financier Enclosing Originals':{
         schema: CV07Schema
+    },
+    'CV08: Fax Cover with Loan Docs': {
+        schema: CV08Schema
     },
     'CV10: Trust Account Statement':{
         schema: CV10Schema,

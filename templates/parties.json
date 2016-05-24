@@ -2,8 +2,10 @@
     "ANZ": {
         "recipientType": "company",
         "companyName": "ANZ Bank New Zealand Limited",
+        "attention": "Lending Services",
         "contactMethod": {
-            "method": "post",
+            "method": "fax",
+            "fax": "0800 277 777",
             "address": [
                 "Private Bag 92210",
                 "Victoria Street West",
@@ -14,8 +16,10 @@
     "ASB": {
         "recipientType": "company",
         "companyName": "ASB Bank Limited",
+        "attention": "Lending Operations",
         "contactMethod": {
-            "method": "post",
+            "method": "fax",
+            "fax": "09 630 3918",
             "address": [
                 "PO Box 35",
                 "Shortland Street",
@@ -26,8 +30,10 @@
     "BNZ": {
         "recipientType": "company",
         "companyName": "Bank of New Zealand",
+        "attention": "Lending Services",
         "contactMethod": {
-            "method": "post",
+            "method": "fax",
+            "fax": "Various",
             "address": [
                 "Private Bag 92089",
                 "Victoria Street West",
@@ -38,8 +44,10 @@
     "Sovereign": {
         "recipientType": "company",
         "companyName": "Mortgage Holding Trust Company Limited",
+        "attention": "Lending Operations",
         "contactMethod": {
-            "method": "post",
+            "method": "fax",
+            "fax": "09 630 1370",
             "address": [
                 "PO Box 35",
                 "Shortland Street",
@@ -50,8 +58,10 @@
     "Westpac": {
         "recipientType": "company",
         "companyName": "Westpac New Zealand Limited",
+        "attention": "Lending Services",
         "contactMethod": {
-            "method": "post",
+            "method": "fax",
+            "fax": "03 365 2572",
             "address": [
                 "PO Box 203",
                 "Christchurch"

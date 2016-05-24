@@ -1,7 +1,7 @@
 {
     "extends": "G01: Letter Template",
-    "description": "Letter to Fincancier Enclosing Originals",
-    "title": "CV07: Letter to Fincancier Enclosing Originals",
+    "description": "Fax Cover with Loan Docs",
+    "title": "CV08: Fax Cover with Loan Docs",
     "properties": {
         "matter": {
             "type": "object",
@@ -46,44 +46,42 @@
                         }
                     }
                 }
-
             },
             "requires": ["assets", "letterFinancier"]
         },
         "recipient": {
             "ignore": true
         },
+        "mortgageeInstructions": {
+            "type": "object",
+            "title": "Mortgagee Instructions",
+            "properties": {
+                "instructionsDate": {
+                    "title": "Date of Instructions from New Mortgagee",
+                    "type": "string",
+                    "x-hints" : {
+                        "form": {
+                          "inputComponent": "date"
+                        }
+                    }
+                },
+                "mortgageeReference": {
+                    "title": "New Mortgagee Reference Number",
+                    "type": "string"
+                },
+                "amountAdvanced": {
+                    "title": "Amount Advanced Under Loan",
+                    "type": "number"
+                }
+            }
+        },
+        "client": {
+             "$ref": "#/definitions/recipient",
+             "title": "Client"
+        },
         "newMortgagee": {
              "$ref": "#/definitions/recipient",
              "title": "New Mortgagee (recipient)"
-        },
-        "purchaserNames": {
-            "items": {
-                "type": "string",
-                "title": "Purchaser Name",
-                "minLength": 1
-            },
-            "minItems": 1,
-            "title": "Purchaser Names",
-            "type": "array"
-        },
-        "facilityAgreementDate": {
-            "title": "Date of Facility Agreement",
-            "type": "string",
-            "x-hints" : {
-                "form": {
-                  "inputComponent": "date"
-                }
-            }
-        },
-        "solicitorCertDate": {
-            "title": "Date of Solicitor’s Certificate",
-            "type": "string",
-            "x-hints" : {
-                "form": {
-                  "inputComponent": "date"
-                }
-            }
         },
         "newMortgageeDocuments": {
             "items": {
@@ -116,8 +114,5 @@
             "ignore": true
         }
     },
-    "required": ["newMortgagee", "purchaserNames", "facilityAgreementDate", "solicitorCertDate"],
-    "aliases": {
-        "newMortgagee": "recipient"
-    }
+    "required": ["dateString", "client", "newMortgagee", "facilityAgreementDate", "mortgageeInstructions"]
 }
