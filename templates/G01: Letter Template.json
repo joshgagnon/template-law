@@ -495,12 +495,13 @@
     "mappings": {
         "sender": {
             "Thomas Bloy": {
-                "phone": "+64 274 538 552",
+                "phone": "09 441 3426",
+                "mobile": "274 538 552",
                 "title": "Director",
                 "email": "thomas@evolutionlawyers.nz"
             },
             "Tamina Cunningham-Adams": {
-                "phone": "+64 021 1515 137",
+                "mobile": "021 1515 137",
                 "title": "Director",
                 "email": "tamina@evolutionlawyers.nz"
             }
