@@ -32,7 +32,7 @@
     "moment": "^2.11.1",
     "pg-promise": "^4.2.0",
     "pure-render-decorator": "^0.2.0",
-    "react": "^0.14.6",
+    "react": "^0.14.8",
     "react-bootstrap": "^0.28.2",
     "react-dom": "^0.14.6",
     "react-json-editor": "joshgagnon/react-json-editor",
