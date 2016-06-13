@@ -94,7 +94,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "982f369dc09ebb6c667a" + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "766acd2848bdac98f1af" + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -35797,6 +35797,7 @@
 	function calculate(values, schema, merge) {
 	    var results = { matter: {} };
 	
+	    var matterTypeSet = values.matter && values.matter.conveyancing && values.matter.conveyancing.matterType;
 	    results.matter = { conveyancing: {} };
 	
 	    results.purchaserNames = [];
@@ -35812,7 +35813,7 @@
 	        }
 	
 	        if (roles.purchaser) {
-	            results.matter.conveyancing = { matterType: 'purchase' };
+	            if (!matterTypeSet) matter.conveyancing = { matterType: 'purchase' };
 	            if (client.recipientType === 'individuals') {
 	                (client.individuals || []).map(function (individual) {
 	                    results.purchaserNames.push(individual.firstName + ' ' + individual.lastName);
@@ -35824,7 +35825,7 @@
 	        }
 	
 	        if (roles.vendor) {
-	            results.matter.conveyancing = { matterType: 'sale' };
+	            if (!matterTypeSet) results.matter.conveyancing = { matterType: 'sale' };
 	            results.vendorNames = [];
 	            if (client.recipientType === 'individuals') {
 	                (client.individuals || []).map(function (individual) {
@@ -35837,10 +35838,10 @@
 	        }
 	
 	        if (roles.mortgagor) {
-	            results.matter.conveyancing = { matterType: 'refinance' };
+	            if (!matterTypeSet) results.matter.conveyancing = { matterType: 'refinance' };
 	        }
 	        if (roles.borrower) {
-	            results.matter.conveyancing = { matterType: 'refinance' };
+	            if (!matterTypeSet) results.matter.conveyancing = { matterType: 'refinance' };
 	        }
 	        if (roles.guarantor) {
 	            results.guarantor = client;

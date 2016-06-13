@@ -31,7 +31,6 @@ const DEFAULT_DATA = {
 
 let data = DEFAULT_DATA;
 
-
 const store = configureStore(data);
 
 

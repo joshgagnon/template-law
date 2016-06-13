@@ -42,7 +42,9 @@ function setIn(obj, src, path){
 export default function calculate(values, schema, merge){
     let results = {matter: {}};
 
+    let matterTypeSet = values.matter && values.matter.conveyancing && values.matter.conveyancing.matterType;
     results.matter = {conveyancing: {}, };
+
 
     results.purchaserNames = [];
     (values.clientsWithRoles || []).map(client => {
@@ -59,7 +61,7 @@ export default function calculate(values, schema, merge){
 
 
         if(roles.purchaser){
-            results.matter.conveyancing = {matterType: 'purchase' }
+            if(!matterTypeSet) matter.conveyancing = {matterType: 'purchase' }
             if(client.recipientType === 'individuals'){
                 (client.individuals || []).map(individual => {
                     results.purchaserNames.push(individual.firstName + ' ' + individual.lastName)
@@ -71,7 +73,7 @@ export default function calculate(values, schema, merge){
         }
 
          if(roles.vendor){
-            results.matter.conveyancing = {matterType: 'sale' }
+            if(!matterTypeSet) results.matter.conveyancing = {matterType: 'sale' }
             results.vendorNames = [];
             if(client.recipientType === 'individuals'){
                 (client.individuals || []).map(individual => {
@@ -84,10 +86,10 @@ export default function calculate(values, schema, merge){
         }
 
         if(roles.mortgagor){
-            results.matter.conveyancing = {matterType: 'refinance' };
+            if(!matterTypeSet) results.matter.conveyancing = {matterType: 'refinance' };
         }
         if(roles.borrower){
-            results.matter.conveyancing = {matterType: 'refinance' };
+            if(!matterTypeSet) results.matter.conveyancing = {matterType: 'refinance' };
         }
         if(roles.guarantor){
             results.guarantor = client;
