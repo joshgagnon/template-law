@@ -1,7 +1,7 @@
 {
     "extends": "G01: Letter Template",
-    "description": "Letter of Engagment - Conveyancing",
-    "title": "CV01: Letter of Engagment - Conveyancing",
+    "description": "Letter of Engagement - Conveyancing",
+    "title": "CV01: Letter of Engagement - Conveyancing",
     "properties": {
         "isNewClient": {
             "type": "boolean",
