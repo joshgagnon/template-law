@@ -54,7 +54,7 @@ export default function calculate(values, schema, merge){
         if(client){
             results.recipient = client;
             results.client = values.client = client;
-            results.isNewClient = client.isNewClient;
+            results.isNewClient = !!client.isNewClient;
         }
 
 
