@@ -94,7 +94,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "872ed200dbdb8c6e238f" + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "8fec82c9b7eda860f6e4" + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -35806,10 +35806,8 @@
 	
 	        if (client) {
 	            results.recipient = client;
-	            values.client = client;
-	        }
-	        if (client.isNewClient) {
-	            values.isNewClient = client.isNewClient;
+	            results.client = values.client = client;
+	            results.isNewClient = client.isNewClient;
 	        }
 	
 	        if (roles.purchaser) {
