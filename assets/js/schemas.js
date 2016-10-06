@@ -89,7 +89,7 @@ const FORMS = {
         schema: CT01Schema
     },
     'CT02: Service Letter':{
-        schema: CT01Schema
+        schema: CT02Schema
     },
     'Conveyancing Superset': {
         schema: ConveyancingSuperset,

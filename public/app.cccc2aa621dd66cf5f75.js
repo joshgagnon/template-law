@@ -94,7 +94,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "475b82ee2d8d8ff9ff7b" + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "cccc2aa621dd66cf5f75" + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -14070,7 +14070,7 @@
 	        schema: _CT01FilingLetter2.default
 	    },
 	    'CT02: Service Letter': {
-	        schema: _CT01FilingLetter2.default
+	        schema: _CT02ServiceLetter2.default
 	    },
 	    'Conveyancing Superset': {
 	        schema: _ConveyancingSuperset2.default,
