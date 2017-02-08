@@ -94,7 +94,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "cccc2aa621dd66cf5f75" + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({}[chunkId]||chunkId) + "." + "d779ba28ea4694652b0b" + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -43570,9 +43570,9 @@
 				"refinance": "$160"
 			},
 			"priceIncGST": {
-				"purchase": "$1,205.75",
-				"sale": "$1,010.76",
-				"refinance": "$975.75"
+				"purchase": "$1,234.51",
+				"sale": "$1,039.51",
+				"refinance": "$1,034.51"
 			},
 			"verbToNoun": {
 				"purchase": "purchasing",
